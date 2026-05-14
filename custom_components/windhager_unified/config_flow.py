@@ -29,7 +29,6 @@ from homeassistant.helpers.selector import (
     SelectSelectorMode,
 )
 
-from . import api_client as _windhager_api
 from .api_client import WindhagerApiClient
 from .const import (
     CONF_ADHOC_OIDS,
