@@ -102,9 +102,7 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         )
 
         self.datapoints = self._build_lon_datapoints(all_datapoints)
-        self.oid_disambiguators: dict[str, str] = self._compute_oid_disambiguators(
-            self.datapoints
-        )
+        self.oid_disambiguators: dict[str, str] = self._compute_oid_disambiguators(self.datapoints)
         self.restapi_endpoints = self._filter_restapi(all_restapi)
 
         # OIDs that returned 404 (not present on this device) — tracked for diagnostics
@@ -468,7 +466,10 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 # keep all as fallback so no value is lost.
                 _LOGGER.debug(
                     "dedup: canonical_group=%s not found for gn=%s mn=%s; keeping all %d instances",
-                    canonical_group, gn, mn, len(entries),
+                    canonical_group,
+                    gn,
+                    mn,
+                    len(entries),
                 )
                 kept.extend(dp for _, dp in entries)
                 continue

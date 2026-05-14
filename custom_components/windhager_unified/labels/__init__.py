@@ -254,9 +254,7 @@ class LabelCatalog:
             return
 
         try:
-            await asyncio.get_running_loop().run_in_executor(
-                None, ET.fromstring, text.encode()
-            )
+            await asyncio.get_running_loop().run_in_executor(None, ET.fromstring, text.encode())
         except ET.ParseError as err:
             _LOGGER.warning("labels: /res/xml/%s not valid XML (%s); skipping", basename, err)
             return

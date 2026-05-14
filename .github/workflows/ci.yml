@@ -5,6 +5,10 @@ on:
     branches: [main]
   pull_request:
 
+# Opt into Node 24 for JS actions until it is the runner default (Node 20 deprecation).
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -12,7 +16,7 @@ jobs:
       image: python:3.11-slim
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install dependencies
         run: pip install --no-cache-dir -r requirements_test.txt
@@ -29,7 +33,7 @@ jobs:
   hacs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: hacs/action@main
         with:
           category: integration

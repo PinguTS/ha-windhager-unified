@@ -424,9 +424,7 @@ async def test_export_service_handler_wraps_error_as_ha_error(hass):
         ),
         pytest.raises(HomeAssistantError, match="already in progress"),
     ):
-        await hass.services.async_call(
-            DOMAIN, "export_system_info", {}, blocking=True
-        )
+        await hass.services.async_call(DOMAIN, "export_system_info", {}, blocking=True)
 
 
 # ---------------------------------------------------------------------------

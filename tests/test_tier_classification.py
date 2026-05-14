@@ -147,13 +147,13 @@ def test_uses_easy_lookup_discovery():
         (158, True, None, 10, "service"),
         (159, True, None, 10, "service"),
         # heating circuit fctType 14
-        (113, True, None, 14, "essential"),   # Room temperature (readings)
-        (97, False, None, 14, "comfort"),     # Optimisation
-        (103, False, None, 14, "advanced"),   # Module functions
+        (113, True, None, 14, "essential"),  # Room temperature (readings)
+        (97, False, None, 14, "comfort"),  # Optimisation
+        (103, False, None, 14, "advanced"),  # Module functions
         # unknown fctType falls back to LEVEL_TIER_TABLE (boiler levels) then writeProt
         (156, True, None, None, "essential"),  # legacy boiler level
         (200, True, None, None, "essential"),  # writeProt heuristic
-        (200, False, None, None, "comfort"),   # writeProt heuristic
+        (200, False, None, None, "comfort"),  # writeProt heuristic
         # level_label "service" wins over all
         (99, True, "Service level", None, "service"),
     ],
@@ -181,7 +181,9 @@ def _fake_config_path(tmp_path: Path, content: str) -> Path:
 
 
 def test_load_groups_config_reads_level_tiers(tmp_path: Path) -> None:
-    p = _fake_config_path(tmp_path, """
+    p = _fake_config_path(
+        tmp_path,
+        """
         level_tiers:
           9:
             155: essential
@@ -190,10 +192,9 @@ def test_load_groups_config_reads_level_tiers(tmp_path: Path) -> None:
         gn_mn_overrides: {}
         tier_defaults:
           essential: [boiler]
-    """)
-    with patch(
-        "custom_components.windhager_unified.tier_lookup._GROUPS_CONFIG_PATH", p
-    ):
+    """,
+    )
+    with patch("custom_components.windhager_unified.tier_lookup._GROUPS_CONFIG_PATH", p):
         fcttype_tiers, overrides, tier_defs = _load_groups_config()
 
     assert fcttype_tiers[9][155] == "essential"
@@ -204,7 +205,9 @@ def test_load_groups_config_reads_level_tiers(tmp_path: Path) -> None:
 
 
 def test_load_groups_config_reads_gn_mn_overrides(tmp_path: Path) -> None:
-    p = _fake_config_path(tmp_path, """
+    p = _fake_config_path(
+        tmp_path,
+        """
         level_tiers:
           9:
             155: essential
@@ -214,10 +217,9 @@ def test_load_groups_config_reads_gn_mn_overrides(tmp_path: Path) -> None:
           "23:87":
             experience_minimum: comfort
         tier_defaults: {}
-    """)
-    with patch(
-        "custom_components.windhager_unified.tier_lookup._GROUPS_CONFIG_PATH", p
-    ):
+    """,
+    )
+    with patch("custom_components.windhager_unified.tier_lookup._GROUPS_CONFIG_PATH", p):
         _, overrides, _ = _load_groups_config()
 
     assert overrides[(4, 92)] == {"experience_minimum": "service"}
@@ -226,9 +228,7 @@ def test_load_groups_config_reads_gn_mn_overrides(tmp_path: Path) -> None:
 
 def test_load_groups_config_fallback_on_missing_file(tmp_path: Path) -> None:
     missing = tmp_path / "nonexistent.yaml"
-    with patch(
-        "custom_components.windhager_unified.tier_lookup._GROUPS_CONFIG_PATH", missing
-    ):
+    with patch("custom_components.windhager_unified.tier_lookup._GROUPS_CONFIG_PATH", missing):
         fcttype_tiers, overrides, tier_defs = _load_groups_config()
 
     assert fcttype_tiers == _FALLBACK_FCTTYPE_LEVEL_TIERS
@@ -239,9 +239,7 @@ def test_load_groups_config_fallback_on_missing_file(tmp_path: Path) -> None:
 def test_load_groups_config_fallback_on_invalid_yaml(tmp_path: Path) -> None:
     p = tmp_path / "groups_config.yaml"
     p.write_text("{{not: valid: yaml:", encoding="utf-8")
-    with patch(
-        "custom_components.windhager_unified.tier_lookup._GROUPS_CONFIG_PATH", p
-    ):
+    with patch("custom_components.windhager_unified.tier_lookup._GROUPS_CONFIG_PATH", p):
         fcttype_tiers, overrides, tier_defs = _load_groups_config()
 
     assert fcttype_tiers == _FALLBACK_FCTTYPE_LEVEL_TIERS
@@ -249,7 +247,9 @@ def test_load_groups_config_fallback_on_invalid_yaml(tmp_path: Path) -> None:
 
 
 def test_load_groups_config_ignores_invalid_tier_value(tmp_path: Path) -> None:
-    p = _fake_config_path(tmp_path, """
+    p = _fake_config_path(
+        tmp_path,
+        """
         level_tiers:
           9:
             155: essential
@@ -259,10 +259,9 @@ def test_load_groups_config_ignores_invalid_tier_value(tmp_path: Path) -> None:
             experience_minimum: also_bad
         tier_defaults:
           essential: [boiler]
-    """)
-    with patch(
-        "custom_components.windhager_unified.tier_lookup._GROUPS_CONFIG_PATH", p
-    ):
+    """,
+    )
+    with patch("custom_components.windhager_unified.tier_lookup._GROUPS_CONFIG_PATH", p):
         fcttype_tiers, overrides, _ = _load_groups_config()
 
     assert fcttype_tiers[9][155] == "essential"

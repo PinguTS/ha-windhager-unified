@@ -91,9 +91,7 @@ async def async_start_export(
                 notification_id=_NOTIF_RESULT,
             )
 
-    coordinator.export_task = hass.async_create_background_task(
-        _run(), "windhager_unified_export"
-    )
+    coordinator.export_task = hass.async_create_background_task(_run(), "windhager_unified_export")
 
 
 # ---------------------------------------------------------------------------
@@ -129,12 +127,8 @@ async def _export(hass: HomeAssistant, coordinator: WindhagerCoordinator) -> Pat
     # Step 3: Build ZIP
     _progress(hass, "Step 3/3: Building ZIP archive…")
     yaml_bytes = await loop.run_in_executor(None, _build_discovery_yaml, result)
-    meta_bytes = await loop.run_in_executor(
-        None, _build_meta_json, result, coordinator, timestamp
-    )
-    await loop.run_in_executor(
-        None, _write_zip, zip_path, yaml_bytes, meta_bytes, xml_files
-    )
+    meta_bytes = await loop.run_in_executor(None, _build_meta_json, result, coordinator, timestamp)
+    await loop.run_in_executor(None, _write_zip, zip_path, yaml_bytes, meta_bytes, xml_files)
 
     _LOGGER.info("export: wrote %s", zip_path)
     return zip_path
@@ -258,12 +252,9 @@ def _build_meta_json(
         "boiler_id": result.boiler_id,
         "boiler_name": result.boiler_name,
         "node_count": len(result.nodes),
-        "datapoint_count": sum(
-            len(grp.datapoints) for grp in result.groups
-        ),
+        "datapoint_count": sum(len(grp.datapoints) for grp in result.groups),
         "groups": [
-            {"id": grp.id, "label": grp.label, "fct_type": grp.fct_type}
-            for grp in result.groups
+            {"id": grp.id, "label": grp.label, "fct_type": grp.fct_type} for grp in result.groups
         ],
         "warnings": result.warnings or [],
         "note": "Host, username, and password are NOT included in this export.",

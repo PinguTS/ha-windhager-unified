@@ -35,12 +35,8 @@ def mock_client():
 @pytest.fixture(autouse=True)
 def fast_scan(monkeypatch):
     """Patch scan timing constants so poll loops complete immediately in tests."""
-    monkeypatch.setattr(
-        "custom_components.windhager_unified.discovery._SCAN_POLL_INTERVAL_S", 0
-    )
-    monkeypatch.setattr(
-        "custom_components.windhager_unified.discovery._SCAN_TIMEOUT_S", 1.0
-    )
+    monkeypatch.setattr("custom_components.windhager_unified.discovery._SCAN_POLL_INTERVAL_S", 0)
+    monkeypatch.setattr("custom_components.windhager_unified.discovery._SCAN_TIMEOUT_S", 1.0)
 
 
 def _nodes_response():
@@ -540,9 +536,7 @@ async def test_discover_gn_mn_override_applied(mock_client):
     to "service".
     """
     mock_client.async_get_kesselwahl_selected.return_value = {"id": 2, "name": "Holz"}
-    mock_client.async_get_nodes_flat.return_value = [
-        {"subnet": 1, "nodeId": 65, "name": "LogWIN"}
-    ]
+    mock_client.async_get_nodes_flat.return_value = [{"subnet": 1, "nodeId": 65, "name": "LogWIN"}]
     mock_client.async_get_node_details.return_value = {
         "functions": [{"fctId": 0, "fctType": 10, "name": "LogWIN", "lock": False}]
     }
@@ -576,27 +570,21 @@ async def test_discover_gn_mn_override_applied(mock_client):
     ):
         result = await discover(mock_client, experience_tier="expert")
 
-    dp_by_oid = {
-        dp.oid: dp
-        for grp in result.groups
-        for dp in grp.datapoints
-    }
+    dp_by_oid = {dp.oid: dp for grp in result.groups for dp in grp.datapoints}
     assert "1/65/0/0/15/0" in dp_by_oid
     assert dp_by_oid["1/65/0/0/15/0"].experience_minimum == "essential"
 
     assert "1/65/0/4/92/0" in dp_by_oid
-    assert dp_by_oid["1/65/0/4/92/0"].experience_minimum == "service", (
-        "gn=4 mn=92 (Software-Version) must be promoted to 'service' by gn_mn_overrides"
-    )
+    assert (
+        dp_by_oid["1/65/0/4/92/0"].experience_minimum == "service"
+    ), "gn=4 mn=92 (Software-Version) must be promoted to 'service' by gn_mn_overrides"
 
 
 @pytest.mark.asyncio
 async def test_discover_gn_mn_override_inactive_when_no_match(mock_client):
     """Datapoints not in GN_MN_OVERRIDES keep their level-derived experience_minimum."""
     mock_client.async_get_kesselwahl_selected.return_value = {"id": 2}
-    mock_client.async_get_nodes_flat.return_value = [
-        {"subnet": 1, "nodeId": 65, "name": "LogWIN"}
-    ]
+    mock_client.async_get_nodes_flat.return_value = [{"subnet": 1, "nodeId": 65, "name": "LogWIN"}]
     mock_client.async_get_node_details.return_value = {
         "functions": [{"fctId": 0, "fctType": 10, "name": "LogWIN", "lock": False}]
     }
@@ -620,8 +608,6 @@ async def test_discover_gn_mn_override_inactive_when_no_match(mock_client):
     ):
         result = await discover(mock_client, experience_tier="expert")
 
-    dp_by_oid = {
-        dp.oid: dp for grp in result.groups for dp in grp.datapoints
-    }
+    dp_by_oid = {dp.oid: dp for grp in result.groups for dp in grp.datapoints}
     assert "1/65/0/0/7/0" in dp_by_oid
     assert dp_by_oid["1/65/0/0/7/0"].experience_minimum == "essential"

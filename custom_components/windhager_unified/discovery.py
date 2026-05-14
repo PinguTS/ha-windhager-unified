@@ -100,18 +100,18 @@ KESSELWAHL_FAMILY: dict[int, str] = {
 #                discovery emits "boiler_loading_pump"; tracked separately.
 # ---------------------------------------------------------------------------
 FUNCTION_TYPE_GROUPS: dict[int, str] = {
-    0: "boiler",              # main boiler function (StaticNavAssignment ftype 0)
-    1: "heating_circuit",     # heating circuit (StaticNavAssignment ftype 1)
-    2: "dhw",                 # domestic hot water (StaticNavAssignment ftype 2)
-    4: "cascade",             # Kaskadenmanager (MapToInstance type 4)
-    10: "boiler",             # boiler (LogWIN / BioWIN2 primary function)
-    12: "io5500",             # IO5500 expansion module (MapToInstance type 12)
-    13: "solar",              # Solar ES (MapToInstance type 13)
-    14: "heating_circuit",    # UMUMLZ heating-circuit controller (EbenenTexte id=14)
-    15: "buffer",             # WVF PUFFER buffer/shift-valve controller (EbenenTexte id=15)
-    16: "boiler_loading_pump",# B-PLM boiler loading pump (EbenenTexte id=16)
-    18: "boiler",             # alternate boiler type (StaticNavAssignment ftype 18)
-    19: "dhw",                # alternate DHW type (StaticNavAssignment ftype 19)
+    0: "boiler",  # main boiler function (StaticNavAssignment ftype 0)
+    1: "heating_circuit",  # heating circuit (StaticNavAssignment ftype 1)
+    2: "dhw",  # domestic hot water (StaticNavAssignment ftype 2)
+    4: "cascade",  # Kaskadenmanager (MapToInstance type 4)
+    10: "boiler",  # boiler (LogWIN / BioWIN2 primary function)
+    12: "io5500",  # IO5500 expansion module (MapToInstance type 12)
+    13: "solar",  # Solar ES (MapToInstance type 13)
+    14: "heating_circuit",  # UMUMLZ heating-circuit controller (EbenenTexte id=14)
+    15: "buffer",  # WVF PUFFER buffer/shift-valve controller (EbenenTexte id=15)
+    16: "boiler_loading_pump",  # B-PLM boiler loading pump (EbenenTexte id=16)
+    18: "boiler",  # alternate boiler type (StaticNavAssignment ftype 18)
+    19: "dhw",  # alternate DHW type (StaticNavAssignment ftype 19)
 }
 
 

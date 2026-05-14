@@ -371,9 +371,7 @@ def test_coerce_adhoc_entries_string_and_dict():
     assert WindhagerCoordinator._coerce_adhoc_entries(["1/2/3/4/5/6"]) == [
         {"oid": "1/2/3/4/5/6", "group": "boiler"}
     ]
-    rows = WindhagerCoordinator._coerce_adhoc_entries(
-        [{"oid": "1/1/1/1/1/1", "group": "buffer"}]
-    )
+    rows = WindhagerCoordinator._coerce_adhoc_entries([{"oid": "1/1/1/1/1/1", "group": "buffer"}])
     assert rows == [{"oid": "1/1/1/1/1/1", "group": "buffer"}]
 
 
@@ -463,7 +461,7 @@ def test_build_lon_datapoints_discovery_gap_preserves_yaml_unit(mock_hass):
         "oid": "1/16/0/0/15/0",
         "key": "lon_1_16_0_0_15_0",
         "group": "buffer",
-        "experience_minimum": "expert",   # would be filtered at comfort tier
+        "experience_minimum": "expert",  # would be filtered at comfort tier
         "unit": "°C",
         "device_class": "temperature",
         "state_class": "measurement",
@@ -490,7 +488,7 @@ def test_build_lon_datapoints_discovery_gap_preserves_yaml_unit(mock_hass):
             password="p",
             verify_ssl=False,
             scan_interval=30,
-            experience_level="comfort",   # below expert → yaml entry is filtered out
+            experience_level="comfort",  # below expert → yaml entry is filtered out
             discovered_datapoints=discovered,
         )
     assert len(coord.datapoints) == 1
@@ -525,8 +523,8 @@ def test_deduplicate_cross_node_canonical_group_buffer(tmp_path):
     assert (0, 15) in GN_MN_OVERRIDES, "canonical_group for 0:15 must be configured"
     assert GN_MN_OVERRIDES[(0, 15)]["canonical_group"] == "buffer"
 
-    boiler_inst = _dp("1/65/0/0/15/0", "boiler")      # node 65
-    buffer_inst = _dp("1/16/0/0/15/0", "buffer")      # node 16
+    boiler_inst = _dp("1/65/0/0/15/0", "boiler")  # node 65
+    buffer_inst = _dp("1/16/0/0/15/0", "buffer")  # node 16
     hc1_inst = _dp("1/15/0/0/15/0", "heating_circuit")
     hc2_inst = _dp("1/15/1/0/15/0", "heating_circuit")
 
@@ -549,9 +547,7 @@ def test_deduplicate_cross_node_canonical_group_boiler():
     pump_inst = _dp("1/16/1/0/7/0", "boiler_loading_pump")
     buffer_inst = _dp("1/16/0/0/7/0", "buffer")
 
-    result = WindhagerCoordinator._deduplicate_cross_node(
-        [boiler_inst, pump_inst, buffer_inst]
-    )
+    result = WindhagerCoordinator._deduplicate_cross_node([boiler_inst, pump_inst, buffer_inst])
     oids = {d["oid"] for d in result}
     assert "1/65/0/0/7/0" in oids
     assert "1/16/1/0/7/0" not in oids
@@ -589,7 +585,7 @@ def test_deduplicate_cross_node_no_canonical_configured():
 def test_compute_disambiguators_unique_gn_mn_no_suffix():
     """Datapoints with unique (gn, mn) must not get a suffix."""
     dps = [
-        {"oid": "1/65/0/0/7/0"},   # gn=0 mn=7
+        {"oid": "1/65/0/0/7/0"},  # gn=0 mn=7
         {"oid": "1/65/0/0/15/0"},  # gn=0 mn=15 — only once
     ]
     result = WindhagerCoordinator._compute_oid_disambiguators(dps)
@@ -603,8 +599,8 @@ def test_compute_disambiguators_different_nodes_sorted_by_node():
         {"oid": "1/10/0/0/7/0"},  # node 10 — lower, gets "1"
     ]
     result = WindhagerCoordinator._compute_oid_disambiguators(dps)
-    assert result["1/10/0/0/7/0"] == "1"   # node 10 first
-    assert result["1/65/0/0/7/0"] == "2"   # node 65 second
+    assert result["1/10/0/0/7/0"] == "1"  # node 10 first
+    assert result["1/65/0/0/7/0"] == "2"  # node 65 second
 
 
 def test_compute_disambiguators_same_node_different_fct():
@@ -685,13 +681,26 @@ def test_get_entity_name_no_disambiguation(mock_hass):
     """When a (gn, mn) is unique, get_entity_name returns the base name."""
     with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
         mock_load.side_effect = lambda path, key: (
-            [{"oid": "1/65/0/0/7/0", "key": "k", "group": "boiler",
-              "experience_minimum": "essential", "i18n": {"en": "Boiler Temp"}}]
-            if key == "datapoints" else {}
+            [
+                {
+                    "oid": "1/65/0/0/7/0",
+                    "key": "k",
+                    "group": "boiler",
+                    "experience_minimum": "essential",
+                    "i18n": {"en": "Boiler Temp"},
+                }
+            ]
+            if key == "datapoints"
+            else {}
         )
         coord = WindhagerCoordinator(
-            hass=mock_hass, host="http://t", username="u", password="p",
-            verify_ssl=False, scan_interval=30, experience_level="advanced",
+            hass=mock_hass,
+            host="http://t",
+            username="u",
+            password="p",
+            verify_ssl=False,
+            scan_interval=30,
+            experience_level="advanced",
         )
     name = coord.get_entity_name("1/65/0/0/7/0", "en", {"en": "Boiler Temp"}, "k")
     assert name == "Boiler Temp"
@@ -703,16 +712,32 @@ def test_get_entity_name_with_numeric_disambiguation(mock_hass):
     with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
         mock_load.side_effect = lambda path, key: (
             [
-                {"oid": "1/10/0/0/7/0", "key": "k", "group": "boiler",
-                 "experience_minimum": "essential", "i18n": {"en": "Boiler Temp"}},
-                {"oid": "1/65/0/0/7/0", "key": "k2", "group": "boiler",
-                 "experience_minimum": "essential", "i18n": {"en": "Boiler Temp"}},
+                {
+                    "oid": "1/10/0/0/7/0",
+                    "key": "k",
+                    "group": "boiler",
+                    "experience_minimum": "essential",
+                    "i18n": {"en": "Boiler Temp"},
+                },
+                {
+                    "oid": "1/65/0/0/7/0",
+                    "key": "k2",
+                    "group": "boiler",
+                    "experience_minimum": "essential",
+                    "i18n": {"en": "Boiler Temp"},
+                },
             ]
-            if key == "datapoints" else {}
+            if key == "datapoints"
+            else {}
         )
         coord = WindhagerCoordinator(
-            hass=mock_hass, host="http://t", username="u", password="p",
-            verify_ssl=False, scan_interval=30, experience_level="advanced",
+            hass=mock_hass,
+            host="http://t",
+            username="u",
+            password="p",
+            verify_ssl=False,
+            scan_interval=30,
+            experience_level="advanced",
         )
     name_10 = coord.get_entity_name("1/10/0/0/7/0", "en", {"en": "Boiler Temp"}, "k")
     name_65 = coord.get_entity_name("1/65/0/0/7/0", "en", {"en": "Boiler Temp"}, "k2")
@@ -725,18 +750,34 @@ def test_get_entity_name_with_function_name_prefix(mock_hass):
     with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
         mock_load.side_effect = lambda path, key: (
             [
-                {"oid": "1/10/0/0/7/0", "key": "k", "group": "boiler",
-                 "experience_minimum": "essential", "i18n": {"en": "Kesseltemperatur"},
-                 "function_name": "BioWIN"},
-                {"oid": "1/65/0/0/7/0", "key": "k2", "group": "boiler",
-                 "experience_minimum": "essential", "i18n": {"en": "Kesseltemperatur"},
-                 "function_name": "LogWIN"},
+                {
+                    "oid": "1/10/0/0/7/0",
+                    "key": "k",
+                    "group": "boiler",
+                    "experience_minimum": "essential",
+                    "i18n": {"en": "Kesseltemperatur"},
+                    "function_name": "BioWIN",
+                },
+                {
+                    "oid": "1/65/0/0/7/0",
+                    "key": "k2",
+                    "group": "boiler",
+                    "experience_minimum": "essential",
+                    "i18n": {"en": "Kesseltemperatur"},
+                    "function_name": "LogWIN",
+                },
             ]
-            if key == "datapoints" else {}
+            if key == "datapoints"
+            else {}
         )
         coord = WindhagerCoordinator(
-            hass=mock_hass, host="http://t", username="u", password="p",
-            verify_ssl=False, scan_interval=30, experience_level="advanced",
+            hass=mock_hass,
+            host="http://t",
+            username="u",
+            password="p",
+            verify_ssl=False,
+            scan_interval=30,
+            experience_level="advanced",
         )
     name_10 = coord.get_entity_name("1/10/0/0/7/0", "en", {"en": "Kesseltemperatur"}, "k")
     name_65 = coord.get_entity_name("1/65/0/0/7/0", "en", {"en": "Kesseltemperatur"}, "k2")
@@ -750,13 +791,11 @@ def test_deduplicate_heating_circuit_flow_temp_keeps_both_instances():
     assert GN_MN_OVERRIDES[(1, 7)]["canonical_group"] == "heating_circuit"
 
     pump_inst = _dp("1/16/1/1/7/0", "boiler_loading_pump")  # different node
-    buf_inst = _dp("1/16/0/1/7/0", "buffer")                # different node
-    hc1_inst = _dp("1/15/0/1/7/0", "heating_circuit")       # node 15, fct 0
-    hc2_inst = _dp("1/15/1/1/7/0", "heating_circuit")       # node 15, fct 1
+    buf_inst = _dp("1/16/0/1/7/0", "buffer")  # different node
+    hc1_inst = _dp("1/15/0/1/7/0", "heating_circuit")  # node 15, fct 0
+    hc2_inst = _dp("1/15/1/1/7/0", "heating_circuit")  # node 15, fct 1
 
-    result = WindhagerCoordinator._deduplicate_cross_node(
-        [pump_inst, buf_inst, hc1_inst, hc2_inst]
-    )
+    result = WindhagerCoordinator._deduplicate_cross_node([pump_inst, buf_inst, hc1_inst, hc2_inst])
     oids = {d["oid"] for d in result}
     # HC1 and HC2 both kept (same node, different fct = same canonical node)
     assert "1/15/0/1/7/0" in oids
@@ -778,8 +817,13 @@ def _make_coord_with_catalog(mock_hass):
     with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
         mock_load.return_value = []
         coord = WindhagerCoordinator(
-            hass=mock_hass, host="http://t", username="u", password="p",
-            verify_ssl=False, scan_interval=30, experience_level="advanced",
+            hass=mock_hass,
+            host="http://t",
+            username="u",
+            password="p",
+            verify_ssl=False,
+            scan_interval=30,
+            experience_level="advanced",
         )
     coord.label_catalog = LabelCatalog.load()
     return coord
@@ -836,8 +880,13 @@ def test_coordinator_get_enum_options_no_catalog(mock_hass):
     with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
         mock_load.return_value = []
         coord = WindhagerCoordinator(
-            hass=mock_hass, host="http://t", username="u", password="p",
-            verify_ssl=False, scan_interval=30, experience_level="advanced",
+            hass=mock_hass,
+            host="http://t",
+            username="u",
+            password="p",
+            verify_ssl=False,
+            scan_interval=30,
+            experience_level="advanced",
         )
     # label_catalog is None by default before async_initialize_catalog
     assert coord.get_enum_options("1/65/0/2/1/0", "en") == []

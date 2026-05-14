@@ -118,9 +118,9 @@ _VALID_TIERS = frozenset({"essential", "comfort", "advanced", "expert", "service
 
 
 def _load_groups_config() -> tuple[
-    dict[int, dict[int, str]],         # fcttype_level_tiers
+    dict[int, dict[int, str]],  # fcttype_level_tiers
     dict[tuple[int, int], dict[str, str]],  # gn_mn_overrides
-    dict[str, set[str]],               # tier_defaults
+    dict[str, set[str]],  # tier_defaults
 ]:
     """Load all three configuration tables from groups_config.yaml.
 
@@ -160,7 +160,9 @@ def _load_groups_config() -> tuple[
             if tier_str not in _VALID_TIERS:
                 _LOGGER.warning(
                     "groups_config.yaml level_tiers[%s][%s]: unknown tier '%s'",
-                    fct_int, lid_int, tier_str,
+                    fct_int,
+                    lid_int,
+                    tier_str,
                 )
                 continue
             parsed[lid_int] = tier_str
@@ -192,7 +194,8 @@ def _load_groups_config() -> tuple[
             if str(exp_min) not in _VALID_TIERS:
                 _LOGGER.warning(
                     "groups_config.yaml gn_mn_overrides['%s']: unknown tier '%s'",
-                    key_str, exp_min,
+                    key_str,
+                    exp_min,
                 )
             else:
                 validated["experience_minimum"] = str(exp_min)

@@ -57,9 +57,7 @@ async def test_run_full_lon_scan_happy_path():
     )
     warnings: list[str] = []
 
-    with patch(
-        "custom_components.windhager_unified.discovery._SCAN_POLL_INTERVAL_S", 0
-    ):
+    with patch("custom_components.windhager_unified.discovery._SCAN_POLL_INTERVAL_S", 0):
         await _run_full_lon_scan(client, warnings)
 
     assert warnings == []
@@ -124,9 +122,7 @@ async def test_run_full_lon_scan_status_error_aborts_gracefully():
 async def test_run_full_lon_scan_initscan_failure_sends_quit():
     """If initscan raises, the scan aborts and quit is sent best-effort."""
     client = AsyncMock()
-    client.async_put_scan_cmd = AsyncMock(
-        side_effect=WindhagerApiError("Device busy", status=503)
-    )
+    client.async_put_scan_cmd = AsyncMock(side_effect=WindhagerApiError("Device busy", status=503))
     warnings: list[str] = []
 
     with patch("custom_components.windhager_unified.discovery._SCAN_POLL_INTERVAL_S", 0):
