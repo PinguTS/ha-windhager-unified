@@ -1,0 +1,194 @@
+{
+    "apiVersion":"1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsAdmin/api/1.0",
+    "resourcePath":"/led",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/led",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"LED Collection",
+                    "notes":"List of all <b>LEDs<b> on the BSP.",
+                    "type":"array",
+                    "items": {
+                        "$ref": "LedModel"
+                    },
+                    "nickname":"getLed",
+                    "parameters":[
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/led/{id}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve LED status",
+                    "notes":"Retrieve LED object",
+                    "type":"LedModel",
+                    "nickname":"getLedId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"LED id to be retrieve",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "power",
+                                "recording",
+                                "lan",
+                                "bus"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary":"Update LED",
+                    "notes":"Update LED",
+                    "type":"void",
+                    "nickname":"putLedId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"LED id to be updated",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "power",
+                                "recording",
+                                "lan",
+                                "bus"
+                            ]
+                        },
+                        {
+                            "name":"rate",
+                            "description":"rate",
+                            "required":true,
+                            "type":"integer",
+                            "paramType":"query",
+                            "allowMultiple":false
+                        },
+                        {
+                            "name":"msPeriod",
+                            "description":"period in milli seconds",
+                            "required":false,
+                            "type":"integer",
+                            "paramType":"query",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        },
+                        {
+                            "code":404,
+                            "message":"LED id not found"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/led/scene",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"old interface",
+                    "notes":"do not use his old interface type!",
+                    "type":"LedsSceneModel",
+                    "nickname":"getLedScene",
+                    "parameters":[
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/led/scene/{id}",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"update LED scene",
+                    "notes":"Update LED scene.",
+                    "type":"void",
+                    "nickname":"putLedSceneId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"Scene id to be set",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "none",
+                                "lauflicht",
+                                "allOn",
+                                "peek"
+                            ]
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        },
+                        {
+                            "code":404,
+                            "message":"Scene id not found"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "LedModel":{
+            "id":"LedModel",
+            "properties":{
+                "id":{
+                    "description":"LED id",
+                    "type":"string",
+                    "enum":[
+                        "power",
+                        "recording",
+                        "lan",
+                        "bus"
+                    ]
+                },
+                "rate":{
+                    "type":"integer"
+                },
+                "msPeriod":{
+                    "type":"integer"
+                }
+            }
+        },
+        "LedsSceneModel":{
+            "id":"LedsSceneModel",
+            "properties":{
+                "id":{
+                    "description":"LED scene id",
+                    "type":"string",
+                    "enum":[
+                        "none",
+                        "lauflicht",
+                        "allOn",
+                        "peek"
+                    ]
+                }
+            }
+        }
+    }
+}

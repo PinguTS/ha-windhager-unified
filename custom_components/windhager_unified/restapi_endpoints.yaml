@@ -1,0 +1,209 @@
+# Windhager RestAPI endpoint catalogue
+# All paths verified against docs/swagger/ (Swagger 1.2 sources).
+# Full URL = basePath + path (NO doubled resource segments).
+#
+# entity_type: sensor | button | select | switch
+# http_method (actuators): POST | PUT | DELETE  (default: POST for button, PUT for select/switch)
+# group: functional group slug (same taxonomy as oids.yaml)
+# experience_minimum: essential | comfort | advanced | expert | service
+#   Absent → advanced for sensors, service for actuators (button/switch/select)
+
+restapi_endpoints:
+
+  heartbeat:
+    - endpoint: "/InfoWinHeartbeat/api/1.0/heartbeat"
+      key: "heartbeat.status"
+      entity_type: sensor
+      name: "Heartbeat Status"
+      i18n:
+        de: "Heartbeat Status"
+        en: "Heartbeat Status"
+      device_class: null
+      state_class: null
+      group: heartbeat
+      experience_minimum: advanced
+
+    - endpoint: "/InfoWinHeartbeat/api/1.0/heartbeat"
+      key: "heartbeat.start"
+      entity_type: button
+      http_method: POST
+      name: "Start Heartbeat"
+      i18n:
+        de: "Heartbeat starten"
+        en: "Start Heartbeat"
+      group: heartbeat
+      experience_minimum: service
+
+    - endpoint: "/InfoWinHeartbeat/api/1.0/heartbeat"
+      key: "heartbeat.stop"
+      entity_type: button
+      http_method: DELETE
+      name: "Stop Heartbeat"
+      i18n:
+        de: "Heartbeat stoppen"
+        en: "Stop Heartbeat"
+      group: heartbeat
+      experience_minimum: service
+
+  fehlerlog:
+    - endpoint: "/InfoWinFehlerlog/api/1.0/fehlerlog"
+      key: "fehlerlog.list"
+      entity_type: sensor
+      name: "Error Log"
+      i18n:
+        de: "Fehlerprotokoll"
+        en: "Error Log"
+      device_class: null
+      state_class: null
+      group: fehlerlog
+      experience_minimum: advanced
+
+    # ASSUMPTION: id=0 resets all errors — must be verified on real hardware.
+    - endpoint: "/InfoWinFehlerlog/api/1.0/fehlerlog/reset/0"
+      key: "fehlerlog.reset"
+      entity_type: button
+      http_method: PUT
+      name: "Reset Error Log"
+      i18n:
+        de: "Fehlerprotokoll zurücksetzen"
+        en: "Reset Error Log"
+      group: fehlerlog
+      experience_minimum: service
+
+  system:
+    - endpoint: "/api/1.0/lookup"
+      key: "system.lookup"
+      entity_type: sensor
+      name: "LON Lookup Status"
+      i18n:
+        de: "LON Status"
+        en: "LON Status"
+      device_class: null
+      state_class: null
+      group: system
+      experience_minimum: expert
+
+  vpn:
+    - endpoint: "/api/1.0/vpn/status"
+      key: "vpn.status"
+      entity_type: sensor
+      name: "VPN Status"
+      i18n:
+        de: "VPN Status"
+        en: "VPN Status"
+      device_class: null
+      state_class: null
+      group: system
+      experience_minimum: advanced
+
+  dynip:
+    - endpoint: "/api/1.0/DynIP/CheckIP"
+      key: "dynip.check"
+      entity_type: sensor
+      name: "Dynamic IP Check"
+      i18n:
+        de: "Dynamische IP Prüfung"
+        en: "Dynamic IP Check"
+      device_class: null
+      state_class: null
+      group: system
+      experience_minimum: advanced
+
+  systemtime:
+    - endpoint: "/WsAdmin/api/1.0/systemtime"
+      key: "systemtime.current"
+      entity_type: sensor
+      name: "System Time"
+      i18n:
+        de: "Systemzeit"
+        en: "System Time"
+      device_class: null
+      state_class: null
+      group: system
+      experience_minimum: advanced
+
+    - endpoint: "/WsAdmin/api/1.0/systemtime/ntpserver"
+      key: "systemtime.ntp_servers"
+      entity_type: sensor
+      name: "NTP Servers"
+      i18n:
+        de: "NTP-Server"
+        en: "NTP Servers"
+      device_class: null
+      state_class: null
+      group: system
+      experience_minimum: expert
+
+    - endpoint: "/WsAdmin/api/1.0/systemtime/ntpserver/selected"
+      key: "systemtime.ntp_selected"
+      entity_type: sensor
+      name: "Selected NTP Server"
+      i18n:
+        de: "Gewählter NTP-Server"
+        en: "Selected NTP Server"
+      device_class: null
+      state_class: null
+      group: system
+      experience_minimum: expert
+
+    - endpoint: "/WsAdmin/api/1.0/systemtime/timezone"
+      key: "systemtime.timezone"
+      entity_type: sensor
+      name: "Timezone"
+      i18n:
+        de: "Zeitzone"
+        en: "Timezone"
+      device_class: null
+      state_class: null
+      group: system
+      experience_minimum: advanced
+
+  admin:
+    - endpoint: "/WsAdmin/api/1.0/led"
+      key: "admin.led_status"
+      entity_type: sensor
+      name: "LED Status"
+      i18n:
+        de: "LED Status"
+        en: "LED Status"
+      device_class: null
+      state_class: null
+      group: system
+      experience_minimum: service
+
+    - endpoint: "/WsAdmin/api/1.0/settings"
+      key: "admin.settings"
+      entity_type: sensor
+      name: "System Settings"
+      i18n:
+        de: "Systemeinstellungen"
+        en: "System Settings"
+      device_class: null
+      state_class: null
+      group: system
+      experience_minimum: service
+
+  kesselwahl:
+    - endpoint: "/InfoWinHeartbeat/api/1.0/kesselwahl/selected"
+      key: "kesselwahl.selected"
+      entity_type: sensor
+      name: "Active Boiler Selection"
+      i18n:
+        de: "Aktiver Kessel"
+        en: "Active Boiler Selection"
+      device_class: null
+      state_class: null
+      group: boiler
+      experience_minimum: advanced
+
+    - endpoint: "/InfoWinHeartbeat/api/1.0/kesselwahl/list"
+      key: "kesselwahl.list"
+      entity_type: sensor
+      name: "Boiler Selection List"
+      i18n:
+        de: "Kesselliste"
+        en: "Boiler Selection List"
+      device_class: null
+      state_class: null
+      group: boiler
+      experience_minimum: expert

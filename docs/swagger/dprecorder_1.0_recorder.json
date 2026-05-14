@@ -1,0 +1,219 @@
+{
+    "apiVersion":"1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/dprecorder/api/1.0",
+    "resourcePath":"/recorder",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/recorder/{id}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve id recorder",
+                    "notes":"Retrieve id recorder",
+                    "type":"void",
+                    "nickname":"getInfoId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"Info id to be retrieve",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "status",
+                                "settings"
+                            ]
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary":"Retrieve id recorder",
+                    "notes":"Retrieve id recorder",
+                    "type":"void",
+                    "nickname":"getInfoId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"id to update",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "interval"
+                            ]
+                        },
+                        {
+                            "name": "value",
+                            "description": "value for id.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "defaultValue": "300",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+
+        {
+            "path":"/recorder/{action}",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"Manualy trigger executing the actionSet",
+                    "notes":"Manualy trigger executing the actionSet",
+                    "type":"void",
+                    "nickname":"postRecorderAction",
+                    "parameters":[
+                        {
+                            "name":"action",
+                            "description":"Info id to be retrieve",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "start",
+                                "stop",
+                                "startExecutingActionSet",
+                                "executeActionSet",
+                                "executeActionSetSynchronous"
+                            ]
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path":"/recorder/datapoint",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"Add new OID Datapoint",
+                    "notes":"Add new OID Datapoint",
+                    "type":"void",
+                    "nickname":"postRecorderOid",
+                    "parameters":[
+                        {
+                            "name": "name",
+                            "description": "Name of the Datapoint",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "oid",
+                            "description": "OID as /subnet/nodeId/fctId/group/member/instance.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "cacheCtl",
+                            "description": "cache control 0: no cache do bypass the cache, 1: with cache (default)",
+                            "paramType": "query",
+                            "required": false,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                },
+                {
+                    "method":"DELETE",
+                    "summary":"Delete OID Datapoint",
+                    "notes":"Delete OID Datapoint",
+                    "type":"void",
+                    "nickname":"deleteRecorderOid",
+                    "parameters":[
+                        {
+                            "name": "oid",
+                            "description": "OID as /subnet/nodeId/fctId/group/member/instance.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path":"/recorder/oids",
+            "operations":[
+                {
+                    "method":"DELETE",
+                    "summary":"Delete Recorder OID List",
+                    "notes":"Delete Recorder OID List",
+                    "type":"void",
+                    "nickname":"deleteRecorderOidList",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+
+
+    ],
+
+    "models":{
+        "InfoModel":{
+            "id":"InfoModel",
+            "properties":{
+                "name":{
+                    "type":"string"
+                },
+                "version":{
+                    "type":"string"
+                }
+            }
+        }
+    }
+}

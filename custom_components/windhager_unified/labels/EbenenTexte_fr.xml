@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by GenerateEbenenTextsInXML.php -->
+<EbenenTexte lang="fr">
+	<fcttyp id="-1">
+		<ebene id="0">NV's</ebene>
+	</fcttyp>
+	<fcttyp id="0">
+	</fcttyp>
+	<fcttyp id="4">
+		<ebene id="97">Choix fonction</ebene>
+		<ebene id="98">Heure / Date</ebene>
+		<ebene id="99">Fonction module</ebene>
+		<ebene id="100"></ebene>
+		<ebene id="101"></ebene>
+		<ebene id="102">Charge E.C.S.</ebene>
+		<ebene id="103">LON valeurs système</ebene>
+		<ebene id="104">tbd</ebene>
+		<ebene id="105">tbd</ebene>
+		<ebene id="106"></ebene>
+		<ebene id="107"></ebene>
+		<ebene id="108"></ebene>
+		<ebene id="109"></ebene>
+		<ebene id="111">Info module</ebene>
+	</fcttyp>
+	<fcttyp id="9">
+		<ebene id="155">Titelbild</ebene>
+		<ebene id="156">Mode Info</ebene>
+		<ebene id="157">Température chaudière</ebene>
+		<ebene id="158">Mode Service</ebene>
+	</fcttyp>
+	<fcttyp id="10">
+		<ebene id="155">Titelbild</ebene>
+		<ebene id="156">Mode Info</ebene>
+		<ebene id="157">Température chaudière</ebene>
+		<ebene id="158">Mode Service</ebene>
+	</fcttyp>
+	<fcttyp id="14">
+		<ebene id="96">Choix fonction</ebene>
+		<ebene id="97">T° confort</ebene>
+		<ebene id="98">E.C.S. Autorisation charge</ebene>
+		<ebene id="99">Eco / Fête</ebene>
+		<ebene id="100">Programme congés</ebene>
+		<ebene id="101">Consigne T° ambiante</ebene>
+		<ebene id="102">Heure / Date</ebene>
+		<ebene id="103">Fonction module</ebene>
+		<ebene id="104">Valeurs générales</ebene>
+		<ebene id="105">Ajustement T° d'ambiance</ebene>
+		<ebene id="106">Limites de température</ebene>
+		<ebene id="107">Charge E.C.S.</ebene>
+		<ebene id="108">Réhausse T° chaudière</ebene>
+		<ebene id="109">Optimisation de démarrage</ebene>
+		<ebene id="110">LON valeurs système</ebene>
+		<ebene id="111">Programme séchage chape</ebene>
+		<ebene id="112">Info module</ebene>
+		<ebene id="113">Température ambiante</ebene>
+		<ebene id="114">Température E.C.S.</ebene>
+		<ebene id="115">Température extérieure</ebene>
+		<ebene id="116">Température circuit départ</ebene>
+		<ebene id="117">Température chaudière</ebene>
+		<ebene id="118">Température réserve tampon</ebene>
+		<ebene id="119">Limite antigel</ebene>
+		<ebene id="120">Chauffage</ebene>
+		<ebene id="121">Charge E.C.S.</ebene>
+	</fcttyp>
+	<fcttyp id="15">
+		<ebene id="96">Choix fonction</ebene>
+		<ebene id="97">Configuration système</ebene>
+		<ebene id="98">Fonction module</ebene>
+		<ebene id="99">Température réserve tampon</ebene>
+		<ebene id="100">Température chaudière</ebene>
+		<ebene id="101">Vanne de commutation</ebene>
+		<ebene id="102">Charge par couche</ebene>
+		<ebene id="103">Connection sonde Y3</ebene>
+		<ebene id="104">Température réserve tampon</ebene>
+		<ebene id="105">Température chaudière</ebene>
+		<ebene id="106">Hystérèse TPOmin</ebene>
+		<ebene id="107">Temporisation commutation</ebene>
+		<ebene id="108">Info module</ebene>
+	</fcttyp>
+	<fcttyp id="16">
+		<ebene id="96">Choix fonction</ebene>
+		<ebene id="97">Fonction module</ebene>
+		<ebene id="98">Temp. chaudière/tampon</ebene>
+		<ebene id="99">Commande brûleur</ebene>
+		<ebene id="100">Pompe charge tampon</ebene>
+		<ebene id="101">Demande ext. de chaleur</ebene>
+		<ebene id="102">Info module</ebene>
+		<ebene id="103">Température chaudière</ebene>
+		<ebene id="104">Commut. fonction. tampon</ebene>
+		<ebene id="105">Pompe à chaleur</ebene>
+		<ebene id="106">Charge E.C.S.</ebene>
+	</fcttyp>
+	<fcttyp id="20">
+		<ebene id="97">Info </ebene>
+		<ebene id="98">Pilotage pompes</ebene>
+		<ebene id="99">Demande ext. de chaleur</ebene>
+		<ebene id="100">Totalisateur Defauts</ebene>
+		<ebene id="101">Fonction module</ebene>
+		<ebene id="102">Test d'actionneurs</ebene>
+	</fcttyp>
+</EbenenTexte>

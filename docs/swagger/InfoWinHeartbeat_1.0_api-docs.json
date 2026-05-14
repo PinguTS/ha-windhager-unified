@@ -1,0 +1,30 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion": "1.2",
+    "basePath": "/api-docs/InfoWinHeartbeat/1.0",
+    "apis": [
+        {
+            "path": "/info",
+            "description": "Operations on system info"
+        },
+        {
+            "path": "/settings",
+            "description": "Settings Services"
+        },
+        {
+            "path": "/heartbeat",
+            "description": "Operations on heartbeat service"
+        },
+        {
+            "path": "/kesselwahl",
+            "description": "Operations on Kesselwahl service"
+        }
+    ],
+    "info": {
+        "title": "InfoWIN Heartbeaat API",
+        "description": "Welcome to the InfoWIN Heartbeaat API. This API lets you interact with the InfoWIN Heartbeaat API services with anything that can send an HTTP request.",
+        "contact": "g.lombriser@lom.ch",
+        "license": "Apache 2.0",
+        "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+}

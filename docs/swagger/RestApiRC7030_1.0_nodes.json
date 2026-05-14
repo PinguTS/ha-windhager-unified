@@ -1,0 +1,101 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion": "1.2",
+    "resourcePath": "/nodes",
+    "basePath": "/api/1.0",
+    "produces": [
+        "application/json"
+    ],
+    "apis":[
+        {
+            "path": "/nodes",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "Nodes Collection",
+                    "notes": "List all actual nodes.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "Node"
+                    },
+                    "nickname": "getNodes",
+                    "parameters": [
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models": {
+        "Status": {
+            "id": "Status",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Error": {
+            "id": "Error",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "fileds": {
+                    "type": "string"
+                }
+            }
+        },
+        "Node": {
+            "id": "Node",
+            "properties": {
+                "nodeId": {
+                    "type": "integer",
+                    "descripton": "id of the node"
+                },
+                "subnet": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "devices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "Device"
+                    }
+                },
+                "neuronId": {
+                    "type": "string"
+                },
+                "programId": {
+                    "type": "string"
+                }
+            }
+        },
+        "Device": {
+            "id": "Device",
+            "description": "LON Device",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "protocol": {
+                    "type": "string"
+                },
+                "deviceClass": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,115 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsFUP7030/api/1.0",
+    "resourcePath":"/srv0621",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/srv0621",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"Retrieve srv0621",
+                    "notes":"Retrieve srv0621",
+                    "type":"void",
+                    "nickname":"postSrv0621",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "Srv0621 object to action on.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "Srv0621request",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/srv0621/{subnet}/{nodeId}/{mainSel}/{subSel}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve srv0621",
+                    "notes":"Retrieve srv0621",
+                    "type":"void",
+                    "nickname":"getSrv0621Path",
+                    "parameters":[
+                        {
+                            "name": "subnet",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "mainSel",
+                            "description": "MainSelector to perform action with. [WORD] in hex-format",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "string",
+                            "defaultValue": "8504",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "subSel",
+                            "description": "SubSelector to perform action with. [WORD] in hex-format",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "string",
+                            "defaultValue": "4000",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "Srv0621request":{
+            "id":"Srv0621request",
+            "properties":{
+                "subnet":{
+                    "type":"integer",
+                    "defaultValue": 1
+                },
+                "nodeId":{
+                    "type":"integer"
+                },
+                "mainSel":{
+                    "type":"string",
+                    "defaultValue": "8504"
+                },
+                "subSel":{
+                    "type":"string",
+                    "defaultValue": "4000"
+                }
+            }
+        }
+    }
+}

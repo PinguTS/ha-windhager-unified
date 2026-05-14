@@ -1,0 +1,86 @@
+{
+    "apiVersion":"1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsFUP7030/api/1.0",
+    "resourcePath":"/srv1024",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path": "/srv1024/{subnetId}/{nodeId}/{fctId}/{groupId}/{memberId}/{varInst}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "Retrieve Datapoint",
+                    "notes": "A single Datapoint object with all its details (identifikationsgesz. DP)",
+                    "type": "void",
+                    "nickname": "getSrv1024",
+                    "parameters": [
+                        {
+                            "name": "subnetId",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "fctId",
+                            "description": "Numeric `id` of the `Function` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "groupId",
+                            "description": "Numeric `id` of the `Group` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer"
+                        },
+                        {
+                            "name": "memberId",
+                            "description": "Numeric `id` of the `memberId` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer"
+                        },
+                        {
+                            "name": "varInst",
+                            "description": "Numeric `id` of the `varInst` to perform action with. (default 0)",
+                            "paramType": "path",
+                            "required": false,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "InfoModel":{
+            "id":"InfoModel",
+            "properties":{
+                "name":{
+                    "type":"string"
+                },
+                "version":{
+                    "type":"string"
+                }
+            }
+        }
+    }
+}

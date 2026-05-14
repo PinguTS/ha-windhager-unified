@@ -1,0 +1,199 @@
+{
+    "apiVersion": "1.0.1",
+    "swaggerVersion": "1.2",
+    "resourcePath": "/dynip",
+    "basePath": "/api/1.0",
+    "produces": [
+        "application/json"
+    ],
+    "apis":[
+        {
+            "path": "/DynIP/CheckIP",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "CheckIP",
+                    "notes": "Retrieves the public IP Address over the <b>DynIP Server</b> specified in <i>/config/DynIP</i> parameter: <b>baseURL</b>.",
+                    "type": "void",
+                    "nickname": "getCheckIP",
+                    "parameters": [
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success",
+                            "responseModel":"CheckIpModel"
+                        },
+                        {
+                            "code": 500,
+                            "message": "Internal Server Error",
+                            "responseModel":"ErrorModel"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/DynIP/UpdateIP",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary": "UpdateIP",
+                    "notes": "Updates the public IP Address over the <b>DynIP Server</b> specified in <i>/config/DynIP</i> parameter: <b>baseURL</b>.",
+                    "type": "void",
+                    "nickname": "putUpdateIP",
+                    "parameters": [
+                        {
+                            "name": "updateIpModel",
+                            "description": "UpdateIpModel as JSON",
+                            "type": "UpdateIpModel",
+                            "required": true,
+                            "paramType":"body",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success",
+                            "responseModel":"StatusModel"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Invalid IP supplied",
+                            "responseModel":"ErrorModel"
+                        },
+                        {
+                            "code": 404,
+                            "message": "Device with this MAC not found",
+                            "responseModel":"ErrorModel"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/DynIP/OnAlarm",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary": "OnAlarm",
+                    "notes": "Posts a new <i>Alarm, Error or Info Message<i> to the <b>DynIP Server</b> specified in <i>/config/OnAlarm</i> parameter: <b>baseURL</b>.",
+                    "type": "void",
+                    "nickname": "postDynIpOnAlarm",
+                    "parameters": [
+                        {
+                            "name": "onAlarmModel",
+                            "description": "OnAlarmModel as JSON",
+                            "type": "OnAlarmModel",
+                            "required": true,
+                            "paramType":"body",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Success",
+                            "responseModel":"StatusModel"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Invalid id or msg supplied",
+                            "responseModel":"ErrorModel"
+                        },
+                        {
+                            "code": 404,
+                            "message": "Device with this MAC not found",
+                            "responseModel":"ErrorModel"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models": {
+        "StatusModel": {
+            "id": "StatusModel",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "ErrorModel": {
+            "id": "ErrorModel",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "required": true
+                },
+                "message": {
+                    "type": "string"
+                },
+                "reason": {
+                    "type": "string"
+                }
+            }
+        },
+        "CheckIpModel": {
+            "id":"CheckIpModel",
+            "properties": {
+                "status":{
+                    "type": "string",
+                    "required": false
+                },
+                "IP": {
+                    "type": "string",
+                    "format": "IP Format",
+                    "required": true
+                }
+            }
+        },
+        "OnAlarmModel": {
+            "id":"OnAlarmModel",
+            "properties": {
+                "MAC": {
+                    "description": "MAC Address formated as 'hh-hh-hh-hh-hh-hh'",
+                    "type": "string",
+                    "required": true,
+                    "format": "MAC Format"
+                },
+                "id": {
+                    "description": "id of the message",
+                    "type": "string",
+                    "required": true
+                },
+                "msg": {
+                    "name": "msg",
+                    "description": "Error/Alarm/Info message",
+                    "type": "string",
+                    "required": true,
+                    "paramType":"query",
+                    "allowMultiple":false
+                }
+            }
+        },
+        "UpdateIpModel": {
+            "id":"UpdateIpModel",
+            "properties": {
+                "MAC": {
+                    "description": "MAC Address formated as 'hh-hh-hh-hh-hh-hh'",
+                    "type": "string",
+                    "required": true,
+                    "format": "MAC Format"
+                },
+                "IP": {
+                    "description": "Public IP address in dot-decimal notation",
+                    "type": "string",
+                    "required": true,
+                    "format": "dot-decimal"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by GenerateErrorTextsInXML.php -->
+<ErrorTexte lang="en">
+	<error code="1" text="Primary airflap blocked or defect."/>
+	<error code="3" text="Secondary airflap blocked or defect."/>
+	<error code="5" text="Ash removal / Grate shaking defective or sticking. Clean burner pot."/>
+	<error code="6" text="Auger conveyor motor defective."/>
+	<error code="8" text="Heating surf. cleaning defective. Check heating surf. cleaning."/>
+	<error code="15" text="230V not reached"/>
+	<error code="16" text="Induced draught fan defective Clean blower wheel and clean blower box."/>
+	<error code="17" text="Induced draught fan defective Clean blower wheel."/>
+	<error code="18" text="Induced draught fan unstable"/>
+	<error code="37" text="Pellet feed flap does not open Check flap in feed unit."/>
+	<error code="40" text="Shut-off unit defect Shut-off unit of pellet automatic feed does not open or close."/>
+	<error code="41" text="Switch for reserve supply container cover defect Check switch for reserve supply container cover."/>
+	<error code="42" text="Relay of suction turbine defect Unplug main power plug of boiler."/>
+	<error code="57" text="Burner malfunction"/>
+	<error code="62" text="Air intake flap def. or does not open."/>
+	<error code="71" text="Safety/emergency switch open Check switch setting on safety switch and  emergency switches."/>
+	<error code="76" text="Boiler sensor defective Check boiler sensor and connections."/>
+	<error code="78" text="Thermocontrol sensor defective Check thermocontrol sensor and connections."/>
+	<error code="88" text="O2 probe defective Check O2 probe and connections."/>
+	<error code="89" text="O2 probe (heating) defective Check O2 probe, transformer and connections."/>
+	<error code="101" text="TWE-sensor defective"/>
+	<error code="103" text="Boiler sensor faulty"/>
+	<error code="104" text="Buffer sensor TPE faulty"/>
+	<error code="105" text="Buffer sensor TPA faulty"/>
+	<error code="107" text="Induced draught fan defective Clean blower wheel."/>
+	<error code="114" text="Switch/buffer sensor defective Check switch/buffer sensor and connections on cascade module."/>
+	<error code="115" text="ZSK boilersensor defect"/>
+	<error code="128" text="No flame formation in control mode Clean boiler and burner."/>
+	<error code="129" text="Maximum burnout time exceeded"/>
+	<error code="130" text="Combustion chamber temperature too low"/>
+	<error code="133" text="Safety temperature shut-down Check system and filling pressure."/>
+	<error code="135" text="Excess temperature on auger tube"/>
+	<error code="144" text="Safety device has tripped Check safety devices."/>
+	<error code="155" text="Low Water Safety switched on Check system pressure."/>
+	<error code="156" text="No neg. pressure in combustion chamber  or sensor defective."/>
+	<error code="171" text="Maximum heating time exceeded Clean burner pot."/>
+	<error code="186" text="No communication with MES Module"/>
+	<error code="187" text="No communication with firing automate Check linkage of firing automate and connections. "/>
+	<error code="188" text="Internal error occurred"/>
+	<error code="189" text="Unable to communicate with additional print Check link to additional print, firing device and con."/>
+	<error code="191" text="GAS boiler PCB fault"/>
+	<error code="194" text="No communication with a boiler"/>
+	<error code="195" text="Comb. chamber door opened in operation"/>
+	<error code="206" text="Monitoring of auger conveyor def."/>
+	<error code="208" text="Heating surf. cleaning defective. Check heating surf. cleaning."/>
+	<error code="226" text="No flame during ignition Ignition failurel"/>
+	<error code="238" text="Feed is not sucking any pellets Check pellet supply in storage room and feed hose."/>
+	<error code="239" text="Probe switching defective Check changeover unit."/>
+	<error code="240" text="Shut-off unit pellet feed open Shut-off unit of pellet feed does not close"/>
+	<error code="241" text="Cover pellet supply container open Close cover pellet supply container"/>
+	<error code="266" text="Loading door switch not operating Do not reload."/>
+	<error code="268" text="Cladding door switch defective"/>
+	<error code="281" text="Flue gas temperature sensor defective Check flue gas temperature sensor and connections."/>
+	<error code="296" text="Flow sensor faulty"/>
+	<error code="297" text="Setpoint not reached"/>
+	<error code="299" text="RT-sensor faulty"/>
+	<error code="300" text="DHW sensor faulty"/>
+	<error code="320" text="Emergency operation! Stage 1 cleaning required"/>
+	<error code="321" text="Emergency operation! Stage 2 cleaning required"/>
+	<error code="322" text="Empty ash container, clean burner  and combustion chamber."/>
+	<error code="324" text="Correct servicing is a prerequisite for warranty."/>
+	<error code="330" text="Combustion chamber temperature too low Perform stage 2 cleaning according to operation manual. "/>
+	<error code="345" text="Combustion chamber door open Burner locked."/>
+	<error code="356" text="Comb. chamber pr. not stable"/>
+	<error code="372" text="Starting report To low combustionchamber temperature  at start."/>
+	<error code="373" text="To low heating demand at start."/>
+	<error code="374" text="Shut down start "/>
+	<error code="375" text="Heating up at excessively high boiler temperature"/>
+	<error code="381" text="Integral fuel hopper empty Time program blocking feed.  Change enable time in menu/operator level."/>
+	<error code="382" text="Check flap and switch in feed unit."/>
+	<error code="387" text="Communication failure with Firing Automate Press Reset Button for minimum 5 sec."/>
+	<error code="390" text="Emergency operation! Clean boiler/burner."/>
+	<error code="393" text="Error message E1"/>
+	<error code="395" text="Combustion chamber or ash door open"/>
+	<error code="396" text="Close cladding door."/>
+	<error code="438" text="One zone in storage room is empty Check pellet supply in storage room"/>
+	<error code="496" text="System-frostprotection active"/>
+	<error code="499" text="Room-frostprotection active"/>
+	<error code="500" text="DHW frostprotection active"/>
+	<error code="504" text="TP/TW frost protection aktiv"/>
+	<error code="520" text="Stage 1 cleaning Empty the ash pan, remove ash from heat exchanger base. Clean thermocontrol sensor"/>
+	<error code="521" text="Stage 2 cleaning Perform stage 2 cleaning according to operation manual. "/>
+	<error code="522" text="Stage 1 cleaning Empty ash container, clean burner and combustion chamber."/>
+	<error code="523" text="Stage 2 cleaning Perform stage 2 cleaning according to operation manual. "/>
+	<error code="524" text="Full service Correct servicing is a prerequisite for warranty."/>
+	<error code="581" text="Integral fuel hopper is almost empty. Re-fill pellets."/>
+	<error code="582" text="Integral fuel hopper empty. Re-fill pellets. Burner is locked."/>
+	<error code="590" text="Clean boiler and burner. Confirm cleaning."/>
+	<error code="591" text="Caution when opening the door Door min. 15 sec. on latch"/>
+	<error code="595" text="Door open"/>
+</ErrorTexte>

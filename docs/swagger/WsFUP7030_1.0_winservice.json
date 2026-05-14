@@ -1,0 +1,135 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsFUP7030/api/1.0",
+    "resourcePath":"/winservice",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/winservice/{subnetId}/{nodeId}/{code}/{subcode}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve winservice",
+                    "notes":"Retrieve winservice",
+                    "type":"void",
+                    "nickname":"getWinservice",
+                    "parameters":[
+                        {
+                            "name": "subnet",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 60,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "code",
+                            "description": "`code` in HEX formatlike 0x25.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "string",
+                            "defaultValue": "0x25",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "subcode",
+                            "description": "`subcode` in HEX format like 0x01",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "string",
+                            "defaultValue": "0x01",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/winservice",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"update winservice object",
+                    "notes":"update winservice object",
+                    "type":"void",
+                    "nickname":"putWinservice",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "WinServiceModel object to be updated.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "WriteWinServiceModel",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "INFO":{
+            "id":"INFO",
+            "properties":{
+                "name":{
+                    "type":"string"
+                },
+                "version":{
+                    "type":"string"
+                }
+            }
+        },
+        "WriteWinServiceModel": {
+            "id": "WriteWinServiceModel",
+            "properties": {
+                "subnet": {
+                    "type":"integer",
+                    "defaultValue": 1
+                },
+                "nodeId": {
+                    "type":"integer",
+                    "defaultValue": 60
+                },
+                "code": {
+                    "type": "string",
+                    "defaultValue": "0x25"
+                },
+                "subcode": {
+                    "type": "string",
+                    "defaultValue": "0x03"
+                },
+                "data": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type":"integer"
+                     }
+                }
+            }
+        }
+    }
+}

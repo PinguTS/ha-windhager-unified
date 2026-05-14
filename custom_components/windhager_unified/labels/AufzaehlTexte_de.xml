@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by GenerateEnumTextsInXML.php -->
+<AufzaehlTexte lang="de">
+	<gn id="2">
+		<mn id="1">
+			<enum id="0">Brenner gesperrt</enum>
+			<enum id="1">Selbsttest</enum>
+			<enum id="2">WE ausschalten</enum>
+			<enum id="3">Standby</enum>
+			<enum id="4">Brenner AUS</enum>
+			<enum id="5">Vorspülen</enum>
+			<enum id="6">Zündphase</enum>
+			<enum id="7">Flammenstabilisierung</enum>
+			<enum id="8">Modulationsbetrieb</enum>
+			<enum id="9">Kessel gesperrt</enum>
+			<enum id="10">Standby Sperrzeit</enum>
+			<enum id="11">Gebläse AUS</enum>
+			<enum id="12">Verkleidungstür offen</enum>
+			<enum id="13">Zündung bereit</enum>
+			<enum id="14">Abbruch Zündphase</enum>
+			<enum id="15">Anheizvorgang</enum>
+			<enum id="16">Schichtladung</enum>
+			<enum id="17">Ausbrand</enum>
+		</mn>
+		<mn id="9">
+			<enum id="0">Standby</enum>
+			<enum id="1">Heizbetrieb</enum>
+			<enum id="2">Absenkbetrieb</enum>
+			<enum id="3">WW-Ladung</enum>
+			<enum id="4">ECO / Party</enum>
+			<enum id="5">Ferienprogramm</enum>
+			<enum id="6">Estrich</enum>
+			<enum id="7">Frostschutz</enum>
+			<enum id="8">Standby Heizgrenze</enum>
+			<enum id="9">Handbetrieb</enum>
+			<enum id="10">Testbetrieb</enum>
+			<enum id="11">Kaminkehrerbetrieb</enum>
+			<enum id="12">Brenner Aus</enum>
+			<enum id="13">Brenner Ein</enum>
+			<enum id="14">Automatik-Kessel</enum>
+			<enum id="15">FB-Kessel</enum>
+			<enum id="16">Pufferspeicher</enum>
+		</mn>
+		<mn id="16">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+		<mn id="59">
+			<enum id="0">Ausgeschaltet</enum>
+			<enum id="1">Abschaltvorgang</enum>
+			<enum id="2">Festbrennstoff-/ Pufferbetrieb</enum>
+			<enum id="3">Pelletszuführung in Betrieb</enum>
+			<enum id="4">Pelletszuführung</enum>
+			<enum id="5">Ein</enum>
+			<enum id="6">Pelletszuführung in Betrieb</enum>
+			<enum id="7">Pelletszuführung</enum>
+			<enum id="8">Handbetrieb</enum>
+			<enum id="9">Kaminkehrerfunktion</enum>
+			<enum id="10">Aktorentest</enum>
+			<enum id="11">Installationsvorgang aktiv</enum>
+		</mn>
+		<mn id="73">
+			<enum id="0">Mo</enum>
+			<enum id="1">Di</enum>
+			<enum id="2">Mi</enum>
+			<enum id="3">Do</enum>
+			<enum id="4">Fr</enum>
+			<enum id="5">Sa</enum>
+			<enum id="6">So</enum>
+		</mn>
+	</gn>
+	<gn id="3">
+		<mn id="50">
+			<enum id="0">Standby</enum>
+			<enum id="1">Heizprogramm 1</enum>
+			<enum id="2">Heizprogramm 2</enum>
+			<enum id="3">Heizprogramm 3</enum>
+			<enum id="4">Heizbetrieb</enum>
+			<enum id="5">Absenkbetrieb</enum>
+			<enum id="6">Warmwasserbetrieb</enum>
+		</mn>
+	</gn>
+	<gn id="4">
+		<mn id="12">
+			<enum id="0">senden</enum>
+			<enum id="1">verwenden</enum>
+			<enum id="2">lokale Zeit</enum>
+		</mn>
+		<mn id="13">
+			<enum id="0">senden</enum>
+			<enum id="1">verwenden</enum>
+			<enum id="2">lokale TA</enum>
+		</mn>
+		<mn id="14">
+			<enum id="0">senden</enum>
+			<enum id="1">verwenden</enum>
+			<enum id="2">lokale BW</enum>
+		</mn>
+		<mn id="33">
+			<enum id="0">Schaltkontakt</enum>
+			<enum id="1">Interface ZSP 4601</enum>
+			<enum id="2"> </enum>
+		</mn>
+		<mn id="60">
+			<enum id="0">beenden</enum>
+			<enum id="1">Belegreifheizen</enum>
+			<enum id="2">Funktionsheizen</enum>
+		</mn>
+	</gn>
+	<gn id="5">
+		<mn id="2">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+		<mn id="76">
+			<enum id="0">inaktiv</enum>
+			<enum id="1">Ladepumpe</enum>
+			<enum id="2">Ladeventil</enum>
+		</mn>
+	</gn>
+	<gn id="7">
+		<mn id="12">
+			<enum id="0">AUS</enum>
+			<enum id="1">0..10V</enum>
+			<enum id="2">PWM</enum>
+		</mn>
+		<mn id="76">
+			<enum id="0">inaktiv</enum>
+			<enum id="1">Mischer Radiatoren</enum>
+			<enum id="2">Mischer Fussboden</enum>
+			<enum id="3">Pumpenkreis</enum>
+		</mn>
+	</gn>
+	<gn id="9">
+		<mn id="75">
+			<enum id="0">AUS</enum>
+			<enum id="1">EIN</enum>
+			<enum id="2">Handbetrieb</enum>
+			<enum id="3">Kaminkehrerbetrieb</enum>
+			<enum id="4">Aktorentest</enum>
+			<enum id="5">Inbetriebnahme</enum>
+		</mn>
+	</gn>
+	<gn id="12">
+		<mn id="103">
+			<enum id="0">Automatische Erkennung</enum>
+			<enum id="1">Normal</enum>
+			<enum id="2">Gluterhaltung</enum>
+		</mn>
+		<mn id="105">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+			<enum id="2"> </enum>
+			<enum id="3"> </enum>
+		</mn>
+	</gn>
+	<gn id="14">
+		<mn id="19">
+			<enum id="0">ausgeschaltet</enum>
+			<enum id="1">ohne Zeitsteuerung</enum>
+			<enum id="2">mit Freigabezeit</enum>
+			<enum id="3">mit Startzeit</enum>
+		</mn>
+		<mn id="21">
+			<enum id="0">alle Sonden</enum>
+			<enum id="1">nur Sonde 1</enum>
+			<enum id="2">nur Sonde 2</enum>
+			<enum id="3">nur Sonde 3</enum>
+			<enum id="4">nur Sonde 4</enum>
+			<enum id="5">nur Sonde 5</enum>
+			<enum id="6">nur Sonde 6</enum>
+			<enum id="7">nur Sonde 7</enum>
+			<enum id="8">nur Sonde 8</enum>
+			<enum id="9"></enum>
+			<enum id="10"></enum>
+			<enum id="11"></enum>
+			<enum id="12"></enum>
+			<enum id="13"></enum>
+			<enum id="14"></enum>
+			<enum id="15"></enum>
+			<enum id="16">nur Zone 1</enum>
+			<enum id="17">nur Zone 2</enum>
+		</mn>
+		<mn id="23">
+			<enum id="0">ohne Zuführsystem</enum>
+			<enum id="1">Saugturbine mit 3 Sonden</enum>
+			<enum id="2">Saugturbine mit 2 Sonden</enum>
+			<enum id="3">Saugturbine mit Rührwerk</enum>
+			<enum id="4"></enum>
+			<enum id="5"></enum>
+			<enum id="6"></enum>
+			<enum id="7"></enum>
+			<enum id="8"></enum>
+			<enum id="9"></enum>
+			<enum id="10"></enum>
+			<enum id="11"></enum>
+			<enum id="12"></enum>
+			<enum id="13"></enum>
+			<enum id="14"></enum>
+			<enum id="15"></enum>
+			<enum id="16"></enum>
+			<enum id="17">Saugturbine mit Rührwerk</enum>
+			<enum id="18">Saugturbine mit 2 Sonden</enum>
+			<enum id="19">Saugturbine mit 3 Sonden</enum>
+			<enum id="20">Saugturbine mit 4 Sonden</enum>
+			<enum id="21"></enum>
+			<enum id="22">Saugturbine mit 6 Sonden</enum>
+			<enum id="23"></enum>
+			<enum id="24">Saugturbine mit 8 Sonden</enum>
+		</mn>
+		<mn id="74">
+			<enum id="0"> </enum>
+			<enum id="1">Reinigung</enum>
+			<enum id="2">Hauptreinigung</enum>
+			<enum id="3">Wartung</enum>
+		</mn>
+		<mn id="76">
+			<enum id="0">Stufe 0</enum>
+			<enum id="1">Stufe 1</enum>
+			<enum id="2">Stufe 2</enum>
+			<enum id="3">Stufe 3</enum>
+		</mn>
+		<mn id="77">
+			<enum id="0">Rauchgasthermostat</enum>
+			<enum id="1">Zuluftklappe</enum>
+			<enum id="2">Ext. Verbrennungsluft</enum>
+		</mn>
+	</gn>
+	<gn id="20">
+		<mn id="0">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+		<mn id="1">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+		<mn id="2">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+		<mn id="3">
+			<enum id="0">Auto mit Umschaltung</enum>
+			<enum id="1">Auto mit Laufzeitverläng.</enum>
+			<enum id="2">Auto mit Parallelbetrieb</enum>
+			<enum id="3">FB-/Pufferbetrieb</enum>
+		</mn>
+		<mn id="4">
+			<enum id="0">Brenner und Transferpumpe</enum>
+			<enum id="1">Brenner und Kesselpumpe</enum>
+			<enum id="2">Pufferladung mit TPE</enum>
+			<enum id="3">Pufferladung mit TPE/TPA</enum>
+			<enum id="4">Pufferladung bedarfsopt.</enum>
+		</mn>
+		<mn id="5">
+			<enum id="0">Pufferfühler Mitte</enum>
+			<enum id="1">Rauchgasfühler</enum>
+			<enum id="2">Rauchgasthermostat</enum>
+		</mn>
+		<mn id="6">
+			<enum id="0">Motor</enum>
+			<enum id="1">Th. Antrieb</enum>
+		</mn>
+		<mn id="8">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+		<mn id="15">
+			<enum id="0">Standby</enum>
+			<enum id="1">Automatikbetrieb</enum>
+			<enum id="2">Festbrennstoffbetrieb</enum>
+			<enum id="3">Pufferbetrieb</enum>
+			<enum id="4">Auto mit Zeitprogramm</enum>
+			<enum id="5">Warmwasserbetrieb</enum>
+		</mn>
+		<mn id="18">
+			<enum id="0">Transferpumpe</enum>
+			<enum id="1">Pufferladepumpe</enum>
+			<enum id="2">Kesselpumpe</enum>
+			<enum id="3">Heizkreispumpe</enum>
+		</mn>
+		<mn id="19">
+			<enum id="0">Pufferladung mit TPE</enum>
+			<enum id="1">Pufferladung mit TPE/TPA</enum>
+			<enum id="2">Hydr. Weiche mit TW</enum>
+			<enum id="3">Hydr. Weiche mit TW/TPA</enum>
+		</mn>
+		<mn id="20">
+			<enum id="0">Automatik</enum>
+			<enum id="1">gering</enum>
+			<enum id="2">mittel</enum>
+			<enum id="3">hoch</enum>
+		</mn>
+		<mn id="21">
+			<enum id="0">Automatik</enum>
+			<enum id="1">gering</enum>
+			<enum id="2">mittel</enum>
+			<enum id="3">hoch</enum>
+		</mn>
+		<mn id="26">
+			<enum id="0">AUS</enum>
+			<enum id="1">Notkessel</enum>
+			<enum id="2">Spitzenlast</enum>
+		</mn>
+		<mn id="27">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+		<mn id="64">
+			<enum id="0">AUS</enum>
+			<enum id="1">Standby</enum>
+			<enum id="2">Heizbetrieb</enum>
+			<enum id="3">Kaminkehrerbetrieb</enum>
+			<enum id="4">Ausbrand</enum>
+		</mn>
+		<mn id="118">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+	</gn>
+	<gn id="29">
+		<mn id="3">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+		<mn id="21">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+		<mn id="30">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+		<mn id="31">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+		<mn id="32">
+			<enum id="0">Nein</enum>
+			<enum id="1">Ja</enum>
+		</mn>
+	</gn>
+	<gn id="64">
+		<mn id="3">
+			<enum id="0">Deutsch</enum>
+			<enum id="1">Französisch</enum>
+			<enum id="2">Italienisch</enum>
+			<enum id="3">Englisch</enum>
+			<enum id="4">Holländisch</enum>
+			<enum id="5">Tschechisch</enum>
+			<enum id="6">Spanisch</enum>
+			<enum id="7">Portugiesisch</enum>
+			<enum id="8">Slowenisch</enum>
+			<enum id="9">Polnisch</enum>
+			<enum id="10">Norwegisch</enum>
+			<enum id="11">Dänisch</enum>
+			<enum id="12">Schwedisch</enum>
+			<enum id="13">Kroatisch</enum>
+			<enum id="14">Slowakisch</enum>
+			<enum id="15">Ungarisch</enum>
+			<enum id="16">Rumänisch</enum>
+		</mn>
+		<mn id="13">
+			<enum id="0">°C</enum>
+			<enum id="1">°F</enum>
+		</mn>
+		<mn id="14">
+			<enum id="0">24h</enum>
+			<enum id="1">12h</enum>
+		</mn>
+		<mn id="15">
+			<enum id="0">TT.MM.JJJJ</enum>
+			<enum id="1">MM/TT/JJJJ</enum>
+		</mn>
+	</gn>
+</AufzaehlTexte>

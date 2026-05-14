@@ -1,0 +1,38 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion": "1.2",
+    "basePath": "/api-docs/WsAdmin/1.0",
+    "apis": [
+        {
+            "path": "/info",
+            "description": "Operations on system info"
+        },
+        {
+            "path": "/settings",
+            "description": "Settings Services"
+        },
+        {
+            "path": "/led",
+            "description": "Operations on BSP LEDs"
+        },
+        {
+            "path": "/update",
+            "description": "Operations about update"
+        },
+        {
+            "path": "/user",
+            "description": "Operations about user"
+        },
+        {
+            "path": "/systemtime",
+            "description": "Operations on systemtime"
+        }
+    ],
+    "info": {
+        "title": "RESTful WsAdmin API",
+        "description": "Welcome to the RESTfull WsAdmin API. This API lets you interact with the RC7030 Admin services with anything that can send an HTTP request.",
+        "contact": "g.lombriser@lom.ch",
+        "license": "Apache 2.0",
+        "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+}

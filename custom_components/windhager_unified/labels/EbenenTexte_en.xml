@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by GenerateEbenenTextsInXML.php -->
+<EbenenTexte lang="en">
+	<fcttyp id="-1">
+		<ebene id="0">NV's</ebene>
+	</fcttyp>
+	<fcttyp id="0">
+	</fcttyp>
+	<fcttyp id="4">
+		<ebene id="97">select mode</ebene>
+		<ebene id="98">Time / Date</ebene>
+		<ebene id="99">Module functions</ebene>
+		<ebene id="100"></ebene>
+		<ebene id="101"></ebene>
+		<ebene id="102">DHW load</ebene>
+		<ebene id="103">LON system data</ebene>
+		<ebene id="104">tbd</ebene>
+		<ebene id="105">tbd</ebene>
+		<ebene id="106"></ebene>
+		<ebene id="107"></ebene>
+		<ebene id="108"></ebene>
+		<ebene id="109"></ebene>
+		<ebene id="111">Module information</ebene>
+	</fcttyp>
+	<fcttyp id="9">
+		<ebene id="155">Titelbild</ebene>
+		<ebene id="156">Information level</ebene>
+		<ebene id="157">Boiler temperature</ebene>
+		<ebene id="158">Service level</ebene>
+	</fcttyp>
+	<fcttyp id="10">
+		<ebene id="155">Titelbild</ebene>
+		<ebene id="156">Information level</ebene>
+		<ebene id="157">Boiler temperature</ebene>
+		<ebene id="158">Service level</ebene>
+	</fcttyp>
+	<fcttyp id="14">
+		<ebene id="96">select mode</ebene>
+		<ebene id="97">Optimisation</ebene>
+		<ebene id="98">DHW clearance</ebene>
+		<ebene id="99">Eco / Party</ebene>
+		<ebene id="100">Holiday program</ebene>
+		<ebene id="101">Room temp. set points</ebene>
+		<ebene id="102">Time / Date</ebene>
+		<ebene id="103">Module functions</ebene>
+		<ebene id="104">Base temperatures</ebene>
+		<ebene id="105">Influence of room temp.</ebene>
+		<ebene id="106">Heating limits</ebene>
+		<ebene id="107">DHW load</ebene>
+		<ebene id="108">Increase boiler temp. at</ebene>
+		<ebene id="109">Start-up optimization</ebene>
+		<ebene id="110">LON system data</ebene>
+		<ebene id="111">Screed drying functions</ebene>
+		<ebene id="112">Module information</ebene>
+		<ebene id="113">Room temperature</ebene>
+		<ebene id="114">DHW temperatures</ebene>
+		<ebene id="115">Outside temperature</ebene>
+		<ebene id="116">Flow temperature</ebene>
+		<ebene id="117">Boiler temperature</ebene>
+		<ebene id="118">Buffer temperature</ebene>
+		<ebene id="119">Frost protection threshold</ebene>
+		<ebene id="120">Heating circuit</ebene>
+		<ebene id="121">DHW load</ebene>
+	</fcttyp>
+	<fcttyp id="15">
+		<ebene id="96">select mode</ebene>
+		<ebene id="97">System configuration</ebene>
+		<ebene id="98">Module functions</ebene>
+		<ebene id="99">Buffer temperature</ebene>
+		<ebene id="100">Boiler temperature</ebene>
+		<ebene id="101">Shift valve</ebene>
+		<ebene id="102">Strategic buffer loading</ebene>
+		<ebene id="103">Sensor contact Y2</ebene>
+		<ebene id="104">Buffer temperature</ebene>
+		<ebene id="105">Boiler temperature</ebene>
+		<ebene id="106">Hysteresis TBTmin</ebene>
+		<ebene id="107">Shift delay</ebene>
+		<ebene id="108">Module information</ebene>
+	</fcttyp>
+	<fcttyp id="16">
+		<ebene id="96">select mode</ebene>
+		<ebene id="97">Module functions</ebene>
+		<ebene id="98">Boiler- Buffer temperature</ebene>
+		<ebene id="99">Burner control</ebene>
+		<ebene id="100">Buffer loading pump</ebene>
+		<ebene id="101">External heating demand</ebene>
+		<ebene id="102">Module information</ebene>
+		<ebene id="103">Boiler temperature</ebene>
+		<ebene id="104">Shift to buffer operation</ebene>
+		<ebene id="105">Heating generator pump</ebene>
+		<ebene id="106">DHW load</ebene>
+	</fcttyp>
+	<fcttyp id="20">
+		<ebene id="97">Information</ebene>
+		<ebene id="98">Pump control</ebene>
+		<ebene id="99">External heating demand</ebene>
+		<ebene id="100">Collective alarm</ebene>
+		<ebene id="101">Module functions</ebene>
+		<ebene id="102">Actuator test</ebene>
+	</fcttyp>
+</EbenenTexte>

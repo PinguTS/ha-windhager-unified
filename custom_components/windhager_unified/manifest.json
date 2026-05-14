@@ -1,0 +1,12 @@
+{
+  "domain": "windhager_unified",
+  "name": "Windhager Unified",
+  "version": "0.1.0",
+  "documentation": "https://github.com/pinguts/ha-windhager-unified",
+  "issue_tracker": "https://github.com/pinguts/ha-windhager-unified/issues",
+  "codeowners": ["@pinguts"],
+  "requirements": [],
+  "config_flow": true,
+  "iot_class": "local_polling",
+  "integration_type": "hub"
+}

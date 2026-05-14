@@ -1,0 +1,128 @@
+{
+  "title": "Windhager Unified",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Windhager Unified — connection",
+        "description": "Enter the local address of your Windhager web server and your credentials.\n\nNo `http://` prefix needed — HTTP (port 80) is tried first, HTTPS as fallback.\n\nNeed help finding your password? See the [setup guide]({docs_url}).",
+        "data": {
+          "host": "Host",
+          "username": "Username",
+          "password": "Password",
+          "verify_ssl": "Verify SSL Certificate",
+          "scan_interval": "Scan Interval (seconds)"
+        },
+        "data_description": {
+          "host": "IP address or hostname, e.g. 192.168.1.61 or windhager.local. A scheme (http:// / https://) is optional.",
+          "username": "Use 'Service' for full read/write access. 'USER' for read-only. 'OEM' for manufacturer-level access.",
+          "password": "Factory default is '123'. If your system is registered on Windhager Connect the password is set automatically — log in at connect.windhager.com → settings → 'Change web server password' → show current password."
+        }
+      },
+      "experience": {
+        "title": "Experience level",
+        "description": "Choose how much detail you want. Essential gives a clean dashboard; Service exposes all data and write actions.",
+        "data": {
+          "experience_level": "Experience level"
+        },
+        "data_description": {
+          "experience_level": "essential = temperatures + operating state only; comfort = + setpoints and DHW; advanced = + error log and VPN; expert = all discovered datapoints; service = all + write actions (requires Service credentials)"
+        }
+      },
+      "discover": {
+        "title": "Discovering your system…",
+        "description": "Connecting to the device and reading the LON network topology. This may take a few seconds."
+      },
+      "groups": {
+        "title": "Functional groups",
+        "description": "Select which groups to include. Detected boiler: {boiler}. Tier: {tier}.",
+        "data": {
+          "groups": "Groups"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Unable to connect to Windhager device. Check host and network.",
+      "invalid_auth": "Invalid username or password.",
+      "unknown": "An unexpected error occurred."
+    },
+    "abort": {
+      "single_instance_allowed": "Only one instance of this device is allowed.",
+      "already_configured": "This device is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Windhager Options",
+        "description": "Changing the experience level or groups will reload the integration.",
+        "data": {
+          "experience_level": "Experience level",
+          "groups": "Active groups",
+          "scan_interval": "Scan Interval (seconds)",
+          "verify_ssl": "Verify SSL Certificate",
+          "refresh_labels_from_device": "Refresh label texts from device (optional)"
+        },
+        "data_description": {
+          "refresh_labels_from_device": "Fetches the latest label XML files from the device's /res/xml/ endpoint. Disabled by default. Falls back to bundled labels on any error."
+        }
+      }
+    }
+  },
+  "selector": {
+    "experience_level": {
+      "options": {
+        "essential": "Essential — temperatures and operating state only",
+        "comfort": "Comfort — + setpoints, DHW, buffer detail",
+        "advanced": "Advanced — + error log, heartbeat, VPN, system time",
+        "expert": "Expert — all discovered LON datapoints",
+        "service": "Service — all data + write actions (requires Service credentials)"
+      }
+    },
+    "groups": {
+      "options": {
+        "boiler": "Boiler / Heat generator",
+        "heating_circuit": "Heating circuit",
+        "dhw": "Domestic hot water",
+        "buffer": "Buffer / Shift valve",
+        "boiler_loading_pump": "Boiler loading pump",
+        "cascade": "Cascade manager",
+        "solar": "Solar",
+        "io5500": "IO5500 expansion module",
+        "central": "Central controller"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "logwin_boiler_temp": {
+        "name": "Boiler Temperature"
+      },
+      "buffer_top_temp": {
+        "name": "Buffer Tank Top Temperature"
+      },
+      "heartbeat_status": {
+        "name": "Heartbeat Status"
+      },
+      "fehlerlog_list": {
+        "name": "Error Log"
+      },
+      "system_lookup": {
+        "name": "LON Status"
+      }
+    },
+    "button": {
+      "heartbeat_start": {
+        "name": "Start Heartbeat"
+      },
+      "heartbeat_stop": {
+        "name": "Stop Heartbeat"
+      },
+      "fehlerlog_reset": {
+        "name": "Reset Error Log"
+      },
+      "export_system_info": {
+        "name": "Export System Information"
+      }
+    }
+  }
+}

@@ -1,0 +1,296 @@
+{
+    "apiVersion": "1.0.3",
+    "swaggerVersion": "1.2",
+    "resourcePath": "/datapoint",
+    "basePath": "/api/1.0",
+    "produces": [
+        "application/json"
+    ],
+    "apis":[
+        {
+            "path": "/datapoint",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary": "Update Datapoint",
+                    "notes": "Update Datapoint.",
+                    "type": "void",
+                    "nickname": "putDatapoint",
+                    "parameters":[
+                        {
+                            "name": "datapoint",
+                            "description": "The `OID` of the Object to perform action with.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "Datapoint",
+                            "allowMultiple": false
+                        }
+                    ]
+                }
+            ],
+            "responseMessages":[
+                {
+                    "code":200,
+                    "message":"SUCCESS"
+                }
+            ]
+        },
+        {
+            "path": "/datapoint/{subnetId}/{nodeId}/{fctId}/{groupId}/{memberId}/{varInst}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "Retrieve Datapoint",
+                    "notes": "A single Datapoint object with all its details (identifikationsgesz. DP)",
+                    "type": "void",
+                    "nickname": "getDatpoint",
+                    "parameters": [
+                        {
+                            "name": "subnetId",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "fctId",
+                            "description": "Numeric `id` of the `Function` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "groupId",
+                            "description": "Numeric `id` of the `Group` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer"
+                        },
+                        {
+                            "name": "memberId",
+                            "description": "Numeric `id` of the `memberId` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer"
+                        },
+                        {
+                            "name": "varInst",
+                            "description": "Numeric `id` of the `varInst` to perform action with. (default 0)",
+                            "paramType": "path",
+                            "required": false,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "cacheCtl",
+                            "description": "cache control 0: no cache do bypass the cache, 1: with cache (default)",
+                            "paramType": "query",
+                            "required": false,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        }
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary": "Update Datapoint",
+                    "notes": "Update Datapoint.",
+                    "type": "void",
+                    "nickname": "putDatapointPath",
+                    "parameters":[
+                        {
+                            "name": "subnetId",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "fctId",
+                            "description": "Numeric `id` of the `Function` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "groupId",
+                            "description": "Numeric `id` of the `Group` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer"
+                        },
+                        {
+                            "name": "memberId",
+                            "description": "Numeric `id` of the `memberId` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer"
+                        },
+                        {
+                            "name": "varInst",
+                            "description": "Numeric `id` of the `varInst` to perform action with. (default 0)",
+                            "paramType": "path",
+                            "required": false,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "value",
+                            "in": "query",
+                            "description": "new value to be set.",
+                            "required": true,
+                            "type": "string"
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":200,
+                            "message":"SUCCESS"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "/datapoint/{subnetId}/{nodeId}/{fctNV}/0/{nvIndex}/0",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "Retrieve NV Datapoint",
+                    "notes": "Retrieve NV Datapoint at nvIndex",
+                    "type": "void",
+                    "nickname": "getDatpointAtNvIndex",
+                    "parameters": [
+                        {
+                            "name": "subnetId",
+                            "description": "Numeric `id` of the subnet to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "fctNV",
+                            "description": "Numeric `id` of the `NV-Function` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 32,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nvIndex",
+                            "description": "Numeric `nvIndex` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer"
+                        }
+                    ]
+                }
+            ]
+        }
+
+
+    ],
+
+    "models": {
+        "Status": {
+            "id": "Status",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Error": {
+            "id": "Error",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "fileds": {
+                    "type": "string"
+                }
+            }
+        },
+        "Datapoint": {
+            "id": "Datapoint",
+            "required":[
+                "OID", "typeId","unitId","value"
+            ],
+            "properties": {
+                "OID": {
+                    "type": "string",
+                    "description": "OID of the datapoint"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "step": {
+                    "type": "string"
+                },
+                "typeId": {
+                    "type": "integer"
+                },
+                "unitId": {
+                    "type": "integer"
+                },
+                "writeProt": {
+                    "type": "boolean"
+                },
+                "timestamp": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

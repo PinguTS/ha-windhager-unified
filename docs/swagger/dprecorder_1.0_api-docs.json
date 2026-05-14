@@ -1,0 +1,26 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion": "1.2",
+    "basePath": "/api-docs/dprecorder/1.0",
+    "apis": [
+        {
+            "path": "/info",
+            "description": "Operations on system info"
+        },
+        {
+            "path": "/settings",
+            "description": "Settings Services"
+        },
+        {
+            "path": "/recorder",
+            "description": "Record Services"
+        }
+    ],
+    "info": {
+        "title": "Datapoint recorder API",
+        "description": "Welcome to the DP recorder API. This API lets you interact with the Datapoint recorder API services with anything that can send an HTTP request.",
+        "contact": "g.lombriser@lom.ch",
+        "license": "Apache 2.0",
+        "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+}

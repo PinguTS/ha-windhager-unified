@@ -1,0 +1,68 @@
+---
+description: Strict API source-of-truth and anti-hallucination rules
+alwaysApply: true
+---
+
+# API source of truth
+
+The only source of truth for the REST API is the Swagger 1.2 documentation in
+`docs/swagger/`. Each file follows the naming convention
+`{Service}_{version}_{resource}.json` and contains `basePath` + `apis[].path`.
+The full URL for any endpoint is `basePath + apis[].path` — no extra resource
+segment is inserted.
+
+Do not invent:
+- endpoints
+- HTTP methods
+- request fields
+- response fields
+- authentication methods
+- status codes
+- error formats
+- LonWorks/LON mappings
+- units, ranges, enum values, or write capabilities
+
+# Required behavior
+
+Before writing or modifying API-related code:
+1. Inspect the relevant Swagger/OpenAPI file.
+2. Confirm the exact endpoint, method, schema, status codes, and authentication.
+3. State what is documented.
+4. State what is unknown or ambiguous.
+5. Only implement documented behavior.
+
+# Gaps
+
+If information is missing:
+- Say that it is missing.
+- Do not fill the gap silently.
+- You may suggest an assumption, but it must be labeled as an assumption.
+- Explain why the assumption is reasonable.
+- Explain the risk.
+- Ask how to proceed when the assumption affects behavior.
+
+# LonWorks/LON
+
+Do not infer LonWorks semantics from names alone.
+
+Only map LON values to Home Assistant entities when the documentation clearly defines:
+- meaning
+- unit
+- direction
+- read or write capability
+- valid range or enum values
+- error behavior
+
+# Tests
+
+Every documented API behavior used in code must have tests.
+
+Every fallback, error path, timeout, malformed response, and unsupported value path must have tests.
+
+# Completion rule
+
+API-related code is not complete until:
+- Swagger/OpenAPI evidence was checked
+- undocumented assumptions were avoided or explicitly approved
+- tests were added or updated
+- Docker based checks were run

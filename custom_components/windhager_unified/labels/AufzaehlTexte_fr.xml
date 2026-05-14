@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by GenerateEnumTextsInXML.php -->
+<AufzaehlTexte lang="fr">
+	<gn id="2">
+		<mn id="1">
+			<enum id="0">Brûleur bloqué</enum>
+			<enum id="1">Autotest</enum>
+			<enum id="2">Eteindre gén. chaleur</enum>
+			<enum id="3">Veille</enum>
+			<enum id="4">Brûleur ARRET</enum>
+			<enum id="5">Prérinçage</enum>
+			<enum id="6">Phase d'allumage</enum>
+			<enum id="7">Stabilisation flamme</enum>
+			<enum id="8">Mode modulant</enum>
+			<enum id="9">Chaudière bloqué</enum>
+			<enum id="10">Veille temps différé</enum>
+			<enum id="11">Ventilateur Arrêté</enum>
+			<enum id="12">Porte de revêtement ouverte</enum>
+			<enum id="13">Allumage prêt</enum>
+			<enum id="14">Annuler phase d'allumage</enum>
+			<enum id="15">Préchauffage en cours</enum>
+			<enum id="16">Charge en couche</enum>
+			<enum id="17">Extinction</enum>
+		</mn>
+		<mn id="9">
+			<enum id="0">Veille</enum>
+			<enum id="1">Mode chauffage</enum>
+			<enum id="2">Mode réduit</enum>
+			<enum id="3">Charge E.C.S</enum>
+			<enum id="4">ECO / Fête</enum>
+			<enum id="5">Programme congés</enum>
+			<enum id="6">Séchage chape</enum>
+			<enum id="7">Antigel</enum>
+			<enum id="8">T° mise en veille</enum>
+			<enum id="9">Mode manuel</enum>
+			<enum id="10">Mode test</enum>
+			<enum id="11">Mode ramoneur</enum>
+			<enum id="12">Brûleur Arrêt</enum>
+			<enum id="13">Brûleur Marche</enum>
+			<enum id="14">Chaudière automatique</enum>
+			<enum id="15">CD-Chaudière</enum>
+			<enum id="16">Tampon réserve</enum>
+		</mn>
+		<mn id="16">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+		<mn id="59">
+			<enum id="0">Désactivée</enum>
+			<enum id="1">Désactivation</enum>
+			<enum id="2">Mode Combustible solide/tampon</enum>
+			<enum id="3">Alimentation en pellets active</enum>
+			<enum id="4">Alimentation en pellets</enum>
+			<enum id="5">On</enum>
+			<enum id="6">Alimentation en pellets active</enum>
+			<enum id="7">Alimentation en pellets</enum>
+			<enum id="8">Mode manuel</enum>
+			<enum id="9">Fonction de ramonage</enum>
+			<enum id="10">Test d'actionneurs</enum>
+			<enum id="11">Installation active</enum>
+		</mn>
+		<mn id="73">
+			<enum id="0">Lu</enum>
+			<enum id="1">Ma</enum>
+			<enum id="2">Me</enum>
+			<enum id="3">Je</enum>
+			<enum id="4">Ve</enum>
+			<enum id="5">Sa</enum>
+			<enum id="6">Di</enum>
+		</mn>
+	</gn>
+	<gn id="3">
+		<mn id="50">
+			<enum id="0">Veille</enum>
+			<enum id="1">Programme chauffage 1</enum>
+			<enum id="2">Programme chauffage 2</enum>
+			<enum id="3">Programme chauffage 3</enum>
+			<enum id="4">Mode chauffage</enum>
+			<enum id="5">Mode réduit</enum>
+			<enum id="6">Mode E.C.S</enum>
+		</mn>
+	</gn>
+	<gn id="4">
+		<mn id="12">
+			<enum id="0">emettre</enum>
+			<enum id="1">utiliser</enum>
+			<enum id="2">Heure locale</enum>
+		</mn>
+		<mn id="13">
+			<enum id="0">emettre</enum>
+			<enum id="1">utiliser</enum>
+			<enum id="2">T. ext. locale</enum>
+		</mn>
+		<mn id="14">
+			<enum id="0">emettre</enum>
+			<enum id="1">utiliser</enum>
+			<enum id="2">consigne locale</enum>
+		</mn>
+		<mn id="33">
+			<enum id="0">Contact commutation</enum>
+			<enum id="1">Interface ZSP 4601</enum>
+			<enum id="2"></enum>
+		</mn>
+		<mn id="60">
+			<enum id="0">terminer</enum>
+			<enum id="1">Séchage chape prêt à poser</enum>
+			<enum id="2">Fonction de chauffage</enum>
+		</mn>
+	</gn>
+	<gn id="5">
+		<mn id="2">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+		<mn id="76">
+			<enum id="0">inactif</enum>
+			<enum id="1">Pompe de charge</enum>
+			<enum id="2">Vanne de charge</enum>
+		</mn>
+	</gn>
+	<gn id="7">
+		<mn id="12">
+			<enum id="0">Arrêt</enum>
+			<enum id="1">0 - 10V</enum>
+			<enum id="2">MLI</enum>
+		</mn>
+		<mn id="76">
+			<enum id="0">inactif</enum>
+			<enum id="1">Mélang.radiateurs</enum>
+			<enum id="2">Mélang.chauf. sol</enum>
+			<enum id="3">Circuit pompes</enum>
+		</mn>
+	</gn>
+	<gn id="9">
+		<mn id="75">
+			<enum id="0">Arrêt</enum>
+			<enum id="1">Marche</enum>
+			<enum id="2">Mode manuel</enum>
+			<enum id="3">Mode ramoneur</enum>
+			<enum id="4">Test d'actionneurs</enum>
+			<enum id="5">Mise en service</enum>
+		</mn>
+	</gn>
+	<gn id="12">
+		<mn id="103">
+			<enum id="0">Détection autom.</enum>
+			<enum id="1">Normal</enum>
+			<enum id="2">Conserv. Incandescence</enum>
+		</mn>
+		<mn id="105">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+			<enum id="2"> </enum>
+			<enum id="3"> </enum>
+		</mn>
+	</gn>
+	<gn id="14">
+		<mn id="19">
+			<enum id="0">désactivée</enum>
+			<enum id="1">sans commande tempor.</enum>
+			<enum id="2">avec temps libération</enum>
+			<enum id="3">avec temps démarrage</enum>
+		</mn>
+		<mn id="21">
+			<enum id="0">toutes les sondes</enum>
+			<enum id="1">seulement sonde 1</enum>
+			<enum id="2">seulement sonde 2</enum>
+			<enum id="3">seulement sonde 3</enum>
+			<enum id="4">seulement sonde 4</enum>
+			<enum id="5">seulement sonde 5</enum>
+			<enum id="6">seulement sonde 6</enum>
+			<enum id="7">seulement sonde 7</enum>
+			<enum id="8">seulement sonde 8</enum>
+			<enum id="9"></enum>
+			<enum id="10"></enum>
+			<enum id="11"></enum>
+			<enum id="12"></enum>
+			<enum id="13"></enum>
+			<enum id="14"></enum>
+			<enum id="15"></enum>
+			<enum id="16">seulement zone 1</enum>
+			<enum id="17">seulement zone 2</enum>
+		</mn>
+		<mn id="23">
+			<enum id="0">sans syst. aliment.</enum>
+			<enum id="1">Turbine asp. avec 3 sondes</enum>
+			<enum id="2">Turbine asp. avec 2 sondes</enum>
+			<enum id="3">Turbine asp. avec agitat.</enum>
+			<enum id="4"></enum>
+			<enum id="5"></enum>
+			<enum id="6"></enum>
+			<enum id="7"></enum>
+			<enum id="8"></enum>
+			<enum id="9"></enum>
+			<enum id="10"></enum>
+			<enum id="11"></enum>
+			<enum id="12"></enum>
+			<enum id="13"></enum>
+			<enum id="14"></enum>
+			<enum id="15"></enum>
+			<enum id="16"></enum>
+			<enum id="17">Turbine asp. avec agitat.</enum>
+			<enum id="18">Turbine asp. avec 2 sondes</enum>
+			<enum id="19">Turbine asp. avec 3 sondes</enum>
+			<enum id="20">Turbine asp. avec 4 sondes</enum>
+			<enum id="21"></enum>
+			<enum id="22">Turbine asp. avec 6 sondes</enum>
+			<enum id="23"></enum>
+			<enum id="24">Turbine asp. avec 8 sondes</enum>
+		</mn>
+		<mn id="74">
+			<enum id="0"> </enum>
+			<enum id="1">Nettoyage</enum>
+			<enum id="2">Nettoyage général</enum>
+			<enum id="3">Entretien</enum>
+		</mn>
+		<mn id="76">
+			<enum id="0">Niveau 0</enum>
+			<enum id="1">Niveau 1</enum>
+			<enum id="2">Niveau 2</enum>
+			<enum id="3">Niveau 3</enum>
+		</mn>
+		<mn id="77">
+			<enum id="0">Thermostat gaz fumée</enum>
+			<enum id="1">Clapet adm. air</enum>
+			<enum id="2">Air de comb. Externe</enum>
+		</mn>
+	</gn>
+	<gn id="20">
+		<mn id="0">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+		<mn id="1">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+		<mn id="2">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+		<mn id="3">
+			<enum id="0">Auto. marche inversion</enum>
+			<enum id="1">Auto. marche prolongée</enum>
+			<enum id="2">Auto. marche parallèle</enum>
+			<enum id="3">CD-/marche tampon</enum>
+		</mn>
+		<mn id="4">
+			<enum id="0">Brûleur et pompe transfert</enum>
+			<enum id="1">Brûleur et pompe chaudière</enum>
+			<enum id="2">Charge tampon avec TPO</enum>
+			<enum id="3">Charge tampon + TPO/TPM</enum>
+			<enum id="4">Charge tampon option</enum>
+		</mn>
+		<mn id="5">
+			<enum id="0">Sonde tampon milieu</enum>
+			<enum id="1">Sonde gaz fumée</enum>
+			<enum id="2">Thermostat gaz fumée</enum>
+		</mn>
+		<mn id="6">
+			<enum id="0">Moteur</enum>
+			<enum id="1">Motorisation thermique</enum>
+		</mn>
+		<mn id="8">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+		<mn id="15">
+			<enum id="0">Veille</enum>
+			<enum id="1">Mode automatique</enum>
+			<enum id="2">Mode combustion solide</enum>
+			<enum id="3">Mode tampon réserve</enum>
+			<enum id="4"> </enum>
+			<enum id="5"> </enum>
+		</mn>
+		<mn id="18">
+			<enum id="0">Pompe de transfert</enum>
+			<enum id="1">Pompe charge tampon</enum>
+			<enum id="2">Pompe chaudière</enum>
+			<enum id="3">Pompe chauffage</enum>
+		</mn>
+		<mn id="19">
+			<enum id="0">Charge tampon avec TPE</enum>
+			<enum id="1">Charge tampon   TPE/TPA</enum>
+			<enum id="2">Collecteur à pression nulle avec TWE</enum>
+			<enum id="3"> </enum>
+		</mn>
+		<mn id="20">
+			<enum id="0">Automatique</enum>
+			<enum id="1">bas</enum>
+			<enum id="2">moyen</enum>
+			<enum id="3">haut</enum>
+		</mn>
+		<mn id="21">
+			<enum id="0">Automatique</enum>
+			<enum id="1">bas</enum>
+			<enum id="2">moyen</enum>
+			<enum id="3">haut</enum>
+		</mn>
+		<mn id="26">
+			<enum id="0">Arrêt</enum>
+			<enum id="1">Chaudière de secours</enum>
+			<enum id="2">Puissance de pointe</enum>
+		</mn>
+		<mn id="27">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+		<mn id="64">
+			<enum id="0">Arrêt</enum>
+			<enum id="1">Veille</enum>
+			<enum id="2">Mode chauffage</enum>
+			<enum id="3">Mode ramoneur</enum>
+			<enum id="4">Extinction</enum>
+		</mn>
+		<mn id="118">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+	</gn>
+	<gn id="29">
+		<mn id="3">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+		<mn id="21">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+		<mn id="30">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+		<mn id="31">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+		<mn id="32">
+			<enum id="0">Non</enum>
+			<enum id="1">Oui</enum>
+		</mn>
+	</gn>
+	<gn id="64">
+		<mn id="3">
+			<enum id="0">Allemand</enum>
+			<enum id="1">Français</enum>
+			<enum id="2">Italien</enum>
+			<enum id="3">Anglais</enum>
+			<enum id="4">Hollandais</enum>
+			<enum id="5">Tchèque</enum>
+			<enum id="6">Espagnol</enum>
+			<enum id="7">Portugais</enum>
+			<enum id="8">Slovène </enum>
+			<enum id="9">Polonais</enum>
+			<enum id="10">Norwegian</enum>
+			<enum id="11">Danois</enum>
+			<enum id="12">Suédois</enum>
+			<enum id="13">Croate</enum>
+			<enum id="14">Slovaque</enum>
+			<enum id="15">Hongroise</enum>
+			<enum id="16">Roumain</enum>
+		</mn>
+		<mn id="13">
+			<enum id="0">°C</enum>
+			<enum id="1">°F</enum>
+		</mn>
+		<mn id="14">
+			<enum id="0">24h</enum>
+			<enum id="1">12h</enum>
+		</mn>
+		<mn id="15">
+			<enum id="0">JJ.MM.AAAA</enum>
+			<enum id="1">JJ/MM/AAAA</enum>
+		</mn>
+	</gn>
+</AufzaehlTexte>

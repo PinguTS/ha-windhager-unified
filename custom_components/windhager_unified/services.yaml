@@ -1,0 +1,60 @@
+# Windhager Services
+
+set_datapoint:
+  name: Set Datapoint Value
+  description: Set a datapoint value on the Windhager device
+  fields:
+    oid:
+      name: OID
+      description: The OID of the datapoint to set (format: subnetId/nodeId/fctId/groupId/memberId/varInst)
+      required: true
+      selector:
+        text:
+    value:
+      name: Value
+      description: The value to set
+      required: true
+      selector:
+        text:
+
+add_datapoint:
+  name: Add Datapoint (OID)
+  description: >
+    Verify the OID with GET /api/1.0/datapoint, then persist it for polling.
+    Reloads the integration. When multiple Windhager entries exist, set config_entry_id.
+  fields:
+    config_entry_id:
+      name: Config entry
+      description: Windhager config entry id (required if more than one integration)
+      required: false
+      selector:
+        text:
+    oid:
+      name: OID
+      description: Six-part OID (subnet/node/fct/level/position/varInst), slashes or dots
+      required: true
+      selector:
+        text:
+    group:
+      name: Functional group slug
+      description: oids.yaml-style group slug (e.g. boiler, heating_circuit) for filtering
+      required: false
+      default: boiler
+      selector:
+        text:
+
+export_system_info:
+  name: Export System Information
+  description: >-
+    Starts a background export of LON network topology and XML label files from the
+    device. Creates a ZIP archive in /config/windhager_export/ that can be submitted
+    to improve the integration's OID catalogue. A persistent notification reports
+    progress and the final path. The process may take several minutes to avoid
+    overloading the embedded device. Only one export per device can run at a time.
+  fields:
+    config_entry_id:
+      name: Config entry
+      description: Windhager config entry id (required if more than one integration)
+      required: false
+      selector:
+        text:

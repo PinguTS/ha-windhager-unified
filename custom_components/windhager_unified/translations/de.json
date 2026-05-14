@@ -1,0 +1,128 @@
+{
+  "title": "Windhager Unified",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Windhager Unified — Verbindung",
+        "description": "Geben Sie die lokale Adresse Ihres Windhager-Webservers und Ihre Zugangsdaten ein.\n\nKein `http://`-Präfix nötig — zuerst wird HTTP (Port 80) getestet, danach HTTPS.\n\nHilfe beim Passwort? Siehe [Einrichtungsanleitung]({docs_url}).",
+        "data": {
+          "host": "Host",
+          "username": "Benutzername",
+          "password": "Passwort",
+          "verify_ssl": "SSL-Zertifikat überprüfen",
+          "scan_interval": "Abfrageintervall (Sekunden)"
+        },
+        "data_description": {
+          "host": "IP-Adresse oder Hostname, z. B. 192.168.1.61 oder windhager.local. Schema (http:// / https://) ist optional.",
+          "username": "'Service' für vollen Lese-/Schreibzugriff. 'USER' für Nur-Lesen. 'OEM' für Herstellerzugang.",
+          "password": "Werkspasswort ist '123'. Falls die Anlage bei Windhager Connect registriert ist, wurde das Passwort automatisch gesetzt — anmelden auf connect.windhager.com → Einstellungen → 'Webserverpasswort ändern' → aktuelles Passwort anzeigen."
+        }
+      },
+      "experience": {
+        "title": "Erfahrungsstufe",
+        "description": "Wählen Sie, wie viel Detail Sie möchten. Basis zeigt ein übersichtliches Dashboard; Service-Modus zeigt alle Daten und Schreibzugriffe.",
+        "data": {
+          "experience_level": "Erfahrungsstufe"
+        },
+        "data_description": {
+          "experience_level": "Basis = Temperaturen + Betriebszustand; Komfort = + Sollwerte und Warmwasser; Experte = alle LON-Datenpunkte; Service = alles + Schreibzugriffe (erfordert Service-Zugangsdaten)"
+        }
+      },
+      "discover": {
+        "title": "System wird erkannt…",
+        "description": "Verbindung zum Gerät wird hergestellt und die LON-Netzwerktopologie wird gelesen. Das kann einige Sekunden dauern."
+      },
+      "groups": {
+        "title": "Funktionsgruppen",
+        "description": "Wählen Sie, welche Gruppen einbezogen werden sollen. Erkannter Kessel: {boiler}. Stufe: {tier}.",
+        "data": {
+          "groups": "Gruppen"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zum Windhager-Gerät nicht möglich. Host und Netzwerk prüfen.",
+      "invalid_auth": "Ungültiger Benutzername oder Passwort.",
+      "unknown": "Ein unerwarteter Fehler ist aufgetreten."
+    },
+    "abort": {
+      "single_instance_allowed": "Nur eine Instanz dieses Geräts ist erlaubt.",
+      "already_configured": "Dieses Gerät ist bereits konfiguriert."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Windhager Optionen",
+        "description": "Eine Änderung der Erfahrungsstufe oder der Gruppen lädt die Integration neu.",
+        "data": {
+          "experience_level": "Erfahrungsstufe",
+          "groups": "Aktive Gruppen",
+          "scan_interval": "Abfrageintervall (Sekunden)",
+          "verify_ssl": "SSL-Zertifikat überprüfen",
+          "refresh_labels_from_device": "Bezeichnungstexte vom Gerät aktualisieren (optional)"
+        },
+        "data_description": {
+          "refresh_labels_from_device": "Lädt die aktuellen XML-Bezeichnungsdateien vom Gerät (/res/xml/). Standardmäßig deaktiviert. Bei Fehler werden die gebündelten Texte verwendet."
+        }
+      }
+    }
+  },
+  "selector": {
+    "experience_level": {
+      "options": {
+        "essential": "Basis — nur Temperaturen und Betriebszustand",
+        "comfort": "Komfort — + Sollwerte, Warmwasser, Pufferspeicher",
+        "advanced": "Erweitert — + Fehlerprotokoll, Heartbeat, VPN, Systemzeit",
+        "expert": "Experte — alle entdeckten LON-Datenpunkte",
+        "service": "Service — alle Daten + Schreibzugriffe (erfordert Service-Zugangsdaten)"
+      }
+    },
+    "groups": {
+      "options": {
+        "boiler": "Heizkessel / Wärmegenerator",
+        "heating_circuit": "Heizkreis",
+        "dhw": "Warmwasser",
+        "buffer": "Pufferspeicher / Umschaltventil",
+        "boiler_loading_pump": "Kesselladepumpe",
+        "cascade": "Kaskadenmanager",
+        "solar": "Solar",
+        "io5500": "IO5500 Erweiterungsmodul",
+        "central": "Zentralregler"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "logwin_boiler_temp": {
+        "name": "Kesseltemperatur"
+      },
+      "buffer_top_temp": {
+        "name": "Pufferspeicher oben"
+      },
+      "heartbeat_status": {
+        "name": "Heartbeat Status"
+      },
+      "fehlerlog_list": {
+        "name": "Fehlerprotokoll"
+      },
+      "system_lookup": {
+        "name": "LON Status"
+      }
+    },
+    "button": {
+      "heartbeat_start": {
+        "name": "Heartbeat starten"
+      },
+      "heartbeat_stop": {
+        "name": "Heartbeat stoppen"
+      },
+      "fehlerlog_reset": {
+        "name": "Fehlerprotokoll zurücksetzen"
+      },
+      "export_system_info": {
+        "name": "Systeminformationen exportieren"
+      }
+    }
+  }
+}

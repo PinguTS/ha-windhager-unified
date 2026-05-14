@@ -1,0 +1,198 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsFUP7030/api/1.0",
+    "resourcePath":"/config",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/config/nodeAddress/{domainIdx}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"get nodeAdress",
+                    "notes":"get nodeAdress",
+                    "type":"void",
+                    "nickname":"getConfigNodeAddress",
+                    "parameters":[
+                        {
+                            "name":"domainIdx",
+                            "description":"index of domain to be retrieve",
+                            "required":true,
+                            "type":"integer",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                0,
+                                1
+                            ]
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/config/nodeAddress",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"update nodeAdress",
+                    "notes":"update nodeAdress",
+                    "type":"void",
+                    "nickname":"putConfigNodeAddress",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "NodeAdress object to be updated.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "NodeAdress",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/config/lon/bitrate",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"get LON Transceiver Bit Rate",
+                    "notes":"get bitrate",
+                    "type":"void",
+                    "nickname":"getLonBitRate",
+                    "parameters":[
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary":"update LON Transceiver Bit Rate",
+                    "notes":"update bitrate",
+                    "type":"void",
+                    "nickname":"putLonBitRate",
+                    "parameters":[
+                        {
+                            "name": "value",
+                            "description": "bitrate to be updated.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "enum":[
+                                "39kbps",
+                                "78kbps"
+                            ],
+                            "defaultValue": "info",
+                            "allowMultiple": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/config/lon/transceiver",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"get LON Tranceiver config data",
+                    "notes":"get partial config data",
+                    "type":"void",
+                    "nickname":"getLonTransceiver",
+                    "parameters":[
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary":"update LON Tranceiver config data",
+                    "notes":"update partial config data (channle_id is readonly!)",
+                    "type":"void",
+                    "nickname":"putLonTransceiver",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "LonTransceiver object to be updated.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "LonTransceiver",
+                            "allowMultiple": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/config/lon/swreset",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Software Reset on LON Chip",
+                    "notes":"send cmd to reset the Neuron",
+                    "type":"void",
+                    "nickname":"putLonSwReset",
+                    "parameters":[
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "INFO":{
+            "id":"INFO",
+            "properties":{
+                "name":{
+                    "type":"string"
+                },
+                "version":{
+                    "type":"string"
+                }
+            }
+        },
+        "NodeAdress": {
+            "id": "NodeAdress",
+            "properties": {
+                "domainIdx": {
+                    "type":"integer",
+                    "defaultValue": 0
+                },
+                "subnet": {
+                    "type":"integer",
+                    "defaultValue": 1
+                },
+                "nodeId": {
+                    "type":"integer",
+                    "defaultValue": 100
+                }
+            }
+        },
+        "LonTransceiver": {
+            "id": "LonTransceiver",
+            "properties": {
+                "channel_id": {
+                    "type":"integer",
+                    "defaultValue": 0
+                },
+                "comm_clock": {
+                    "type":"integer",
+                    "defaultValue": 6
+                },
+                "input_clock": {
+                    "type":"integer",
+                    "defaultValue": 6
+                }
+            }
+        }
+    }
+}

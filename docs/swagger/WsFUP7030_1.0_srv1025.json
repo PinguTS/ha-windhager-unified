@@ -1,0 +1,59 @@
+{
+    "apiVersion":"1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsFUP7030/api/1.0",
+    "resourcePath":"/srv1025",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/srv1025",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Put srv0623 with OID",
+                    "notes":"Put srv0623 with OID and value",
+                    "type":"void",
+                    "nickname":"putSrv0623OidValue",
+                    "parameters":[
+                        {
+                            "name": "oid",
+                            "description": "OID as /subnet/nodeId/fctId/group/member/instance.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "value",
+                            "description": "value decimal or hex with prepanding 0x",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "InfoModel":{
+            "id":"InfoModel",
+            "properties":{
+                "name":{
+                    "type":"string"
+                },
+                "version":{
+                    "type":"string"
+                }
+            }
+        }
+    }
+}

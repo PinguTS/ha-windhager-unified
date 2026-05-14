@@ -1,0 +1,78 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion": "1.2",
+    "basePath": "/api-docs/WsFUP7030/1.0",
+    "apis": [
+        {
+            "path": "/info",
+            "description": "Operations on system info"
+        },
+        {
+            "path": "/settings",
+            "description": "Settings Services"
+        },
+        {
+            "path": "/config",
+            "description": "Config Services"
+        },
+        {
+            "path": "/hwtest",
+            "description": "HW Test Service"
+        },
+        {
+            "path": "/led",
+            "description": "LED Service"
+        },
+        {
+            "path": "/srv0620",
+            "description": "Operations on srv0620"
+        },
+        {
+            "path": "/srv0621",
+            "description": "Operations on srv0621"
+        },
+        {
+            "path": "/srv0622",
+            "description": "Operations on srv0622"
+        },
+        {
+            "path": "/srv0623",
+            "description": "Operations on srv0623"
+        },
+        {
+            "path": "/srv1024",
+            "description": "Operations on srv1024"
+        },
+        {
+            "path": "/srv1025",
+            "description": "Operations on srv1025"
+        },
+        {
+            "path": "/windyndata",
+            "description": "WIN Dynamische Daten Service"
+        },
+        {
+            "path": "/winservice",
+            "description": "WIN Interface Service"
+        },
+        {
+            "path": "/LON",
+            "description": "LON Interface Service"
+        },
+        {
+            "path": "/lonscan",
+            "description": "Operations about lonscan"
+        },
+        {
+            "path": "/notification",
+            "description": "Notification Service"
+        }
+    ],
+    "info": {
+        "title": "WsFUP7030 API",
+        "description": "Welcome to the WsFUP7030 API. This API lets you interact with the WsFUP7030 API services with anything that can send an HTTP request.",
+        "contact": "g.lombriser@lom.ch",
+        "license": "Apache 2.0",
+        "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+}

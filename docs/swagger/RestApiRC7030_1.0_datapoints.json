@@ -1,0 +1,95 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion": "1.2",
+    "resourcePath": "/datapoints",
+    "basePath": "/api/1.0",
+    "produces": [
+        "application/json"
+    ],
+    "apis":[
+        {
+            "path": "/datapoints",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "Retrieve a OID Datapoint",
+                    "notes": "Retrieve one OID or a list of OID's",
+                    "type": "Datapoint",
+                    "nickname": "getDatapoint",
+                    "parameters": [
+                        {
+                            "name": "OID",
+                            "description": "The `OID` of the datapoint to perform action with. If `OID' is empty a list of all current datapoints in the `data cache` will be return.<br/>For a list of OID's use comma separated values format (csv).",
+                            "paramType": "query",
+                            "required": false,
+                            "type": "string",
+                            "allowMultiple": true,
+                            "collectionFormat": "csv"
+                        }
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary": "Update Network configuration",
+                    "notes": "Update NetworkConfig Object.",
+                    "type": "Status",
+                    "nickname": "putNetworkConfig",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":200,
+                            "message":"SUCCESS"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models": {
+        "Status": {
+            "id": "Status",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Error": {
+            "id": "Error",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "fileds": {
+                    "type": "string"
+                }
+            }
+        },
+        "Datapoint": {
+            "id": "Datapoint",
+            "properties": {
+                "OID": {
+                    "type": "string",
+                    "description": "OID of the datapoint"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

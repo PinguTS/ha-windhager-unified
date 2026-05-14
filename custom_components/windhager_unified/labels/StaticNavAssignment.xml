@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<functiontype value="0">
+		<staticentry type="errorlog" oidextension="2/90/0"/>
+		<staticentry type="parameter" oidextension="4/42/0"/>
+		<staticentry type="timeprogram" oidextension="4/80/0"/>
+	</functiontype>
+	<functiontype value="1">
+		<staticentry type="timeprogram" oidextension="3/61/0"/>
+		<staticentry type="timeprogram" oidextension="3/62/0"/>
+		<staticentry type="timeprogram" oidextension="3/63/0"/>
+	</functiontype>
+	<functiontype value="2">
+		<staticentry type="timeprogram" oidextension="5/61/0"/>
+		<staticentry type="timeprogram" oidextension="5/62/0"/>
+		<staticentry type="timeprogram" oidextension="5/64/0"/>
+	</functiontype>
+	<functiontype value="12">
+		<staticentry type="parameter" oidextension="4/42/0"/>
+	</functiontype>
+	<functiontype value="13">
+		<staticentry type="parameter" oidextension="4/42/0"/>
+	</functiontype>
+	<functiontype value="18">
+		<staticentry type="errorlog" oidextension="2/90/0"/>
+		<staticentry type="parameter" oidextension="4/42/0"/>
+	</functiontype>	
+	<functiontype value="19">
+		<staticentry type="parameter" oidextension="4/42/0"/>
+		<staticentry type="timeprogram" oidextension="5/61/0"/>
+		<staticentry type="timeprogram" oidextension="5/62/0"/>
+		<staticentry type="timeprogram" oidextension="5/64/0"/>
+	</functiontype>	
+</root>

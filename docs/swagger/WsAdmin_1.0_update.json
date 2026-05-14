@@ -1,0 +1,198 @@
+{
+    "apiVersion": "1.0.1",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsAdmin/api/1.0",
+    "resourcePath":"/update",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/update/factoryReset",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve FactoryReset Status",
+                    "notes":"Retrieve FactoryReset Status",
+                    "type":"void",
+                    "nickname":"getFactoryReset",
+                    "parameters":[
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/update/factoryReset/{method}",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Factory Reset methods",
+                    "notes":"Factory Reset methods",
+                    "type":"void",
+                    "nickname":"putFactoryResetMethod",
+                    "parameters":[
+                        {
+                            "name":"method",
+                            "description":"method to perform action with.",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "save",
+                                "reset"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/update/firmware/{method}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve firmware info",
+                    "notes":"Retrieve firmware info.",
+                    "type":"void",
+                    "nickname":"getUpdateFirmware",
+                    "parameters":[
+                        {
+                            "name":"method",
+                            "description":"command",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "status",
+                                "deviceInfo",
+                                "check",
+                                "getCode"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary":"update firmware operations",
+                    "notes":"update firmware operations.",
+                    "type":"void",
+                    "nickname":"postUpdateFirmware",
+                    "parameters":[
+                        {
+                            "name":"method",
+                            "description":"command",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "preupdate",
+                                "update",
+                                "postupdate"
+                            ]
+                        },
+                        {
+                            "name":"body",
+                            "description":"update object",
+                            "required":true,
+                            "type":"UpdateOld",
+                            "paramType":"body",
+                            "allowMultiple":false
+                        }
+                    ]
+                },
+                {
+                    "method":"POST",
+                    "summary":"Retrieve firmware",
+                    "notes":"Old format do not use it in the future.",
+                    "type":"void",
+                    "nickname":"postUpdateFirmware",
+                    "parameters":[
+                        {
+                            "name":"method",
+                            "description":"command",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "download"
+                            ]
+                        },
+                        {
+                            "name":"body",
+                            "description":"update object",
+                            "required":true,
+                            "type":"UpdateOld",
+                            "paramType":"body",
+                            "allowMultiple":false
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "UpdateOld":{
+            "id":"UpdateOld",
+            "properties":{
+                "cmd":{
+                    "description":"command for old interface",
+                    "type":"string",
+                    "enum":[
+                        "get",
+                        "set",
+                        "run"
+                    ]
+                },
+                "status":{
+                    "type":"string"
+                },
+                "bytesReceived":{
+                    "type":"integer"
+                },
+                "bytesTotal":{
+                    "type":"integer"
+                }
+            }
+        },
+        "Update":{
+            "id":"Update",
+            "properties":{
+                "id":{
+                    "type":"integer",
+                    "format":"int32"
+                },
+                "firstName":{
+                    "type":"string"
+                },
+                "username":{
+                    "type":"string"
+                },
+                "lastName":{
+                    "type":"string"
+                },
+                "email":{
+                    "type":"string"
+                },
+                "password":{
+                    "type":"string"
+                },
+                "phone":{
+                    "type":"string"
+                },
+                "userStatus":{
+                    "type":"integer",
+                    "format":"int32",
+                    "description":"User Status",
+                    "enum":[
+                        "1-registered",
+                        "2-active",
+                        "3-closed"
+                    ]
+                }
+            }
+        }
+    }
+}

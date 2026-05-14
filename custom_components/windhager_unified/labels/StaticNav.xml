@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<static_nav>
+	<timeprogram gnmn="03:61">
+		<text>
+			<default>Zeitprogramm 1</default>
+			<en>Heating program 1</en>
+			<es>Programa horario de calefacci\u00F3n 1</es>
+			<fr>Programme horaire 1</fr>
+			<it>Programma orario risc. 1</it>
+			<nl>CV-circuit 1 klokprogramma</nl>
+			<de>Zeitprogramm 1</de>
+		</text>
+	</timeprogram>
+	<timeprogram gnmn="03:62">
+		<text>
+			<default>Zeitprogramm 2</default>
+			<en>Heating program 2</en>
+			<es>Programa horario de calefacci\u00F3n 2</es>
+			<fr>Programme horaire 2</fr>
+			<it>Programma orario risc. 2</it>
+			<nl>CV-circuit 2 klokprogramma</nl>
+			<de>Zeitprogramm 2</de>
+		</text>
+	</timeprogram>
+	<timeprogram gnmn="03:63">
+		<text>
+			<default>Zeitprogramm 3</default>
+			<en>Heating program 3</en>
+			<es>Programa horario de calefacci\u00F3n 3</es>
+			<fr>Programme horaire 3</fr>
+			<it>Programma orario risc. 3</it>
+			<nl>CV-circuit 3 klokprogramma</nl>
+			<de>Zeitprogramm 3</de>
+		</text>
+	</timeprogram>			
+	<timeprogram gnmn="04:80">
+		<text>
+			<default>Sonderzeitprogramm</default>
+			<en>Special clock program</en>
+			<es>Special clock program</es>
+			<fr>Programme horaire sp\u00E9cial</fr>
+			<it>Programma orario speciale</it>
+			<nl>Speciaalprogramma</nl>
+			<de>Sonderzeitprogramm</de>
+		</text>
+	</timeprogram>
+	<timeprogram gnmn="05:61">
+		<text>
+			<default>Warmwasser Zeitprogramm</default>
+			<en>DHW clock program</en>
+			<es>Programa temporal A.C.S.</es>
+			<fr>Programme horaire ECS</fr>
+			<it>Programma orario ACS</it>
+			<nl>Tapwater klokprogramma</nl>
+			<de>Warmwasser Zeitprogramm</de>
+		</text>
+	</timeprogram>
+	<timeprogram gnmn="05:62">
+		<text>
+			<default>Warmwasser Legionellen Zeitprogramm</default>
+			<en>DHW legionella clock program</en>
+			<es>Programa temporal contra legionela A.C.S.</es>
+			<fr>Programme horaire protection anti-legionellose </fr>
+			<it>Programma orario protezione antilegionella</it>
+			<nl>Tapwater anti-legionella klokprogramma</nl>
+			<de>Warmwasser Legionellen Zeitprogramm</de>
+		</text>
+	</timeprogram>
+	<timeprogram gnmn="05:64">
+		<text>
+			<default>Zeitprogramm Zirkulation</default>
+			<en>Time program circulation pump</en>
+			<es>Tarifa baja programa temporal</es>
+			<fr>Programme horaire circulateur</fr>
+			<it>Programma orario pompa ricircolo</it>
+			<nl>Klokprogramma circulatiepomp</nl>
+			<de>Zeitprogramm Zirkulation</de>
+		</text>
+	</timeprogram>
+	<errorlog gnmn="02:90">
+		<text>
+			<default>Störspeicher</default>
+			<en>Fault memory</en>
+			<es>Memoria de los errores</es>
+			<fr>M\u00C9moire d'erreurs</fr>
+			<it>Memoria degli errori</it>
+			<nl>Fault memory</nl>
+			<de>Störspeicher</de>
+		</text>
+	</errorlog>
+	<parameter gnmn="04:42" action="0">
+		<text>
+			<default>Passwort</default>
+			<en>Password</en>
+			<es>Contrase\u00F1a</es>
+			<fr>Mot de passe</fr>
+			<it>Password</it>
+			<nl>Wachtwoord</nl>
+			<de>Passwort</de>
+		</text>
+	</parameter>
+</static_nav>

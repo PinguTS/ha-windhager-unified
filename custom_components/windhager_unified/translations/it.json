@@ -1,0 +1,128 @@
+{
+  "title": "Windhager Unified",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Windhager Unified — connessione",
+        "description": "Inserisci l'indirizzo locale del tuo server web Windhager e le credenziali.\n\nNon è necessario `http://` — HTTP (porta 80) viene provato prima, HTTPS come fallback.\n\nHai bisogno di aiuto con la password? Consulta la [guida all'installazione]({docs_url}).",
+        "data": {
+          "host": "Host",
+          "username": "Nome utente",
+          "password": "Password",
+          "verify_ssl": "Verifica certificato SSL",
+          "scan_interval": "Intervallo di scansione (secondi)"
+        },
+        "data_description": {
+          "host": "Indirizzo IP o nome host, es. 192.168.1.61 o windhager.local. Lo schema (http:// / https://) è opzionale.",
+          "username": "'Service' per accesso completo in lettura/scrittura. 'USER' per sola lettura. 'OEM' per accesso produttore.",
+          "password": "Password predefinita: '123'. Se l'impianto è registrato su Windhager Connect la password è stata impostata automaticamente — accedi su connect.windhager.com → impostazioni → 'Modifica password server web' → mostra password attuale."
+        }
+      },
+      "experience": {
+        "title": "Livello di esperienza",
+        "description": "Scegli quanto dettaglio desideri. Essenziale offre una dashboard essenziale; Service espone tutti i dati e le azioni di scrittura.",
+        "data": {
+          "experience_level": "Livello di esperienza"
+        },
+        "data_description": {
+          "experience_level": "essential = solo temperature e stato operativo; comfort = + setpoint e ACS; advanced = + registro errori, heartbeat, VPN, ora di sistema; expert = tutti i datapoint LON rilevati; service = tutto + azioni di scrittura (richiede credenziali Service)"
+        }
+      },
+      "discover": {
+        "title": "Rilevamento del sistema in corso…",
+        "description": "Connessione al dispositivo e lettura della topologia di rete LON. L’operazione può richiedere alcuni secondi."
+      },
+      "groups": {
+        "title": "Gruppi funzionali",
+        "description": "Seleziona quali gruppi includere. Caldaia rilevata: {boiler}. Livello: {tier}.",
+        "data": {
+          "groups": "Gruppi"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossibile connettersi al dispositivo Windhager. Verificare host e rete.",
+      "invalid_auth": "Nome utente o password non validi.",
+      "unknown": "Si è verificato un errore imprevisto."
+    },
+    "abort": {
+      "single_instance_allowed": "È consentita una sola istanza di questo dispositivo.",
+      "already_configured": "Questo dispositivo è già configurato."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opzioni Windhager",
+        "description": "La modifica del livello di esperienza o dei gruppi ricaricherà l’integrazione.",
+        "data": {
+          "experience_level": "Livello di esperienza",
+          "groups": "Gruppi attivi",
+          "scan_interval": "Intervallo di scansione (secondi)",
+          "verify_ssl": "Verifica certificato SSL",
+          "refresh_labels_from_device": "Aggiorna etichette dal dispositivo (opzionale)"
+        },
+        "data_description": {
+          "refresh_labels_from_device": "Scarica gli ultimi file XML delle etichette dall’endpoint /res/xml/ del dispositivo. Disattivato per impostazione predefinita. In caso di errore si usano le etichette incluse nell’integrazione."
+        }
+      }
+    }
+  },
+  "selector": {
+    "experience_level": {
+      "options": {
+        "essential": "Essenziale — solo temperature e stato operativo",
+        "comfort": "Comfort — + setpoint, ACS, dettaglio accumulo",
+        "advanced": "Avanzato — + registro errori, heartbeat, VPN, ora di sistema",
+        "expert": "Esperto — tutti i datapoint LON rilevati",
+        "service": "Service — tutti i dati + azioni di scrittura (richiede credenziali Service)"
+      }
+    },
+    "groups": {
+      "options": {
+        "boiler": "Caldaia / Generatore di calore",
+        "heating_circuit": "Circuito di riscaldamento",
+        "dhw": "Acqua calda sanitaria",
+        "buffer": "Serbatoio di accumulo / Valvola di commutazione",
+        "boiler_loading_pump": "Pompa di carica caldaia",
+        "cascade": "Gestore a cascata",
+        "solar": "Solare",
+        "io5500": "Modulo di espansione IO5500",
+        "central": "Regolatore centrale"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "logwin_boiler_temp": {
+        "name": "Temperatura caldaia"
+      },
+      "buffer_top_temp": {
+        "name": "Temperatura accumulo superiore"
+      },
+      "heartbeat_status": {
+        "name": "Stato heartbeat"
+      },
+      "fehlerlog_list": {
+        "name": "Registro errori"
+      },
+      "system_lookup": {
+        "name": "Stato LON"
+      }
+    },
+    "button": {
+      "heartbeat_start": {
+        "name": "Avvia heartbeat"
+      },
+      "heartbeat_stop": {
+        "name": "Ferma heartbeat"
+      },
+      "fehlerlog_reset": {
+        "name": "Azzera registro errori"
+      },
+      "export_system_info": {
+        "name": "Esporta informazioni di sistema"
+      }
+    }
+  }
+}

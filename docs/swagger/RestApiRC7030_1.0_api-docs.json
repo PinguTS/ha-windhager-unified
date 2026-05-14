@@ -1,0 +1,58 @@
+{
+    "apiVersion": "1.0.3",
+    "swaggerVersion": "1.2",
+    "basePath": "/api-docs/RestApiRC7030/1.0",
+    "apis": [
+        {
+            "path": "/info",
+            "description": "Operations on system info"
+        },
+        {
+            "path": "/settings",
+            "description": "Settings Services"
+        },
+        {
+            "path": "/config",
+            "description": "Operations on system configurations"
+        },
+        {
+            "path": "/datapoint",
+            "description": "Operations about a single DataPoint"
+        },
+        {
+            "path": "/lookup",
+            "description": "Lookup tree nodes in the system (dynamic tree)"
+        },
+        {
+            "path": "/object",
+            "description": "Operations about LongStruct Objects"
+        },
+        {
+            "path": "/nodes",
+            "description": "Operations about LON nodes"
+        },
+        {
+            "path": "/scan",
+            "description": "Operations on scanning the system (static tree)"
+        },
+        {
+            "path": "/dynip",
+            "description": "Operations about DynIP service"
+        },
+        {
+            "path": "/user",
+            "description": "Operations about user"
+        },
+	{
+            "path": "/vpn",
+            "description": "Operations about VPN"
+        }
+    ],
+    "info": {
+        "title": "REST RC7030 API",
+        "description": "Welcome to the REST RC7030 API. This API lets you interact with the RC7030 services with anything that can send an HTTP request.<h3>-------- DRAFT --------</h3><h2>Overview</h2>The REST API in RC7030 is implemented using HTTP and REST principles. It is defined with the following aspects:<ul><li>- The base URL for the API: <b>http://host/api/1.0</b> with digest authentication</li><li>- The internet media type of the data supported: <b>JSON</b></li>- The set of operations using HTTP methods: <b>GET</b> for retrieving objects , <b>PUT</b> for updating objects, <b>POST</b> for creating objects and <b>DELETE</b> for deleting objects.<li>- Appropriate HTTP status codes to indicate errors.</li></ul><h2>REST API Reference</h2><p>Please see the following reference documentation on using the endpoints.</p>",
+        "contact": "g.lombriser@lom.ch",
+        "license": "Apache 2.0",
+        "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+}

@@ -1,0 +1,87 @@
+name: Bug report
+description: Report a problem with the Windhager Unified integration
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug.
+        **Before submitting**, please redact all hostnames, IP addresses,
+        usernames, and passwords from any log output you paste here.
+        For security issues please use [private vulnerability reporting](../security/advisories/new) instead.
+
+  - type: input
+    id: ha_version
+    attributes:
+      label: Home Assistant version
+      placeholder: "e.g. 2024.12.0"
+    validations:
+      required: true
+
+  - type: input
+    id: integration_version
+    attributes:
+      label: Windhager Unified version
+      placeholder: "e.g. 0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: device_firmware
+    attributes:
+      label: Windhager device / firmware (if known)
+      placeholder: "e.g. RC7030, firmware 3.x"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem clearly.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to ...
+        2. Click on ...
+        3. See error
+    validations:
+      required: true
+
+  - type: dropdown
+    id: diagnostics
+    attributes:
+      label: Diagnostics file attached?
+      description: >
+        Download via Settings → Devices & Services → Windhager Unified →
+        three-dot menu → Download diagnostics. Attach the file to this issue.
+      options:
+        - "Yes"
+        - "No — not available"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: >
+        Paste relevant lines from Home Assistant logs here.
+        Enable debug logging first:
+        ```yaml
+        logger:
+          logs:
+            custom_components.windhager_unified: debug
+        ```
+        **Replace all hostnames, IPs, and credentials with `<redacted>` before pasting.**
+      render: text

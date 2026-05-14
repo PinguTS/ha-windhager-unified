@@ -1,0 +1,128 @@
+{
+  "title": "Windhager Unified",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Windhager Unified — connexion",
+        "description": "Saisissez l'adresse locale de votre serveur web Windhager et vos identifiants.\n\nPas besoin de `http://` — HTTP (port 80) est essayé en premier, HTTPS en secours.\n\nBesoin d'aide pour le mot de passe ? Consultez le [guide d'installation]({docs_url}).",
+        "data": {
+          "host": "Hôte",
+          "username": "Nom d'utilisateur",
+          "password": "Mot de passe",
+          "verify_ssl": "Vérifier le certificat SSL",
+          "scan_interval": "Intervalle d'interrogation (secondes)"
+        },
+        "data_description": {
+          "host": "Adresse IP ou nom d'hôte, ex. 192.168.1.61 ou windhager.local. Le schéma (http:// / https://) est optionnel.",
+          "username": "'Service' pour accès lecture/écriture complet. 'USER' pour lecture seule. 'OEM' pour accès fabricant.",
+          "password": "Mot de passe d'usine : '123'. Si votre installation est enregistrée sur Windhager Connect, le mot de passe a été défini automatiquement — connectez-vous sur connect.windhager.com → paramètres → 'Modifier le mot de passe du serveur web' → afficher le mot de passe actuel."
+        }
+      },
+      "experience": {
+        "title": "Niveau d’expérience",
+        "description": "Choisissez le niveau de détail. Essentiel offre un tableau de bord épuré ; Service expose toutes les données et les actions d’écriture.",
+        "data": {
+          "experience_level": "Niveau d’expérience"
+        },
+        "data_description": {
+          "experience_level": "essentiel = températures + état de fonctionnement uniquement ; confort = + consignes et ECS ; avancé = + journal d’erreurs et VPN ; expert = tous les points de données LON découverts ; service = tout + actions d’écriture (identifiants Service requis)"
+        }
+      },
+      "discover": {
+        "title": "Découverte du système…",
+        "description": "Connexion à l’appareil et lecture de la topologie du réseau LON. Cela peut prendre quelques secondes."
+      },
+      "groups": {
+        "title": "Groupes fonctionnels",
+        "description": "Sélectionnez les groupes à inclure. Chaudière détectée : {boiler}. Niveau : {tier}.",
+        "data": {
+          "groups": "Groupes"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossible de se connecter à l’appareil Windhager. Vérifiez l’hôte et le réseau.",
+      "invalid_auth": "Nom d’utilisateur ou mot de passe incorrect.",
+      "unknown": "Une erreur inattendue s’est produite."
+    },
+    "abort": {
+      "single_instance_allowed": "Une seule instance de cet appareil est autorisée.",
+      "already_configured": "Cet appareil est déjà configuré."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Options Windhager",
+        "description": "Modifier le niveau d’expérience ou les groupes rechargera l’intégration.",
+        "data": {
+          "experience_level": "Niveau d’expérience",
+          "groups": "Groupes actifs",
+          "scan_interval": "Intervalle d’interrogation (secondes)",
+          "verify_ssl": "Vérifier le certificat SSL",
+          "refresh_labels_from_device": "Actualiser les libellés depuis l’appareil (optionnel)"
+        },
+        "data_description": {
+          "refresh_labels_from_device": "Récupère les derniers fichiers XML de libellés sur le point d’accès /res/xml/ de l’appareil. Désactivé par défaut. En cas d’erreur, les libellés fournis avec l’intégration sont utilisés."
+        }
+      }
+    }
+  },
+  "selector": {
+    "experience_level": {
+      "options": {
+        "essential": "Essentiel — températures et état de fonctionnement uniquement",
+        "comfort": "Confort — + consignes, ECS, détail du tampon",
+        "advanced": "Avancé — + journal d’erreurs, heartbeat, VPN, heure système",
+        "expert": "Expert — tous les points de données LON découverts",
+        "service": "Service — toutes les données + actions d’écriture (identifiants Service requis)"
+      }
+    },
+    "groups": {
+      "options": {
+        "boiler": "Chaudière / Générateur de chaleur",
+        "heating_circuit": "Circuit de chauffage",
+        "dhw": "Eau chaude sanitaire",
+        "buffer": "Ballon tampon / Vanne de commutation",
+        "boiler_loading_pump": "Pompe de charge chaudière",
+        "cascade": "Gestionnaire de cascade",
+        "solar": "Solaire",
+        "io5500": "Module d'extension IO5500",
+        "central": "Régulateur central"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "logwin_boiler_temp": {
+        "name": "Température chaudière"
+      },
+      "buffer_top_temp": {
+        "name": "Température haute du tampon"
+      },
+      "heartbeat_status": {
+        "name": "État du heartbeat"
+      },
+      "fehlerlog_list": {
+        "name": "Journal des erreurs"
+      },
+      "system_lookup": {
+        "name": "État LON"
+      }
+    },
+    "button": {
+      "heartbeat_start": {
+        "name": "Démarrer le heartbeat"
+      },
+      "heartbeat_stop": {
+        "name": "Arrêter le heartbeat"
+      },
+      "fehlerlog_reset": {
+        "name": "Réinitialiser le journal des erreurs"
+      },
+      "export_system_info": {
+        "name": "Exporter les informations système"
+      }
+    }
+  }
+}

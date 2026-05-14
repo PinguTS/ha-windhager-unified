@@ -1,0 +1,144 @@
+{
+    "apiVersion":"1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/InfoWinHeartbeat/api/1.0",
+    "resourcePath":"/heartbeat",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/heartbeat",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve current heartbeat",
+                    "notes":"Retrieve current heartbeat",
+                    "type":"void",
+                    "nickname":"getHeartbeat",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                },
+                {
+                    "method":"POST",
+                    "summary":"Create new heartbeat",
+                    "notes":"Create new heartbeat",
+                    "type":"Status",
+                    "nickname":"postHeartbeat",
+                    "parameters":[
+                    {
+                        "name": "heartbeat",
+                        "description": "The `heartbeat` Object to perform action with.",
+                        "paramType": "body",
+                        "required": true,
+                        "type": "POST_HeartbeatModel",
+                        "allowMultiple": false
+                    }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                },
+                {
+                    "method":"DELETE",
+                    "summary":"Delete (stop) current heartbeat",
+                    "notes":"Delete (stop) current heartbeat",
+                    "type":"void",
+                    "nickname":"deleteHeartbeat",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path":"/heartbeat/{subnet}/{nodeId}",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"update heartbeat (Indication from subnet/nodeId)",
+                    "notes":"update heartbeat (Indication from subnet/nodeId)",
+                    "type":"void",
+                    "nickname":"putHeartbeatSubnetNodeId",
+                    "parameters":[
+                        {
+                            "name": "subnet",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 65,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "value",
+                            "description": "value decimal or hex with prepanding 0x",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+
+    ],
+
+    "models":{
+        "Status": {
+            "id": "Status",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "POST_HeartbeatModel":{
+            "id":"POST_HeartbeatModel",
+            "properties":{
+                "subnet":{
+                    "type":"integer",
+                    "defaultValue": 1
+                },
+                "nodeId":{
+                    "type":"integer"
+                },
+                "interval":{
+                    "type":"integer"
+                }
+            }
+        }
+    }
+}

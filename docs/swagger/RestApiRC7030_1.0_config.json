@@ -1,0 +1,229 @@
+{
+    "apiVersion": "1.0.1",
+    "swaggerVersion": "1.2",
+    "resourcePath": "/config",
+    "basePath": "/api/1.0",
+    "produces": [
+                 "application/json"
+                 ],
+    "apis":[
+        {
+            "path": "/config/network",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "Network configuration",
+                    "notes": "Retrieve NetworkConfig Object.",
+                    "type": "NetworkConfig",
+                    "nickname": "getNetworkConfig",
+                    "parameters": [
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary": "Update Network configuration",
+                    "notes": "Update NetworkConfig Object.",
+                    "type": "Status",
+                    "nickname": "putNetworkConfig",
+                    "parameters":[
+                        {
+                            "name": "networkConfig",
+                            "description": "NetworkConfig JSON",
+                            "type": "NetworkConfig",
+                            "required": true,
+                            "paramType":"body",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":200,
+                            "message":"SUCCESS"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/config/DynIP",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "DynIp configuration",
+                    "notes": "Retrieve DynIpConfig Object.",
+                    "type": "DynIpConfig",
+                    "nickname": "getDynIpConfig",
+                    "parameters": [
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary": "Update DynIP configuration",
+                    "notes": "Update DynIpConfig Object.",
+                    "type": "Status",
+                    "nickname": "putDynIpConfig",
+                    "parameters":[
+                        {
+                            "name": "dynIpConfig",
+                            "description": "DynIpConfig JSON",
+                            "type": "DynIpConfig",
+                            "required": true,
+                            "paramType":"body",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":200,
+                            "message":"SUCCESS"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/config/Alarm",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "Alarm configuration",
+                    "notes": "Retrieve AlarmConfig Object.",
+                    "type": "AlarmConfig",
+                    "nickname": "getAlarmConfig",
+                    "parameters": [
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary": "Update Alarm configuration",
+                    "notes": "Update AlarmConfig configuration.",
+                    "type": "Status",
+                    "nickname": "putAlarmConfig",
+                    "parameters":[
+                        {
+                            "name": "alarmConfig",
+                            "description": "AlarmConfig JSON",
+                            "type": "AlarmConfig",
+                            "required": true,
+                            "paramType":"body",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":200,
+                            "message":"SUCCESS"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models": {
+        "Status": {
+            "id": "Status",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Error": {
+            "id": "Error",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "fileds": {
+                    "type": "string"
+                }
+            }
+        },
+        "NetworkConfig": {
+            "id": "NetworkConfig",
+            "required":[
+                "DHCP", "IP", "SubnetMask", "Gateway", "DNS"
+            ],
+            "properties": {
+                "MAC": {
+                    "type": "string"
+                },
+                "DHCP": {
+                    "type": "boolean",
+                    "descripton": "Use DHCP"
+                },
+                "IP": {
+                    "type": "string"
+                },
+                "SubnetMask": {
+                    "type": "string"
+                },
+                "Gateway": {
+                    "type": "string"
+                },
+                "DNS": {
+                    "type": "string"
+                },
+                "WebPort": {
+                    "type": "integer"
+                }
+            }
+        },
+        "DynIpConfig": {
+            "id": "DynIpConfig",
+            "required":[
+                "active", "baseURL", "vpn"
+            ],
+            "properties": {
+                "active": {
+                    "type": "boolean",
+                    "description": "enable DynIP service"
+                },
+                "vpn": {
+                    "type": "boolean",
+                    "description": "enable VPN service",
+                    "default": false
+                },
+                "baseURL": {
+                    "type": "string",
+                    "description": "The base URL for the API"
+                },
+                "user": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "prop": {
+                    "type": "string"
+                }
+            }
+        },
+        "AlarmConfig": {
+            "id": "AlarmConfig",
+            "required":[
+                "active", "baseURL"
+            ],
+            "properties": {
+                "active": {
+                    "type": "boolean",
+                    "description": "enable Alarm service"
+                },
+                "baseURL": {
+                    "type": "string",
+                    "description": "The base URL for the API"
+                },
+                "prop": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

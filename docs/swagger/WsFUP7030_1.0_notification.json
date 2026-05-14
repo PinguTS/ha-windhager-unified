@@ -1,0 +1,98 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsFUP7030/api/1.0",
+    "resourcePath":"/notification",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/notification/register",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"register for a new notification",
+                    "notes":"register for a new notification",
+                    "type":"void",
+                    "nickname":"postNotificationRegister",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "NotificationModel object to action on.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "RegisterNotificationModel",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/notification/unregister",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"unregister the notification",
+                    "notes":"register the notification",
+                    "type":"void",
+                    "nickname":"postNotificationUnregister",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "Notification UUID received on registration.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "UnregisterNotificationModel",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "RegisterNotificationModel":{
+            "id":"RegisterNotificationModel",
+            "properties":{
+                "service":{
+                    "type":"string",
+                    "defaultValue": "servicepin"
+                },
+                "uri":{
+                    "type":"string",
+                    "defaultValue": "http://127.0.0.1:8091"
+                },
+                "method":{
+                    "type":"string",
+                    "defaultValue": "PUT"
+                },
+                "endpoint":{
+                    "type":"string",
+                    "defaultValue": "/api/1.0/servicepin"
+                }
+            }
+        },
+        "UnregisterNotificationModel":{
+            "id":"UnregisterNotificationModel",
+            "properties":{
+                "UUID":{
+                    "type":"string",
+                    "defaultValue": "{00000000-0000-0000-0000-000000000000}"
+                }
+            }
+        }
+    }
+}

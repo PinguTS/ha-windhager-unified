@@ -1,0 +1,7 @@
+{
+  "name": "Windhager",
+  "render_readme": true,
+  "domains": ["sensor", "switch", "button", "select"],
+  "country": ["DE", "AT", "CH"],
+  "homeassistant": "2024.1.0"
+}

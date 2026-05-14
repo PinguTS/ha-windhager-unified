@@ -1,0 +1,5841 @@
+# Windhager LON OID catalogue
+# Source of truth for API semantics: docs/swagger/ (Swagger 1.2 files).
+# Human-readable labels: custom_components/windhager_unified/labels/ (bundled XML from device).
+# Entries flagged `unverified: true` have not been confirmed against a live device.
+
+meta:
+  version: 5
+  description: 'Curated Windhager LON datapoint catalogue. OID format: subnetId/nodeId/fctId/groupId/memberId/varInst. Labels come from the bundled XML files in custom_components/windhager_unified/labels/. Entries flagged `unverified: true` were imported from external references and have not been confirmed against a live device.'
+  datapoint_count: 308
+datapoints:
+  - oid: 1/15/0/0/0/0
+    key: lon_1_15_0_0_0_0
+    i18n:
+      de: Aussentemperatur
+      en: 00-000
+      fr: 00-000
+      it: 00-000
+    api_name: 00-000
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: essential
+  - oid: 1/15/0/0/2/0
+    key: lon_1_15_0_0_2_0
+    i18n:
+      de: Aktueller Wert
+      en: Actual
+      fr: Valeur actuelle
+      it: Valore corrente
+    api_name: 00-002
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/0/0/4/0
+    key: lon_1_15_0_0_4_0
+    api_name: 00-004
+    i18n:
+      de: Aktueller Wert
+      en: Actual
+      fr: Valeur actuelle
+      it: Valore corrente
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/0/7/0
+    key: lon_1_15_0_0_7_0
+    api_name: 00-007
+    i18n:
+      de: Kesseltemperatur Istwert
+      en: Boiler temp. actual value
+      fr: Temp. effective chaudière
+      it: Temp. di caldaia  Valore effettivo
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/0/15/0
+    key: lon_1_15_0_0_15_0
+    i18n:
+      de: Puffertemperatur Oben
+      en: Accumulator-temp. top
+      fr: Température supérieure du tampon
+      it: Temperatura puffer superiore
+    api_name: 00-015
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/0/0/16/0
+    key: lon_1_15_0_0_16_0
+    i18n:
+      de: Puffertemperatur Unten
+      en: Accumulator-temp. bottom
+      fr: Température inférieure du tampon
+      it: Temperatura puffer inferiore
+    api_name: 00-016
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/0/0/17/0
+    key: lon_1_15_0_0_17_0
+    i18n:
+      de: Puffertemperatur Mitte
+      en: Buffer temperature Centre
+      fr: Température réserve tampon Milieu
+      it: Temperatura accumulo Centro
+    api_name: 00-017
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/1/1/0
+    key: lon_1_15_0_1_1_0
+    i18n:
+      de: Sollwert
+      en: Set point
+      fr: Consigne
+      it: Set point
+    api_name: 01-001
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/1/2/0
+    key: lon_1_15_0_1_2_0
+    i18n:
+      de: Sollwert
+      en: Set point
+      fr: Consigne
+      it: Set point
+    api_name: 01-002
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/1/4/0
+    key: lon_1_15_0_1_4_0
+    api_name: 01-004
+    i18n:
+      de: Sollwert
+      en: Set point
+      fr: Consigne
+      it: Set point
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+    unverified: true
+  - oid: 1/15/0/1/7/0
+    key: lon_1_15_0_1_7_0
+    i18n:
+      de: Solltemperatur
+      en: Set temperature
+      fr: Température consigne
+      it: Temperatura di set
+    api_name: 01-007
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.5'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/1/20/0
+    key: lon_1_15_0_1_20_0
+    i18n:
+      de: Heizkreispumpe
+      en: Circuit pump, heating
+      fr: Pompe du circuit de chauffe
+      it: Circolatore circuito di riscaldamento
+    api_name: 01-020
+    hint_node: UMUMLZ
+    type_id: 1
+    subtype_id: -1
+    unit_id: 0
+    write_protected: true
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/1/21/0
+    key: lon_1_15_0_1_21_0
+    i18n:
+      de: Mischer
+      en: Mixing valve heating circuit
+      fr: Vanne mélangeuse
+      it: Valvola miscelatrice
+    api_name: 01-021
+    hint_node: UMUMLZ
+    type_id: 1
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '-100'
+    max_value: '100'
+    step: '10'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/1/65/0
+    key: lon_1_15_0_1_65_0
+    api_name: 01-065
+    i18n:
+      de: Warmwasser Zirkulationspumpe
+      en: Circulation pump DHW
+      fr: ECS pompe de circulation
+      it: Pompa di ricircolo ACS
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+    unverified: true
+  - oid: 1/15/0/1/66/0
+    key: lon_1_15_0_1_66_0
+    i18n:
+      de: Warmwasser Ladepumpe
+      en: Charging pump DHW
+      fr: Pompe de charge ECS
+      it: Carico ACS
+    api_name: 01-066
+    hint_node: UMUMLZ
+    type_id: 1
+    subtype_id: -1
+    unit_id: 0
+    write_protected: true
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/2/10/0
+    key: lon_1_15_0_2_10_0
+    i18n:
+      de: Dauer
+      en: Duration
+      fr: Durée
+      it: Durata
+    api_name: 02-010
+    hint_node: UMUMLZ
+    type_id: 4
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '0'
+    max_value: '400'
+    step: '1'
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/2/16/0
+    key: lon_1_15_0_2_16_0
+    i18n:
+      de: Freigabe starten
+      en: Enable
+      fr: Autorisation démarrage
+      it: Avviamento
+    api_name: 02-016
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/2/70/0
+    key: lon_1_15_0_2_70_0
+    i18n:
+      de: Datum
+      en: Date
+      fr: Date
+      it: Data
+    api_name: 02-070
+    hint_node: UMUMLZ
+    type_id: 4
+    subtype_id: -1
+    unit_id: 20
+    write_protected: true
+    unit: '20'
+    min_value: 01.01.1900
+    max_value: 17.12.2077
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/0/2/72/0
+    key: lon_1_15_0_2_72_0
+    i18n:
+      de: Uhrzeit
+      en: Time
+      fr: Heure
+      it: Ora
+    api_name: 02-072
+    hint_node: UMUMLZ
+    type_id: 4
+    subtype_id: -1
+    unit_id: 21
+    write_protected: true
+    unit: '21'
+    min_value: 00:00
+    max_value: '23:59'
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/0/3/0/0
+    key: lon_1_15_0_3_0_0
+    api_name: 03-000
+    i18n:
+      de: Raumtemperatur
+      en: Room temperature
+      fr: T° ambiante
+      it: Temp. ambiente
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+    unverified: true
+  - oid: 1/15/0/3/1/0
+    key: lon_1_15_0_3_1_0
+    i18n:
+      de: Fusspunkt
+      en: Origin
+      fr: Point de pivot
+      it: Origine
+    api_name: 03-001
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '10.0'
+    max_value: '50.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/2/0
+    key: lon_1_15_0_3_2_0
+    i18n:
+      de: TA Absenkbetrieb
+      en: T out setback mode
+      fr: T° ext. mode réduit
+      it: Temp. ridotta
+    api_name: 03-002
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '-10.0'
+    max_value: '20.0'
+    step: '0.5'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/4/0
+    key: lon_1_15_0_3_4_0
+    i18n:
+      de: Temperatur
+      en: Temperature
+      fr: Température
+      it: Temperatura
+    api_name: 03-004
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '6.0'
+    max_value: '30.0'
+    step: '0.5'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/6/0
+    key: lon_1_15_0_3_6_0
+    i18n:
+      de: Vorhaltezeit
+      en: Prestart
+      fr: Constante de temps
+      it: Anticipo accensione
+    api_name: 03-006
+    hint_node: UMUMLZ
+    type_id: 4
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '0'
+    max_value: '240'
+    step: '1'
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/7/0
+    key: lon_1_15_0_3_7_0
+    i18n:
+      de: Kompensation
+      en: Compensation
+      fr: Compensation
+      it: Compensazione
+    api_name: 03-007
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '0.0'
+    max_value: '10.0'
+    step: '0.5'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/12/0
+    key: lon_1_15_0_3_12_0
+    i18n:
+      de: Klimapunkt
+      en: Climate
+      fr: Point de climat
+      it: Temp. climatica
+    api_name: 03-012
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '-30.0'
+    max_value: '5.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/13/0
+    key: lon_1_15_0_3_13_0
+    i18n:
+      de: Vorlauf
+      en: Flow
+      fr: Circuit Départ
+      it: Mandata
+    api_name: 03-013
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '30.0'
+    max_value: '90.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/21/0
+    key: lon_1_15_0_3_21_0
+    i18n:
+      de: TA Heizbetrieb
+      en: Temp. out heat mode
+      fr: T° ext. mode chauf.
+      it: Comm. est/inv
+    api_name: 03-021
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '0.0'
+    max_value: '30.0'
+    step: '0.5'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/23/0
+    key: lon_1_15_0_3_23_0
+    api_name: 03-023
+    i18n:
+      de: Aussentemperatur
+      en: Outside temperature
+      fr: T° extérieure
+      it: Temp. esterna
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: essential
+    unverified: true
+  - oid: 1/15/0/3/29/0
+    key: lon_1_15_0_3_29_0
+    i18n:
+      de: Rücklauf
+      en: Return
+      fr: Circuit retour
+      it: Ritorno
+    api_name: 03-029
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '20.0'
+    max_value: '70.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/30/0
+    key: lon_1_15_0_3_30_0
+    i18n:
+      de: Nachstellzeit
+      en: PI control
+      fr: Comp. temporisation
+      it: Compens.ambiente PI
+    api_name: 03-030
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '0.0'
+    max_value: '90.0'
+    step: '1.0'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/50/0
+    key: lon_1_15_0_3_50_0
+    i18n:
+      de: Betriebswahl
+      en: Select mode
+      fr: Choix fonction
+      it: Modo selezione
+    api_name: 03-050
+    hint_node: UMUMLZ
+    type_id: 9
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    enum_values:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 7
+    enum_i18n:
+      de:
+        '0': Standby
+        '1': Heizprogramm 1
+        '2': Heizprogramm 2
+        '3': Heizprogramm 3
+        '4': Heizbetrieb
+        '5': Absenkbetrieb
+      en:
+        '0': Stand-by
+        '1': Heating program 1
+        '2': Heating program 2
+        '3': Heating program 3
+        '4': Heating mode
+        '5': Setback mode
+      fr:
+        '0': Veille
+        '1': Programme chauffage 1
+        '2': Programme chauffage 2
+        '3': Programme chauffage 3
+        '4': Mode chauffage
+        '5': Mode réduit
+      it:
+        '0': Attesa
+        '1': Prog.riscaldamento 1
+        '2': Prog. riscaldamento 2
+        '3': Prog. riscaldamento 3
+        '4': Tipo di riscaldamento
+        '5': Modo temp. ridotta
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/51/0
+    key: lon_1_15_0_3_51_0
+    i18n:
+      de: Heizbetrieb
+      en: Heating mode
+      fr: Mode chauffage
+      it: Modo riscaldamento
+    api_name: 03-051
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '10.0'
+    max_value: '30.0'
+    step: '0.5'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/53/0
+    key: lon_1_15_0_3_53_0
+    i18n:
+      de: Absenkbetrieb
+      en: Setback mode
+      fr: Mode réduit
+      it: Modo temp. ridotta
+    api_name: 03-053
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '5.0'
+    max_value: '20.0'
+    step: '0.5'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/58/0
+    key: lon_1_15_0_3_58_0
+    i18n:
+      de: Korrekturwert
+      en: Correction
+      fr: Valeur de correction
+      it: Correzione
+    api_name: 03-058
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '-3.0'
+    max_value: '3.0'
+    step: '0.1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/3/78/0
+    key: lon_1_15_0_3_78_0
+    i18n:
+      de: bis Datum
+      en: until Date
+      fr: A la date du
+      it: fino alla data
+    api_name: 03-078
+    hint_node: UMUMLZ
+    type_id: 4
+    subtype_id: -1
+    unit_id: 20
+    write_protected: false
+    unit: '20'
+    min_value: 01.01.2009
+    max_value: 31.12.2078
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/4/5/0
+    key: lon_1_15_0_4_5_0
+    i18n:
+      de: Funktionsbezeichnung
+      en: Function
+      fr: Désignation de fonction
+      it: Nome funzione
+    api_name: 04-005
+    hint_node: UMUMLZ
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: false
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/4/12/0
+    key: lon_1_15_0_4_12_0
+    i18n:
+      de: Systemzeit
+      en: System time
+      fr: Horloge système
+      it: ora sistema
+    api_name: 04-012
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '2'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: advanced
+  - oid: 1/15/0/4/13/0
+    key: lon_1_15_0_4_13_0
+    i18n:
+      de: Aussentemp.
+      en: Temp. Outside
+      fr: T° extérieure
+      it: temp. esterna
+    api_name: 04-013
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '2'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/4/14/0
+    key: lon_1_15_0_4_14_0
+    i18n:
+      de: Betriebswahl
+      en: Select mode
+      fr: Choix fonction
+      it: selezione modo
+    api_name: 04-014
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '2'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/4/60/0
+    key: lon_1_15_0_4_60_0
+    i18n:
+      de: Programm
+      en: Program
+      fr: Programme
+      it: Programma
+    api_name: 04-060
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '2'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/4/63/0
+    key: lon_1_15_0_4_63_0
+    i18n:
+      de: T-Beharrung
+      en: Screed max flow temp.
+      fr: T-Inertie
+      it: Max T asciug.massetto
+    api_name: 04-063
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '20.0'
+    max_value: '60.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/4/64/0
+    key: lon_1_15_0_4_64_0
+    i18n:
+      de: Dauer Beharrung
+      en: Days max flow temp.
+      fr: Durée inertie
+      it: durata asciug.max.T
+    api_name: 04-064
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 19
+    write_protected: false
+    unit: d
+    min_value: '1.0'
+    max_value: '20.0'
+    step: '0.1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/4/65/0
+    key: lon_1_15_0_4_65_0
+    i18n:
+      de: T-Aufheizphase
+      en: T heat up phase
+      fr: Temps préchauffage
+      it: temp. fase riscaldam.
+    api_name: 04-065
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '0.5'
+    max_value: '40.0'
+    step: '0.1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/4/66/0
+    key: lon_1_15_0_4_66_0
+    i18n:
+      de: T-Abkühlphase
+      en: T cool down phase
+      fr: Temps refroidiss.
+      it: temp. fase raffredd.
+    api_name: 04-066
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '-40.0'
+    max_value: '-0.5'
+    step: '0.1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/4/67/0
+    key: lon_1_15_0_4_67_0
+    i18n:
+      de: Dauer T-Änderung
+      en: Days of Temp. change
+      fr: Durée de variation
+      it: Giorno cambio temp.
+    api_name: 04-067
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 19
+    write_protected: false
+    unit: d
+    min_value: '1.0'
+    max_value: '20.0'
+    step: '0.1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/4/92/0
+    key: lon_1_15_0_4_92_0
+    i18n:
+      de: Softwareversion Feuerungsautomat
+      en: Software version firing automate
+      fr: Version de logiciel automate
+      it: Aut. Accensione versione software
+    api_name: 04-092
+    hint_node: UMUMLZ
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/0/4/93/0
+    key: lon_1_15_0_4_93_0
+    i18n:
+      de: Version HW
+      en: Hardware Version
+      fr: Version HW
+      it: Versione hardware
+    api_name: 04-093
+    hint_node: UMUMLZ
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/0/5/0/0
+    key: lon_1_15_0_5_0_0
+    api_name: 05-000
+    i18n:
+      de: Hysterese
+      en: Hysteresis
+      fr: Hystérèse
+      it: Ciclo isteresi
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/5/1/0
+    key: lon_1_15_0_5_1_0
+    api_name: 05-001
+    i18n:
+      de: Kesselüberhöhung
+      en: Incr. boiler temp. at
+      fr: Hausse T° chaudière
+      it: Incremento T.caldaia
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/5/3/0
+    key: lon_1_15_0_5_3_0
+    api_name: 05-003
+    i18n:
+      de: Nachlaufzeit 1
+      en: Pump Over Run 1
+      fr: Temps d'arrêt 1
+      it: post funz. pompa 1
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/5/6/0
+    key: lon_1_15_0_5_6_0
+    i18n:
+      de: Zirkulationspumpe
+      en: Circulation pump active
+      fr: Pompe de circulation
+      it: Pompa di ricircolo
+    api_name: 05-006
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '3'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/5/8/0
+    key: lon_1_15_0_5_8_0
+    i18n:
+      de: max. Ladevorrang
+      en: Max. loading time
+      fr: Nbre de charge maxi.
+      it: max tempo di carica
+    api_name: 05-008
+    hint_node: UMUMLZ
+    type_id: 4
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '0'
+    max_value: '200'
+    step: '1'
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/5/51/0
+    key: lon_1_15_0_5_51_0
+    api_name: 05-051
+    i18n:
+      de: Temperatur
+      en: Temperature
+      fr: Température
+      it: temperatura
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/5/58/0
+    key: lon_1_15_0_5_58_0
+    api_name: 05-058
+    i18n:
+      de: WW-Speicher
+      en: DHW cylinder
+      fr: E.C.S. Ballon
+      it: bollitore ACS
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+    unverified: true
+  - oid: 1/15/0/5/70/0
+    key: lon_1_15_0_5_70_0
+    api_name: 05-070
+    i18n:
+      de: Laufzeit WWC Pumpe bei Impulssteuerung
+      en: Runtime WWC pump in case of pulse control
+      fr: Temps de fonctionnement WWC pompe avec réglage d'impulsion
+      it: Tempo funzionamento pompa WWC in comando a impulsi
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/5/71/0
+    key: lon_1_15_0_5_71_0
+    api_name: 05-071
+    i18n:
+      de: Sperrzeit WWC Pumpe bei Impulssteuerung
+      en: Off-time WWC pump in case of pulse control
+      fr: Temps d'arrêt WWC pompe avec réglage d'impulsion
+      it: Tempo arresto pompa WWC in comando a impulsi
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/5/76/0
+    key: lon_1_15_0_5_76_0
+    i18n:
+      de: WW-Kreis
+      en: DHW circuit
+      fr: Circuit E.C.S.
+      it: circuit.ACS
+    api_name: 05-076
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '2'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/5/80/0
+    key: lon_1_15_0_5_80_0
+    api_name: 05-080
+    i18n:
+      de: Nachlaufzeit 2
+      en: Pump Over Run 2
+      fr: Temporisat. arrêt 2
+      it: post funz.pompa 2
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/7/1/0
+    key: lon_1_15_0_7_1_0
+    i18n:
+      de: Heizkreis
+      en: Heating circuit
+      fr: Chauffage
+      it: circuito di riscaldamento
+    api_name: 07-001
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '0.0'
+    max_value: '20.0'
+    step: '1.0'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/7/2/0
+    key: lon_1_15_0_7_2_0
+    i18n:
+      de: Vorlauf min.
+      en: Min. flow temp.
+      fr: T° départ mini.
+      it: Min. temp. mandata
+    api_name: 07-002
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '10.0'
+    max_value: '50.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/7/3/0
+    key: lon_1_15_0_7_3_0
+    api_name: 07-003
+    i18n:
+      de: Nachlaufz. Pumpe
+      en: Pump Over Run
+      fr: Tempo. arrêt pompe
+      it: post funz. pompa
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/7/8/0
+    key: lon_1_15_0_7_8_0
+    i18n:
+      de: Vorlauf max.
+      en: Max. flow temp.
+      fr: T° départ maxi.
+      it: Max temp.mandata
+    api_name: 07-008
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '30.0'
+    max_value: '90.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/7/13/0
+    key: lon_1_15_0_7_13_0
+    api_name: 07-013
+    i18n:
+      de: Mischerlaufzeit
+      en: Mixer speed
+      fr: Temps mélangeur
+      it: velocità valvola mix
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/7/45/0
+    key: lon_1_15_0_7_45_0
+    api_name: 07-045
+    i18n:
+      de: Vorlauftemperatur
+      en: Flow temperature
+      fr: Température départ
+      it: Temp. mandata
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+    unverified: true
+  - oid: 1/15/0/7/76/0
+    key: lon_1_15_0_7_76_0
+    i18n:
+      de: Heizkreis
+      en: Heating circuit
+      fr: Chauffage
+      it: circuito di riscaldamento
+    api_name: 07-076
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '3'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/0/20/127/0
+    key: lon_1_15_0_20_127_0
+    i18n:
+      de: 20-127
+      en: 20-127
+      fr: 20-127
+      it: 20-127
+    api_name: 20-127
+    hint_node: UMUMLZ
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/0/23/87/0
+    key: lon_1_15_0_23_87_0
+    i18n:
+      de: Puffer-Beladegrad
+      en: Charge status
+      fr: Charge tampon
+      it: Stato di carica
+    api_name: 23-087
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '0'
+    max_value: '0'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/0/36/60/0
+    key: lon_1_15_0_36_60_0
+    api_name: 36-060
+    i18n:
+      de: 36-060
+      en: 36-060
+      fr: 36-060
+      it: 36-060
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/36/61/0
+    key: lon_1_15_0_36_61_0
+    api_name: 36-061
+    i18n:
+      de: 36-061
+      en: 36-061
+      fr: 36-061
+      it: 36-061
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/0/36/62/0
+    key: lon_1_15_0_36_62_0
+    api_name: 36-062
+    i18n:
+      de: 36-062
+      en: 36-062
+      fr: 36-062
+      it: 36-062
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/1/0/0/0
+    key: lon_1_15_1_0_0_0
+    i18n:
+      de: Aussentemperatur
+      en: 00-000
+      fr: 00-000
+      it: 00-000
+    api_name: 00-000
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: essential
+  - oid: 1/15/1/0/2/0
+    key: lon_1_15_1_0_2_0
+    i18n:
+      de: Aktueller Wert
+      en: Actual
+      fr: Valeur actuelle
+      it: Valore corrente
+    api_name: 00-002
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/1/0/7/0
+    key: lon_1_15_1_0_7_0
+    api_name: 00-007
+    i18n:
+      de: Kesseltemperatur Istwert
+      en: Boiler temp. actual value
+      fr: Temp. effective chaudière
+      it: Temp. di caldaia  Valore effettivo
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/1/0/15/0
+    key: lon_1_15_1_0_15_0
+    i18n:
+      de: Puffertemperatur Oben
+      en: Accumulator-temp. top
+      fr: Température supérieure du tampon
+      it: Temperatura puffer superiore
+    api_name: 00-015
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/1/0/16/0
+    key: lon_1_15_1_0_16_0
+    i18n:
+      de: Puffertemperatur Unten
+      en: Accumulator-temp. bottom
+      fr: Température inférieure du tampon
+      it: Temperatura puffer inferiore
+    api_name: 00-016
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/1/0/17/0
+    key: lon_1_15_1_0_17_0
+    i18n:
+      de: Puffertemperatur Mitte
+      en: Buffer temperature Centre
+      fr: Température réserve tampon Milieu
+      it: Temperatura accumulo Centro
+    api_name: 00-017
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/1/1/0
+    key: lon_1_15_1_1_1_0
+    i18n:
+      de: Sollwert
+      en: Set point
+      fr: Consigne
+      it: Set point
+    api_name: 01-001
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/1/2/0
+    key: lon_1_15_1_1_2_0
+    i18n:
+      de: Sollwert
+      en: Set point
+      fr: Consigne
+      it: Set point
+    api_name: 01-002
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/1/7/0
+    key: lon_1_15_1_1_7_0
+    i18n:
+      de: Solltemperatur
+      en: Set temperature
+      fr: Température consigne
+      it: Temperatura di set
+    api_name: 01-007
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.5'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/1/20/0
+    key: lon_1_15_1_1_20_0
+    i18n:
+      de: Heizkreispumpe
+      en: Circuit pump, heating
+      fr: Pompe du circuit de chauffe
+      it: Circolatore circuito di riscaldamento
+    api_name: 01-020
+    hint_node: UMUMLZ
+    type_id: 1
+    subtype_id: -1
+    unit_id: 0
+    write_protected: true
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/1/21/0
+    key: lon_1_15_1_1_21_0
+    i18n:
+      de: Mischer
+      en: Mixing valve heating circuit
+      fr: Vanne mélangeuse
+      it: Valvola miscelatrice
+    api_name: 01-021
+    hint_node: UMUMLZ
+    type_id: 1
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '-100'
+    max_value: '100'
+    step: '10'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/2/10/0
+    key: lon_1_15_1_2_10_0
+    i18n:
+      de: Dauer
+      en: Duration
+      fr: Durée
+      it: Durata
+    api_name: 02-010
+    hint_node: UMUMLZ
+    type_id: 4
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '0'
+    max_value: '400'
+    step: '1'
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/2/70/0
+    key: lon_1_15_1_2_70_0
+    i18n:
+      de: Datum
+      en: Date
+      fr: Date
+      it: Data
+    api_name: 02-070
+    hint_node: UMUMLZ
+    type_id: 4
+    subtype_id: -1
+    unit_id: 20
+    write_protected: true
+    unit: '20'
+    min_value: 01.01.1900
+    max_value: 17.12.2077
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/1/2/72/0
+    key: lon_1_15_1_2_72_0
+    i18n:
+      de: Uhrzeit
+      en: Time
+      fr: Heure
+      it: Ora
+    api_name: 02-072
+    hint_node: UMUMLZ
+    type_id: 4
+    subtype_id: -1
+    unit_id: 21
+    write_protected: true
+    unit: '21'
+    min_value: 00:00
+    max_value: '23:59'
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/1/3/0/0
+    key: lon_1_15_1_3_0_0
+    api_name: 03-000
+    i18n:
+      de: Raumtemperatur
+      en: Room temperature
+      fr: T° ambiante
+      it: Temp. ambiente
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+    unverified: true
+  - oid: 1/15/1/3/1/0
+    key: lon_1_15_1_3_1_0
+    i18n:
+      de: Fusspunkt
+      en: Origin
+      fr: Point de pivot
+      it: Origine
+    api_name: 03-001
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '10.0'
+    max_value: '50.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/2/0
+    key: lon_1_15_1_3_2_0
+    i18n:
+      de: TA Absenkbetrieb
+      en: T out setback mode
+      fr: T° ext. mode réduit
+      it: Temp. ridotta
+    api_name: 03-002
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '-10.0'
+    max_value: '20.0'
+    step: '0.5'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/4/0
+    key: lon_1_15_1_3_4_0
+    i18n:
+      de: Temperatur
+      en: Temperature
+      fr: Température
+      it: Temperatura
+    api_name: 03-004
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '6.0'
+    max_value: '30.0'
+    step: '0.5'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/6/0
+    key: lon_1_15_1_3_6_0
+    i18n:
+      de: Vorhaltezeit
+      en: Prestart
+      fr: Constante de temps
+      it: Anticipo accensione
+    api_name: 03-006
+    hint_node: UMUMLZ
+    type_id: 4
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '0'
+    max_value: '240'
+    step: '1'
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/7/0
+    key: lon_1_15_1_3_7_0
+    i18n:
+      de: Kompensation
+      en: Compensation
+      fr: Compensation
+      it: Compensazione
+    api_name: 03-007
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '0.0'
+    max_value: '10.0'
+    step: '0.5'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/12/0
+    key: lon_1_15_1_3_12_0
+    i18n:
+      de: Klimapunkt
+      en: Climate
+      fr: Point de climat
+      it: Temp. climatica
+    api_name: 03-012
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '-30.0'
+    max_value: '5.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/13/0
+    key: lon_1_15_1_3_13_0
+    i18n:
+      de: Vorlauf
+      en: Flow
+      fr: Circuit Départ
+      it: Mandata
+    api_name: 03-013
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '30.0'
+    max_value: '90.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/21/0
+    key: lon_1_15_1_3_21_0
+    i18n:
+      de: TA Heizbetrieb
+      en: Temp. out heat mode
+      fr: T° ext. mode chauf.
+      it: Comm. est/inv
+    api_name: 03-021
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '0.0'
+    max_value: '30.0'
+    step: '0.5'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/23/0
+    key: lon_1_15_1_3_23_0
+    api_name: 03-023
+    i18n:
+      de: Aussentemperatur
+      en: Outside temperature
+      fr: T° extérieure
+      it: Temp. esterna
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: essential
+    unverified: true
+  - oid: 1/15/1/3/29/0
+    key: lon_1_15_1_3_29_0
+    i18n:
+      de: Rücklauf
+      en: Return
+      fr: Circuit retour
+      it: Ritorno
+    api_name: 03-029
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '20.0'
+    max_value: '70.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/30/0
+    key: lon_1_15_1_3_30_0
+    i18n:
+      de: Nachstellzeit
+      en: PI control
+      fr: Comp. temporisation
+      it: Compens.ambiente PI
+    api_name: 03-030
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '0.0'
+    max_value: '90.0'
+    step: '1.0'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/50/0
+    key: lon_1_15_1_3_50_0
+    i18n:
+      de: Betriebswahl
+      en: Select mode
+      fr: Choix fonction
+      it: Modo selezione
+    api_name: 03-050
+    hint_node: UMUMLZ
+    type_id: 9
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    enum_values:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 7
+    enum_i18n:
+      de:
+        '0': Standby
+        '1': Heizprogramm 1
+        '2': Heizprogramm 2
+        '3': Heizprogramm 3
+        '4': Heizbetrieb
+        '5': Absenkbetrieb
+      en:
+        '0': Stand-by
+        '1': Heating program 1
+        '2': Heating program 2
+        '3': Heating program 3
+        '4': Heating mode
+        '5': Setback mode
+      fr:
+        '0': Veille
+        '1': Programme chauffage 1
+        '2': Programme chauffage 2
+        '3': Programme chauffage 3
+        '4': Mode chauffage
+        '5': Mode réduit
+      it:
+        '0': Attesa
+        '1': Prog.riscaldamento 1
+        '2': Prog. riscaldamento 2
+        '3': Prog. riscaldamento 3
+        '4': Tipo di riscaldamento
+        '5': Modo temp. ridotta
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/51/0
+    key: lon_1_15_1_3_51_0
+    i18n:
+      de: Heizbetrieb
+      en: Heating mode
+      fr: Mode chauffage
+      it: Modo riscaldamento
+    api_name: 03-051
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '10.0'
+    max_value: '30.0'
+    step: '0.5'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/53/0
+    key: lon_1_15_1_3_53_0
+    i18n:
+      de: Absenkbetrieb
+      en: Setback mode
+      fr: Mode réduit
+      it: Modo temp. ridotta
+    api_name: 03-053
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '5.0'
+    max_value: '20.0'
+    step: '0.5'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/58/0
+    key: lon_1_15_1_3_58_0
+    i18n:
+      de: Korrekturwert
+      en: Correction
+      fr: Valeur de correction
+      it: Correzione
+    api_name: 03-058
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '-3.0'
+    max_value: '3.0'
+    step: '0.1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/3/78/0
+    key: lon_1_15_1_3_78_0
+    i18n:
+      de: bis Datum
+      en: until Date
+      fr: A la date du
+      it: fino alla data
+    api_name: 03-078
+    hint_node: UMUMLZ
+    type_id: 4
+    subtype_id: -1
+    unit_id: 20
+    write_protected: false
+    unit: '20'
+    min_value: 01.01.2009
+    max_value: 31.12.2078
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/4/5/0
+    key: lon_1_15_1_4_5_0
+    i18n:
+      de: Funktionsbezeichnung
+      en: Function
+      fr: Désignation de fonction
+      it: Nome funzione
+    api_name: 04-005
+    hint_node: UMUMLZ
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: false
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/4/13/0
+    key: lon_1_15_1_4_13_0
+    i18n:
+      de: Aussentemp.
+      en: Temp. Outside
+      fr: T° extérieure
+      it: temp. esterna
+    api_name: 04-013
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '1'
+    max_value: '2'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/4/14/0
+    key: lon_1_15_1_4_14_0
+    i18n:
+      de: Betriebswahl
+      en: Select mode
+      fr: Choix fonction
+      it: selezione modo
+    api_name: 04-014
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '2'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/4/60/0
+    key: lon_1_15_1_4_60_0
+    i18n:
+      de: Programm
+      en: Program
+      fr: Programme
+      it: Programma
+    api_name: 04-060
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '2'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/4/63/0
+    key: lon_1_15_1_4_63_0
+    i18n:
+      de: T-Beharrung
+      en: Screed max flow temp.
+      fr: T-Inertie
+      it: Max T asciug.massetto
+    api_name: 04-063
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '20.0'
+    max_value: '60.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/4/64/0
+    key: lon_1_15_1_4_64_0
+    i18n:
+      de: Dauer Beharrung
+      en: Days max flow temp.
+      fr: Durée inertie
+      it: durata asciug.max.T
+    api_name: 04-064
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 19
+    write_protected: false
+    unit: d
+    min_value: '1.0'
+    max_value: '20.0'
+    step: '0.1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/4/65/0
+    key: lon_1_15_1_4_65_0
+    i18n:
+      de: T-Aufheizphase
+      en: T heat up phase
+      fr: Temps préchauffage
+      it: temp. fase riscaldam.
+    api_name: 04-065
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '0.5'
+    max_value: '40.0'
+    step: '0.1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/4/66/0
+    key: lon_1_15_1_4_66_0
+    i18n:
+      de: T-Abkühlphase
+      en: T cool down phase
+      fr: Temps refroidiss.
+      it: temp. fase raffredd.
+    api_name: 04-066
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '-40.0'
+    max_value: '-0.5'
+    step: '0.1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/4/67/0
+    key: lon_1_15_1_4_67_0
+    i18n:
+      de: Dauer T-Änderung
+      en: Days of Temp. change
+      fr: Durée de variation
+      it: Giorno cambio temp.
+    api_name: 04-067
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 19
+    write_protected: false
+    unit: d
+    min_value: '1.0'
+    max_value: '20.0'
+    step: '0.1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/4/92/0
+    key: lon_1_15_1_4_92_0
+    i18n:
+      de: Softwareversion Feuerungsautomat
+      en: Software version firing automate
+      fr: Version de logiciel automate
+      it: Aut. Accensione versione software
+    api_name: 04-092
+    hint_node: UMUMLZ
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/1/4/93/0
+    key: lon_1_15_1_4_93_0
+    i18n:
+      de: Version HW
+      en: Hardware Version
+      fr: Version HW
+      it: Versione hardware
+    api_name: 04-093
+    hint_node: UMUMLZ
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/1/5/8/0
+    key: lon_1_15_1_5_8_0
+    i18n:
+      de: max. Ladevorrang
+      en: Max. loading time
+      fr: Nbre de charge maxi.
+      it: max tempo di carica
+    api_name: 05-008
+    hint_node: UMUMLZ
+    type_id: 4
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '0'
+    max_value: '200'
+    step: '1'
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/7/1/0
+    key: lon_1_15_1_7_1_0
+    i18n:
+      de: Heizkreis
+      en: Heating circuit
+      fr: Chauffage
+      it: circuito di riscaldamento
+    api_name: 07-001
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '0.0'
+    max_value: '20.0'
+    step: '1.0'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/7/2/0
+    key: lon_1_15_1_7_2_0
+    i18n:
+      de: Vorlauf min.
+      en: Min. flow temp.
+      fr: T° départ mini.
+      it: Min. temp. mandata
+    api_name: 07-002
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '10.0'
+    max_value: '50.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/7/3/0
+    key: lon_1_15_1_7_3_0
+    api_name: 07-003
+    i18n:
+      de: Nachlaufz. Pumpe
+      en: Pump Over Run
+      fr: Tempo. arrêt pompe
+      it: post funz. pompa
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/1/7/8/0
+    key: lon_1_15_1_7_8_0
+    i18n:
+      de: Vorlauf max.
+      en: Max. flow temp.
+      fr: T° départ maxi.
+      it: Max temp.mandata
+    api_name: 07-008
+    hint_node: UMUMLZ
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '30.0'
+    max_value: '90.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/7/13/0
+    key: lon_1_15_1_7_13_0
+    api_name: 07-013
+    i18n:
+      de: Mischerlaufzeit
+      en: Mixer speed
+      fr: Temps mélangeur
+      it: velocità valvola mix
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/15/1/7/45/0
+    key: lon_1_15_1_7_45_0
+    api_name: 07-045
+    i18n:
+      de: Vorlauftemperatur
+      en: Flow temperature
+      fr: Température départ
+      it: Temp. mandata
+    hint_node: UMUMLZ
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+    unverified: true
+  - oid: 1/15/1/7/76/0
+    key: lon_1_15_1_7_76_0
+    i18n:
+      de: Heizkreis
+      en: Heating circuit
+      fr: Chauffage
+      it: circuito di riscaldamento
+    api_name: 07-076
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '3'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: comfort
+  - oid: 1/15/1/20/127/0
+    key: lon_1_15_1_20_127_0
+    i18n:
+      de: 20-127
+      en: 20-127
+      fr: 20-127
+      it: 20-127
+    api_name: 20-127
+    hint_node: UMUMLZ
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/15/1/23/87/0
+    key: lon_1_15_1_23_87_0
+    i18n:
+      de: Puffer-Beladegrad
+      en: Charge status
+      fr: Charge tampon
+      it: Stato di carica
+    api_name: 23-087
+    hint_node: UMUMLZ
+    type_id: 0
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '0'
+    max_value: '0'
+    step: '1'
+    state_class: measurement
+    group: central
+    fct_type: 15
+    experience_minimum: expert
+  - oid: 1/16/0/0/7/0
+    key: lon_1_16_0_0_7_0
+    i18n:
+      de: Kesseltemperatur Istwert
+      en: Boiler temp. actual value
+      fr: Temp. effective chaudière
+      it: Temp. di caldaia  Valore effettivo
+    api_name: 00-007
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/0/0/8/0
+    key: lon_1_16_0_0_8_0
+    i18n:
+      de: Rücklauftemperatur Wärmeerzeuger
+      en: Return flow temperature heat generator
+      fr: Température de retour du générateur
+      it: Temperatura ritorno generatore
+    api_name: 00-008
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/0/15/0
+    key: lon_1_16_0_0_15_0
+    i18n:
+      de: Puffertemperatur Oben
+      en: Accumulator-temp. top
+      fr: Température supérieure du tampon
+      it: Temperatura puffer superiore
+    api_name: 00-015
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/0/16/0
+    key: lon_1_16_0_0_16_0
+    i18n:
+      de: Puffertemperatur Unten
+      en: Accumulator-temp. bottom
+      fr: Température inférieure du tampon
+      it: Temperatura puffer inferiore
+    api_name: 00-016
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/0/17/0
+    key: lon_1_16_0_0_17_0
+    i18n:
+      de: Puffertemperatur Mitte
+      en: Buffer temperature Centre
+      fr: Température réserve tampon Milieu
+      it: Temperatura accumulo Centro
+    api_name: 00-017
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/1/7/0
+    key: lon_1_16_0_1_7_0
+    i18n:
+      de: Solltemperatur
+      en: Set temperature
+      fr: Température consigne
+      it: Temperatura di set
+    api_name: 01-007
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/0/1/8/0
+    key: lon_1_16_0_1_8_0
+    i18n:
+      de: Rücklauftemp. Sollwert Wärmeerzeuger
+      en: Return temperature setpoint request to heat generator
+      fr: Temp. de retour du générateur valeur de consigne
+      it: Consegna temp. ritorno generatore
+    api_name: 01-008
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/1/102/0
+    key: lon_1_16_0_1_102_0
+    i18n:
+      de: Mischer Kesselschutz
+      en: Mixer boiler protection
+      fr: Vanne mélangeuse protection de genérateur
+      it: Valvola miscelatrice protezione del generatore
+    api_name: 01-102
+    hint_node: WFBPK
+    type_id: 1
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '-100'
+    max_value: '100'
+    step: '100'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/0/4/5/0
+    key: lon_1_16_0_4_5_0
+    i18n:
+      de: Funktionsbezeichnung
+      en: Function
+      fr: Désignation de fonction
+      it: Nome funzione
+    api_name: 04-005
+    hint_node: WFBPK
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: false
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/4/92/0
+    key: lon_1_16_0_4_92_0
+    i18n:
+      de: Softwareversion Feuerungsautomat
+      en: Software version firing automate
+      fr: Version de logiciel automate
+      it: Aut. Accensione versione software
+    api_name: 04-092
+    hint_node: WFBPK
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/0/4/93/0
+    key: lon_1_16_0_4_93_0
+    i18n:
+      de: Version HW
+      en: Hardware Version
+      fr: Version HW
+      it: Versione hardware
+    api_name: 04-093
+    hint_node: WFBPK
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/0/7/12/0
+    key: lon_1_16_0_7_12_0
+    i18n:
+      de: Drehzahlregelung
+      en: Speed regulation
+      fr: Régulateur de vitesse
+      it: Controllo della velocità
+    api_name: 07-012
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '2'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/7/20/0
+    key: lon_1_16_0_7_20_0
+    i18n:
+      de: 07-020
+      en: 07-020
+      fr: 07-020
+      it: 07-020
+    api_name: 07-020
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '1.0'
+    max_value: '30.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/9/32/0
+    key: lon_1_16_0_9_32_0
+    i18n:
+      de: "Kessel-\nMinimaltemperatur"
+      en: Boiler minimal temperature
+      fr: Chaudière Temp. Min.
+      it: Temperatura minima della caldaia
+    api_name: 09-032
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '50.0'
+    max_value: '65.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/10/31/0
+    key: lon_1_16_0_10_31_0
+    i18n:
+      de: Maximalwert
+      en: Maximum
+      fr: Valeur maxi.
+      it: massimo
+    api_name: 10-031
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '75.0'
+    max_value: '90.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/0/0
+    key: lon_1_16_0_20_0_0
+    i18n:
+      de: Automatikkessel
+      en: Automatic boiler
+      fr: Chaudière mode auto.
+      it: caldaia automatica
+    api_name: 20-000
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/1/0
+    key: lon_1_16_0_20_1_0
+    i18n:
+      de: Festbrennstoff
+      en: Solid fuel
+      fr: Combustible solide
+      it: combustibile solido
+    api_name: 20-001
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/2/0
+    key: lon_1_16_0_20_2_0
+    i18n:
+      de: Pufferspeicher
+      en: Buffer
+      fr: Réserve tampon
+      it: puffer
+    api_name: 20-002
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/3/0
+    key: lon_1_16_0_20_3_0
+    i18n:
+      de: Modulfunktionen
+      en: Module functions
+      fr: Fonctions module
+      it: funzioni del modulo
+    api_name: 20-003
+    hint_node: WFBPK
+    type_id: 9
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    enum_values:
+      - 3
+    enum_i18n:
+      de:
+        '3': FB-/Pufferbetrieb
+      en:
+        '3': SF-/Buffer operation
+      fr:
+        '3': CD-/marche tampon
+      it:
+        '3': SF-/funzionamento accum.
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/5/0
+    key: lon_1_16_0_20_5_0
+    i18n:
+      de: Fühleranschluss Y3
+      en: Sensor Contact Y2
+      fr: Entrée sonde Y3
+      it: collegamento sonda Y3
+    api_name: 20-005
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '2'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/6/0
+    key: lon_1_16_0_20_6_0
+    i18n:
+      de: Antrieb
+      en: Valve Type
+      fr: Mode motorisation
+      it: tipo valvola
+    api_name: 20-006
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/7/0
+    key: lon_1_16_0_20_7_0
+    i18n:
+      de: Umschaltsperrzeit
+      en: Shift valve time
+      fr: Temps de commut.
+      it: velocità valvola mix
+    api_name: 20-007
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '1.0'
+    max_value: '7.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/8/0
+    key: lon_1_16_0_20_8_0
+    i18n:
+      de: Funktion aktivieren
+      en: Activate function
+      fr: Activer fonction
+      it: attivare funzione
+    api_name: 20-008
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/9/0
+    key: lon_1_16_0_20_9_0
+    i18n:
+      de: Zeitverzögerung
+      en: Lag time
+      fr: Temporisation
+      it: ritardo
+    api_name: 20-009
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '0.0'
+    max_value: '200.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/10/0
+    key: lon_1_16_0_20_10_0
+    i18n:
+      de: Minimalwert
+      en: Temp. Buffer min
+      fr: T° tampon mini.
+      it: min. temp. puffer
+    api_name: 20-010
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '10.0'
+    max_value: '70.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/11/0
+    key: lon_1_16_0_20_11_0
+    i18n:
+      de: Offset WE-Sollwert
+      en: Boiler compensation
+      fr: Consigne Offset
+      it: setpoint offset caldaia
+    api_name: 20-011
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '-10.0'
+    max_value: '10.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/14/0
+    key: lon_1_16_0_20_14_0
+    i18n:
+      de: min. Drehzahl
+      en: min. speed
+      fr: Nbre trs mini.
+      it: velocità minima
+    api_name: 20-014
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 4
+    write_protected: false
+    unit: '%'
+    min_value: '10.0'
+    max_value: '100.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/15/0
+    key: lon_1_16_0_20_15_0
+    i18n:
+      de: Betriebswahl
+      en: Select mode
+      fr: Choix fonction
+      it: seleziona modalità
+    api_name: 20-015
+    hint_node: WFBPK
+    type_id: 9
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    enum_values:
+      - 1
+      - 2
+      - 3
+      - 6
+    enum_i18n:
+      de:
+        '1': Automatikbetrieb
+        '2': Festbrennstoffbetrieb
+        '3': Pufferbetrieb
+      en:
+        '1': Automatic operation
+        '2': Solid fuel operation
+        '3': Buffer mode
+      fr:
+        '1': Mode automatique
+        '2': Mode combustion solide
+        '3': Mode tampon réserve
+      it:
+        '1': Funzionamento automatico
+        '2': Funzionamento comb.solido
+        '3': Funzionam. accumulatore
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/16/0
+    key: lon_1_16_0_20_16_0
+    i18n:
+      de: Maximalwert
+      en: Maximum
+      fr: Valeur maximale
+      it: valore massimo
+    api_name: 20-016
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '60.0'
+    max_value: '100.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/17/0
+    key: lon_1_16_0_20_17_0
+    i18n:
+      de: Sollwert
+      en: Set point
+      fr: Consigne
+      it: Set point
+    api_name: 20-017
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '75.0'
+    max_value: '85.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/22/0
+    key: lon_1_16_0_20_22_0
+    i18n:
+      de: max. Drehzahl
+      en: max. speed
+      fr: Rotation max.
+      it: Massima velocità
+    api_name: 20-022
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 4
+    write_protected: false
+    unit: '%'
+    min_value: '50.0'
+    max_value: '100.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/124/0
+    key: lon_1_16_0_20_124_0
+    i18n:
+      de: 20-124
+      en: 20-124
+      fr: 20-124
+      it: 20-124
+    api_name: 20-124
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/125/0
+    key: lon_1_16_0_20_125_0
+    i18n:
+      de: 20-125
+      en: 20-125
+      fr: 20-125
+      it: 20-125
+    api_name: 20-125
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '1.0'
+    max_value: '10.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/126/0
+    key: lon_1_16_0_20_126_0
+    i18n:
+      de: 20-126
+      en: 20-126
+      fr: 20-126
+      it: 20-126
+    api_name: 20-126
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '1.0'
+    max_value: '10.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/0/20/127/0
+    key: lon_1_16_0_20_127_0
+    i18n:
+      de: 20-127
+      en: 20-127
+      fr: 20-127
+      it: 20-127
+    api_name: 20-127
+    hint_node: WFBPK
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/0/22/50/0
+    key: lon_1_16_0_22_50_0
+    i18n:
+      de: PLP Pufferladepumpe
+      en: 22-050
+      fr: 22-050
+      it: 22-050
+    api_name: 22-050
+    hint_node: WFBPK
+    type_id: 1
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '0'
+    max_value: '100'
+    step: '10'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/0/22/75/0
+    key: lon_1_16_0_22_75_0
+    i18n:
+      de: 22-075
+      en: 22-075
+      fr: 22-075
+      it: 22-075
+    api_name: 22-075
+    hint_node: WFBPK
+    type_id: 1
+    subtype_id: -1
+    unit_id: 0
+    write_protected: true
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/0/22/76/0
+    key: lon_1_16_0_22_76_0
+    i18n:
+      de: 22-076
+      en: 22-076
+      fr: 22-076
+      it: 22-076
+    api_name: 22-076
+    hint_node: WFBPK
+    type_id: 1
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '-100'
+    max_value: '100'
+    step: '100'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/0/23/87/0
+    key: lon_1_16_0_23_87_0
+    i18n:
+      de: Puffer-Beladegrad
+      en: Charge status
+      fr: Charge tampon
+      it: Stato di carica
+    api_name: 23-087
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '0'
+    max_value: '0'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/0/7/0
+    key: lon_1_16_1_0_7_0
+    i18n:
+      de: Kesseltemperatur Istwert
+      en: Boiler temp. actual value
+      fr: Temp. effective chaudière
+      it: Temp. di caldaia  Valore effettivo
+    api_name: 00-007
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/0/8/0
+    key: lon_1_16_1_0_8_0
+    i18n:
+      de: Rücklauftemperatur Wärmeerzeuger
+      en: Return flow temperature heat generator
+      fr: Température de retour du générateur
+      it: Temperatura ritorno generatore
+    api_name: 00-008
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/1/7/0
+    key: lon_1_16_1_1_7_0
+    i18n:
+      de: Solltemperatur
+      en: Set temperature
+      fr: Température consigne
+      it: Temperatura di set
+    api_name: 01-007
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/1/8/0
+    key: lon_1_16_1_1_8_0
+    i18n:
+      de: Rücklauftemp. Sollwert Wärmeerzeuger
+      en: Return temperature setpoint request to heat generator
+      fr: Temp. de retour du générateur valeur de consigne
+      it: Consegna temp. ritorno generatore
+    api_name: 01-008
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/1/15/0
+    key: lon_1_16_1_1_15_0
+    i18n:
+      de: Sollwert
+      en: Set point
+      fr: Consigne
+      it: Set point
+    api_name: 01-015
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/1/22/0
+    key: lon_1_16_1_1_22_0
+    i18n:
+      de: Pumpe Wärmeerzeuger
+      en: Pump heat generator
+      fr: Pompe générateur WEP
+      it: WEP Pompa generatore
+    api_name: 01-022
+    hint_node: WFBPK
+    type_id: 1
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '0'
+    max_value: '100'
+    step: '10'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/1/100/0
+    key: lon_1_16_1_1_100_0
+    i18n:
+      de: Brenner Stufe
+      en: Burner stage
+      fr: Allure du brûleur
+      it: Stadio del bruciatore
+    api_name: 01-100
+    hint_node: WFBPK
+    type_id: 1
+    subtype_id: -1
+    unit_id: 0
+    write_protected: true
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/1/102/0
+    key: lon_1_16_1_1_102_0
+    i18n:
+      de: Mischer Kesselschutz
+      en: Mixer boiler protection
+      fr: Vanne mélangeuse protection de genérateur
+      it: Valvola miscelatrice protezione del generatore
+    api_name: 01-102
+    hint_node: WFBPK
+    type_id: 1
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '-100'
+    max_value: '100'
+    step: '100'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/2/70/0
+    key: lon_1_16_1_2_70_0
+    i18n:
+      de: Datum
+      en: Date
+      fr: Date
+      it: Data
+    api_name: 02-070
+    hint_node: WFBPK
+    type_id: 4
+    subtype_id: -1
+    unit_id: 20
+    write_protected: true
+    unit: '20'
+    min_value: 01.01.1900
+    max_value: 17.12.2077
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/2/72/0
+    key: lon_1_16_1_2_72_0
+    i18n:
+      de: Uhrzeit
+      en: Time
+      fr: Heure
+      it: Ora
+    api_name: 02-072
+    hint_node: WFBPK
+    type_id: 4
+    subtype_id: -1
+    unit_id: 21
+    write_protected: true
+    unit: '21'
+    min_value: 00:00
+    max_value: '23:59'
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/4/5/0
+    key: lon_1_16_1_4_5_0
+    i18n:
+      de: Funktionsbezeichnung
+      en: Function
+      fr: Désignation de fonction
+      it: Nome funzione
+    api_name: 04-005
+    hint_node: WFBPK
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: false
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/4/12/0
+    key: lon_1_16_1_4_12_0
+    i18n:
+      de: Systemzeit
+      en: System time
+      fr: Horloge système
+      it: ora sistema
+    api_name: 04-012
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '2'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: advanced
+  - oid: 1/16/1/4/92/0
+    key: lon_1_16_1_4_92_0
+    i18n:
+      de: Softwareversion Feuerungsautomat
+      en: Software version firing automate
+      fr: Version de logiciel automate
+      it: Aut. Accensione versione software
+    api_name: 04-092
+    hint_node: WFBPK
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/4/93/0
+    key: lon_1_16_1_4_93_0
+    i18n:
+      de: Version HW
+      en: Hardware Version
+      fr: Version HW
+      it: Versione hardware
+    api_name: 04-093
+    hint_node: WFBPK
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/6/4/0
+    key: lon_1_16_1_6_4_0
+    i18n:
+      de: Überhöhung
+      en: raising
+      fr: Réhausse
+      it: Over shooting
+    api_name: 06-004
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '0.0'
+    max_value: '20.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/7/12/0
+    key: lon_1_16_1_7_12_0
+    i18n:
+      de: Drehzahlregelung
+      en: Speed regulation
+      fr: Régulateur de vitesse
+      it: Controllo della velocità
+    api_name: 07-012
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '2'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/7/20/0
+    key: lon_1_16_1_7_20_0
+    i18n:
+      de: 07-020
+      en: 07-020
+      fr: 07-020
+      it: 07-020
+    api_name: 07-020
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '1.0'
+    max_value: '30.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/9/32/0
+    key: lon_1_16_1_9_32_0
+    i18n:
+      de: "Kessel-\nMinimaltemperatur"
+      en: Boiler minimal temperature
+      fr: Chaudière Temp. Min.
+      it: Temperatura minima della caldaia
+    api_name: 09-032
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '20.0'
+    max_value: '60.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/9/35/0
+    key: lon_1_16_1_9_35_0
+    i18n:
+      de: Hysterese
+      en: Hysteresis
+      fr: Hystérèse
+      it: isteresi
+    api_name: 09-035
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '1.0'
+    max_value: '20.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/9/57/0
+    key: lon_1_16_1_9_57_0
+    i18n:
+      de: Solltemperatur ext. Wärmeanforderung
+      en: Set temperature ext. heating requirement
+      fr: Temp. consigne dem. chaleur ext.
+      it: Temperatura effettiva richiesta
+    api_name: 09-057
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '30.0'
+    max_value: '85.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/10/31/0
+    key: lon_1_16_1_10_31_0
+    i18n:
+      de: Maximalwert
+      en: Maximum
+      fr: Valeur maxi.
+      it: massimo
+    api_name: 10-031
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '60.0'
+    max_value: '100.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/20/4/0
+    key: lon_1_16_1_20_4_0
+    i18n:
+      de: Modulfunktionen
+      en: Module functions
+      fr: Fonctions module
+      it: funzioni del modulo
+    api_name: 20-004
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '3'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/20/14/0
+    key: lon_1_16_1_20_14_0
+    i18n:
+      de: min. Drehzahl
+      en: min. speed
+      fr: Nbre trs mini.
+      it: velocità minima
+    api_name: 20-014
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 4
+    write_protected: false
+    unit: '%'
+    min_value: '10.0'
+    max_value: '100.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/20/15/0
+    key: lon_1_16_1_20_15_0
+    i18n:
+      de: Betriebswahl
+      en: Select mode
+      fr: Choix fonction
+      it: seleziona modalità
+    api_name: 20-015
+    hint_node: WFBPK
+    type_id: 9
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    enum_values:
+      - 0
+      - 1
+      - 4
+      - 6
+      - 7
+    enum_i18n:
+      de:
+        '0': Standby
+        '1': Automatikbetrieb
+        '4': Auto mit Zeitprogramm
+      en:
+        '0': Stand-by
+        '1': Automatic operation
+      fr:
+        '0': Veille
+        '1': Mode automatique
+      it:
+        '0': Attesa
+        '1': Funzionamento automatico
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/20/22/0
+    key: lon_1_16_1_20_22_0
+    i18n:
+      de: max. Drehzahl
+      en: max. speed
+      fr: Rotation max.
+      it: Massima velocità
+    api_name: 20-022
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 4
+    write_protected: false
+    unit: '%'
+    min_value: '50.0'
+    max_value: '100.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/20/28/0
+    key: lon_1_16_1_20_28_0
+    i18n:
+      de: 20-028
+      en: 20-028
+      fr: 20-028
+      it: 20-028
+    api_name: 20-028
+    hint_node: WFBPK
+    type_id: 4
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '0'
+    max_value: '360'
+    step: '15'
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/20/29/0
+    key: lon_1_16_1_20_29_0
+    i18n:
+      de: 20-029
+      en: 20-029
+      fr: 20-029
+      it: 20-029
+    api_name: 20-029
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '60.0'
+    max_value: '85.0'
+    step: '1.0'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/20/124/0
+    key: lon_1_16_1_20_124_0
+    i18n:
+      de: 20-124
+      en: 20-124
+      fr: 20-124
+      it: 20-124
+    api_name: 20-124
+    hint_node: WFBPK
+    type_id: 0
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/20/125/0
+    key: lon_1_16_1_20_125_0
+    i18n:
+      de: 20-125
+      en: 20-125
+      fr: 20-125
+      it: 20-125
+    api_name: 20-125
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 6
+    write_protected: false
+    unit: min
+    min_value: '1.0'
+    max_value: '10.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/20/126/0
+    key: lon_1_16_1_20_126_0
+    i18n:
+      de: 20-126
+      en: 20-126
+      fr: 20-126
+      it: 20-126
+    api_name: 20-126
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 2
+    write_protected: false
+    unit: K
+    min_value: '1.0'
+    max_value: '10.0'
+    step: '1.0'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: comfort
+  - oid: 1/16/1/20/127/0
+    key: lon_1_16_1_20_127_0
+    i18n:
+      de: 20-127
+      en: 20-127
+      fr: 20-127
+      it: 20-127
+    api_name: 20-127
+    hint_node: WFBPK
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/21/64/0
+    key: lon_1_16_1_21_64_0
+    i18n:
+      de: TPT
+      en: TPT
+      fr: TPT
+      it: TPT
+    api_name: 21-064
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/21/65/0
+    key: lon_1_16_1_21_65_0
+    i18n:
+      de: TPE
+      en: TPE
+      fr: TPE
+      it: TPE
+    api_name: 21-065
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/21/66/0
+    key: lon_1_16_1_21_66_0
+    i18n:
+      de: TPA
+      en: TPA
+      fr: TPA
+      it: TPA
+    api_name: 21-066
+    hint_node: WFBPK
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '0.0'
+    max_value: '0.0'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/16/1/22/75/0
+    key: lon_1_16_1_22_75_0
+    i18n:
+      de: 22-075
+      en: 22-075
+      fr: 22-075
+      it: 22-075
+    api_name: 22-075
+    hint_node: WFBPK
+    type_id: 1
+    subtype_id: -1
+    unit_id: 0
+    write_protected: true
+    min_value: '0'
+    max_value: '1'
+    step: '1'
+    state_class: measurement
+    group: buffer
+    fct_type: 16
+    experience_minimum: expert
+  - oid: 1/60/0/0/7/0
+    key: lon_1_60_0_0_7_0
+    api_name: 00-007
+    i18n:
+      de: Kesseltemperatur Istwert
+      en: Boiler temp. actual value
+      fr: Temp. effective chaudière
+      it: Temp. di caldaia  Valore effettivo
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/0/9/0
+    key: lon_1_60_0_0_9_0
+    api_name: 00-009
+    i18n:
+      de: Aktuelle Kesselleistung
+      en: Current boiler output
+      fr: Puis. act. de la chaudière
+      it: Portata attuale caldaia
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/0/11/0
+    key: lon_1_60_0_0_11_0
+    api_name: 00-011
+    i18n:
+      de: Temperatur Abgas
+      en: Temp. Exhaust
+      fr: T Fumées
+      it: T fumi
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/0/45/0
+    key: lon_1_60_0_0_45_0
+    api_name: 00-045
+    i18n:
+      de: Brennkammertemperatur
+      en: Combustion chamber temperature
+      fr: Température chambre de combustion
+      it: Temperatura camera di combustione
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/1/7/0
+    key: lon_1_60_0_1_7_0
+    api_name: 01-007
+    i18n:
+      de: Solltemperatur
+      en: Set temperature
+      fr: Température consigne
+      it: Temperatura di set
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+    unverified: true
+  - oid: 1/60/0/2/0/0
+    key: lon_1_60_0_2_0_0
+    api_name: 02-000
+    i18n:
+      de: Alarmcode
+      en: Alarmcode
+      fr: Alarmcode
+      it: Alarmcode
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: advanced
+    unverified: true
+  - oid: 1/60/0/2/1/0
+    key: lon_1_60_0_2_1_0
+    api_name: 02-001
+    i18n:
+      de: Betriebsphasen
+      en: Betriebsphasen
+      fr: Betriebsphasen
+      it: Betriebsphasen
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/2/59/0
+    key: lon_1_60_0_2_59_0
+    api_name: 02-059
+    i18n:
+      de: Betriebsarten
+      en: Betriebsarten
+      fr: Betriebsarten
+      it: Betriebsarten
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/2/72/0
+    key: lon_1_60_0_2_72_0
+    api_name: 02-072
+    i18n:
+      de: Uhrzeit
+      en: Time
+      fr: Heure
+      it: Ora
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/2/80/0
+    key: lon_1_60_0_2_80_0
+    api_name: 02-080
+    i18n:
+      de: Anzahl der Brennerstarts
+      en: Number of burner starts
+      fr: Nombre de démarrages du brûleur
+      it: Numero di avvii bruciatore
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/2/81/0
+    key: lon_1_60_0_2_81_0
+    api_name: 02-081
+    i18n:
+      de: Betriebsstunden
+      en: Operating hours
+      fr: Heures de service
+      it: Ore di funzionamento
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/9/20/0
+    key: lon_1_60_0_9_20_0
+    api_name: 09-020
+    i18n:
+      de: Handbetrieb Solltemperatur
+      en: Manual mode Set temperature
+      fr: Mode manuel Température consigne
+      it: Modalità manuale Temperatura di set
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+    unverified: true
+  - oid: 1/60/0/9/21/0
+    key: lon_1_60_0_9_21_0
+    api_name: 09-021
+    i18n:
+      de: Hysterese Brenner EIN
+      en: Hysteresis Burner ON
+      fr: Hystérèse brûleur MARCHE
+      it: Isteresi Bruciatore ON
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/9/57/0
+    key: lon_1_60_0_9_57_0
+    api_name: 09-057
+    i18n:
+      de: Solltemperatur ext. Wärmeanforderung
+      en: Set temperature ext. heating requirement
+      fr: Temp. consigne dem. chaleur ext.
+      it: Temperatura effettiva richiesta
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+    unverified: true
+  - oid: 1/60/0/9/75/0
+    key: lon_1_60_0_9_75_0
+    api_name: 09-075
+    i18n:
+      de: Betriebswahl
+      en: Select mode
+      fr: Choix fonction
+      it: Mod. selezione
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/9/90/0
+    key: lon_1_60_0_9_90_0
+    api_name: 09-090
+    i18n:
+      de: Kaminkehrerbetrieb Restlaufzeit
+      en: Chimney sweep mode
+      fr: Mode ramoneur
+      it: Modalità spazzacamino
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/10/110/0
+    key: lon_1_60_0_10_110_0
+    api_name: 10-110
+    i18n:
+      de: Kaminkehrerbetrieb Leistung
+      en: Chimney sweep mode Power
+      fr: Mode ramoneur Puissance
+      it: Modalità spazzacamino Portata
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/11/27/0
+    key: lon_1_60_0_11_27_0
+    api_name: 11-027
+    i18n:
+      de: WEZ-Nummer
+      en: Boiler no.
+      fr: Numéro chaudière
+      it: Caldia n°
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/12/39/0
+    key: lon_1_60_0_12_39_0
+    api_name: 12-039
+    i18n:
+      de: Maximalwert der  Solltemperatur
+      en: Maximum value offset temperature
+      fr: Température consigne maximale
+      it: Valore Mass. di Temp. di set
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+    unverified: true
+  - oid: 1/60/0/12/41/0
+    key: lon_1_60_0_12_41_0
+    api_name: 12-041
+    i18n:
+      de: 12-041
+      en: 12-041
+      fr: 12-041
+      it: 12-041
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/12/100/0
+    key: lon_1_60_0_12_100_0
+    api_name: 12-100
+    i18n:
+      de: Brennstoffmenge Förderschnecke Bereich
+      en: Fuel quantity Auger conveyor Range
+      fr: Quantité pellets vis d'amenée Étendue
+      it: Quant. comb. nella coclea Campo
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/12/101/0
+    key: lon_1_60_0_12_101_0
+    api_name: 12-101
+    i18n:
+      de: Brennstoffmenge Förderschnecke Istwert
+      en: Fuel quantity Auger conveyor Actual value
+      fr: Quantité pellets vis d'amenée Valeur réelle
+      it: Quant. comb. nella coclea Valore eff.
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/14/10/0
+    key: lon_1_60_0_14_10_0
+    api_name: 14-010
+    i18n:
+      de: Zuführung mit Freigabezeit Ende
+      en: Feed with enable time Finish
+      fr: Alim. avec temps libéra. Fin
+      it: Convogliamento con orario libero Fine
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/14/11/0
+    key: lon_1_60_0_14_11_0
+    api_name: 14-011
+    i18n:
+      de: Zuführung mit Freigabezeit Beginn
+      en: Feed with enable time Start
+      fr: Alim. avec temps libéra. Début
+      it: Convogliamento con orario libero Inizio
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/14/19/0
+    key: lon_1_60_0_14_19_0
+    api_name: 14-019
+    i18n:
+      de: Betriebsart Zuführung
+      en: Feed operating mode
+      fr: Mode Alimentation
+      it: Tipo di convogliamento
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/14/20/0
+    key: lon_1_60_0_14_20_0
+    api_name: 14-020
+    i18n:
+      de: Zuführung mit Startzeit Startzeit
+      en: Feed with start time Start time
+      fr: Alimentation avec temps démarrage Temps démarrage
+      it: Convogliamento con orario avvio Orario di avvio
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/14/75/0
+    key: lon_1_60_0_14_75_0
+    api_name: 14-075
+    i18n:
+      de: Korrektur Reinigungsintervall
+      en: Correction of cleaning interval
+      fr: Correction Intervalles de nettoyage
+      it: Correzione intervallo pulizia
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/14/79/0
+    key: lon_1_60_0_14_79_0
+    api_name: 14-079
+    i18n:
+      de: Heizflächenreinigung Beginn Sperrzeit
+      en: Heating surf. cleaning Initiate off period
+      fr: Nettoyage surf. échan. Début du temps de bloc.
+      it: Pulizia scambiatore Avviamento fuori periodo
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/14/80/0
+    key: lon_1_60_0_14_80_0
+    api_name: 14-080
+    i18n:
+      de: Heizflächenreinigung Dauer
+      en: Heating surf. cleaning Duration
+      fr: Nettoyage surf. échan. Durée
+      it: Pulizia scambiatore Durata
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/20/61/0
+    key: lon_1_60_0_20_61_0
+    api_name: 20-061
+    i18n:
+      de: Laufzeit bis Reinigung
+      en: Operating time until Stage 1 cleaning
+      fr: Tps de service et Nettoyage
+      it: Temp. Corsa a Pulizia
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/20/62/0
+    key: lon_1_60_0_20_62_0
+    api_name: 20-062
+    i18n:
+      de: Laufzeit bis Hauptreinigung
+      en: Operating time until Stage 2 cleaning
+      fr: Tps de service et Nettoyage général
+      it: Temp. Corsa a Pulizia generale
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/20/97/0
+    key: lon_1_60_0_20_97_0
+    api_name: 20-097
+    i18n:
+      de: 20-097
+      en: 20-097
+      fr: 20-097
+      it: 20-097
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/20/98/0
+    key: lon_1_60_0_20_98_0
+    api_name: 20-098
+    i18n:
+      de: 20-098
+      en: 20-098
+      fr: 20-098
+      it: 20-098
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/20/99/0
+    key: lon_1_60_0_20_99_0
+    api_name: 20-099
+    i18n:
+      de: 20-099
+      en: 20-099
+      fr: 20-099
+      it: 20-099
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/20/106/0
+    key: lon_1_60_0_20_106_0
+    api_name: 20-106
+    i18n:
+      de: 20-106
+      en: 20-106
+      fr: 20-106
+      it: 20-106
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/20/108/0
+    key: lon_1_60_0_20_108_0
+    api_name: 20-108
+    i18n:
+      de: 20-108
+      en: 20-108
+      fr: 20-108
+      it: 20-108
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/20/116/0
+    key: lon_1_60_0_20_116_0
+    api_name: 20-116
+    i18n:
+      de: 20-116
+      en: 20-116
+      fr: 20-116
+      it: 20-116
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/0/0
+    key: lon_1_60_0_37_0_0
+    api_name: 37-000
+    i18n:
+      de: 37-000
+      en: 37-000
+      fr: 37-000
+      it: 37-000
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/1/0
+    key: lon_1_60_0_37_1_0
+    api_name: 37-001
+    i18n:
+      de: 37-001
+      en: 37-001
+      fr: 37-001
+      it: 37-001
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/2/0
+    key: lon_1_60_0_37_2_0
+    api_name: 37-002
+    i18n:
+      de: 37-002
+      en: 37-002
+      fr: 37-002
+      it: 37-002
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/3/0
+    key: lon_1_60_0_37_3_0
+    api_name: 37-003
+    i18n:
+      de: 37-003
+      en: 37-003
+      fr: 37-003
+      it: 37-003
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/4/0
+    key: lon_1_60_0_37_4_0
+    api_name: 37-004
+    i18n:
+      de: 37-004
+      en: 37-004
+      fr: 37-004
+      it: 37-004
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/5/0
+    key: lon_1_60_0_37_5_0
+    api_name: 37-005
+    i18n:
+      de: 37-005
+      en: 37-005
+      fr: 37-005
+      it: 37-005
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/9/0
+    key: lon_1_60_0_37_9_0
+    api_name: 37-009
+    i18n:
+      de: 37-009
+      en: 37-009
+      fr: 37-009
+      it: 37-009
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/47/0
+    key: lon_1_60_0_37_47_0
+    api_name: 37-047
+    i18n:
+      de: 37-047
+      en: 37-047
+      fr: 37-047
+      it: 37-047
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/108/0
+    key: lon_1_60_0_37_108_0
+    api_name: 37-108
+    i18n:
+      de: 37-108
+      en: 37-108
+      fr: 37-108
+      it: 37-108
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/122/0
+    key: lon_1_60_0_37_122_0
+    api_name: 37-122
+    i18n:
+      de: 37-122
+      en: 37-122
+      fr: 37-122
+      it: 37-122
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/123/0
+    key: lon_1_60_0_37_123_0
+    api_name: 37-123
+    i18n:
+      de: 37-123
+      en: 37-123
+      fr: 37-123
+      it: 37-123
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/126/0
+    key: lon_1_60_0_37_126_0
+    api_name: 37-126
+    i18n:
+      de: 37-126
+      en: 37-126
+      fr: 37-126
+      it: 37-126
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/37/127/0
+    key: lon_1_60_0_37_127_0
+    api_name: 37-127
+    i18n:
+      de: 37-127
+      en: 37-127
+      fr: 37-127
+      it: 37-127
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/38/0/0
+    key: lon_1_60_0_38_0_0
+    api_name: 38-000
+    i18n:
+      de: 38-000
+      en: 38-000
+      fr: 38-000
+      it: 38-000
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/38/31/0
+    key: lon_1_60_0_38_31_0
+    api_name: 38-031
+    i18n:
+      de: 38-031
+      en: 38-031
+      fr: 38-031
+      it: 38-031
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/39/17/0
+    key: lon_1_60_0_39_17_0
+    api_name: 39-017
+    i18n:
+      de: 39-017
+      en: 39-017
+      fr: 39-017
+      it: 39-017
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/39/23/0
+    key: lon_1_60_0_39_23_0
+    api_name: 39-023
+    i18n:
+      de: 39-023
+      en: 39-023
+      fr: 39-023
+      it: 39-023
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/39/32/0
+    key: lon_1_60_0_39_32_0
+    api_name: 39-032
+    i18n:
+      de: 39-032
+      en: 39-032
+      fr: 39-032
+      it: 39-032
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/39/64/0
+    key: lon_1_60_0_39_64_0
+    api_name: 39-064
+    i18n:
+      de: 39-064
+      en: 39-064
+      fr: 39-064
+      it: 39-064
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/39/81/0
+    key: lon_1_60_0_39_81_0
+    api_name: 39-081
+    i18n:
+      de: 39-081
+      en: 39-081
+      fr: 39-081
+      it: 39-081
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/39/94/0
+    key: lon_1_60_0_39_94_0
+    api_name: 39-094
+    i18n:
+      de: 39-094
+      en: 39-094
+      fr: 39-094
+      it: 39-094
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/39/95/0
+    key: lon_1_60_0_39_95_0
+    api_name: 39-095
+    i18n:
+      de: 39-095
+      en: 39-095
+      fr: 39-095
+      it: 39-095
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/39/101/0
+    key: lon_1_60_0_39_101_0
+    api_name: 39-101
+    i18n:
+      de: 39-101
+      en: 39-101
+      fr: 39-101
+      it: 39-101
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/39/117/0
+    key: lon_1_60_0_39_117_0
+    api_name: 39-117
+    i18n:
+      de: 39-117
+      en: 39-117
+      fr: 39-117
+      it: 39-117
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/39/120/0
+    key: lon_1_60_0_39_120_0
+    api_name: 39-120
+    i18n:
+      de: 39-120
+      en: 39-120
+      fr: 39-120
+      it: 39-120
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/41/4/0
+    key: lon_1_60_0_41_4_0
+    api_name: 41-004
+    i18n:
+      de: 41-004
+      en: 41-004
+      fr: 41-004
+      it: 41-004
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/41/5/0
+    key: lon_1_60_0_41_5_0
+    api_name: 41-005
+    i18n:
+      de: 41-005
+      en: 41-005
+      fr: 41-005
+      it: 41-005
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/41/6/0
+    key: lon_1_60_0_41_6_0
+    api_name: 41-006
+    i18n:
+      de: 41-006
+      en: 41-006
+      fr: 41-006
+      it: 41-006
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/41/7/0
+    key: lon_1_60_0_41_7_0
+    api_name: 41-007
+    i18n:
+      de: 41-007
+      en: 41-007
+      fr: 41-007
+      it: 41-007
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/41/88/0
+    key: lon_1_60_0_41_88_0
+    api_name: 41-088
+    i18n:
+      de: 41-088
+      en: 41-088
+      fr: 41-088
+      it: 41-088
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/41/109/0
+    key: lon_1_60_0_41_109_0
+    api_name: 41-109
+    i18n:
+      de: 41-109
+      en: 41-109
+      fr: 41-109
+      it: 41-109
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/42/20/0
+    key: lon_1_60_0_42_20_0
+    api_name: 42-020
+    i18n:
+      de: 42-020
+      en: 42-020
+      fr: 42-020
+      it: 42-020
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/42/24/0
+    key: lon_1_60_0_42_24_0
+    api_name: 42-024
+    i18n:
+      de: 42-024
+      en: 42-024
+      fr: 42-024
+      it: 42-024
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/42/25/0
+    key: lon_1_60_0_42_25_0
+    api_name: 42-025
+    i18n:
+      de: 42-025
+      en: 42-025
+      fr: 42-025
+      it: 42-025
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/42/26/0
+    key: lon_1_60_0_42_26_0
+    api_name: 42-026
+    i18n:
+      de: 42-026
+      en: 42-026
+      fr: 42-026
+      it: 42-026
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/43/1/0
+    key: lon_1_60_0_43_1_0
+    api_name: 43-001
+    i18n:
+      de: 43-001
+      en: 43-001
+      fr: 43-001
+      it: 43-001
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/43/4/0
+    key: lon_1_60_0_43_4_0
+    api_name: 43-004
+    i18n:
+      de: 43-004
+      en: 43-004
+      fr: 43-004
+      it: 43-004
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/43/20/0
+    key: lon_1_60_0_43_20_0
+    api_name: 43-020
+    i18n:
+      de: 43-020
+      en: 43-020
+      fr: 43-020
+      it: 43-020
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/43/47/0
+    key: lon_1_60_0_43_47_0
+    api_name: 43-047
+    i18n:
+      de: 43-047
+      en: 43-047
+      fr: 43-047
+      it: 43-047
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/43/48/0
+    key: lon_1_60_0_43_48_0
+    api_name: 43-048
+    i18n:
+      de: 43-048
+      en: 43-048
+      fr: 43-048
+      it: 43-048
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/43/50/0
+    key: lon_1_60_0_43_50_0
+    api_name: 43-050
+    i18n:
+      de: 43-050
+      en: 43-050
+      fr: 43-050
+      it: 43-050
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/43/51/0
+    key: lon_1_60_0_43_51_0
+    api_name: 43-051
+    i18n:
+      de: 43-051
+      en: 43-051
+      fr: 43-051
+      it: 43-051
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/43/77/0
+    key: lon_1_60_0_43_77_0
+    api_name: 43-077
+    i18n:
+      de: 43-077
+      en: 43-077
+      fr: 43-077
+      it: 43-077
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/43/92/0
+    key: lon_1_60_0_43_92_0
+    api_name: 43-092
+    i18n:
+      de: 43-092
+      en: 43-092
+      fr: 43-092
+      it: 43-092
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/60/0/43/93/0
+    key: lon_1_60_0_43_93_0
+    api_name: 43-093
+    i18n:
+      de: 43-093
+      en: 43-093
+      fr: 43-093
+      it: 43-093
+    hint_node: BioWIN2
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+    unverified: true
+  - oid: 1/65/0/0/7/0
+    key: lon_1_65_0_0_7_0
+    i18n:
+      de: Kesseltemperatur Istwert
+      en: Boiler temp. actual value
+      fr: Temp. effective chaudière
+      it: Temp. di caldaia  Valore effettivo
+    api_name: 00-007
+    hint_node: LogWIN
+    type_id: 14
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '-10.50'
+    max_value: '95.50'
+    step: '0.01'
+    device_class: temperature
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/0/11/0
+    key: lon_1_65_0_0_11_0
+    i18n:
+      de: Temperatur Abgas
+      en: Temp. Exhaust
+      fr: T Fumées
+      it: T fumi
+    api_name: 00-011
+    hint_node: LogWIN
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '-274.0'
+    max_value: '3276.7'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/0/15/0
+    key: lon_1_65_0_0_15_0
+    i18n:
+      de: Puffertemperatur Oben
+      en: Accumulator-temp. top
+      fr: Température supérieure du tampon
+      it: Temperatura puffer superiore
+    api_name: 00-015
+    hint_node: LogWIN
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '-273.1'
+    max_value: '327.6'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/0/16/0
+    key: lon_1_65_0_0_16_0
+    i18n:
+      de: Puffertemperatur Unten
+      en: Accumulator-temp. bottom
+      fr: Température inférieure du tampon
+      it: Temperatura puffer inferiore
+    api_name: 00-016
+    hint_node: LogWIN
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '-273.1'
+    max_value: '327.6'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/0/17/0
+    key: lon_1_65_0_0_17_0
+    i18n:
+      de: Puffertemperatur Mitte
+      en: Buffer temperature Centre
+      fr: Température réserve tampon Milieu
+      it: Temperatura accumulo Centro
+    api_name: 00-017
+    hint_node: LogWIN
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '-273.1'
+    max_value: '327.6'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+  - oid: 1/65/0/0/42/0
+    key: lon_1_65_0_0_42_0
+    i18n:
+      de: O2 Signal
+      en: O2 signal
+      fr: Signal O2
+      it: Segnale 02
+    api_name: 00-042
+    hint_node: LogWIN
+    type_id: 13
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '-3276.7'
+    max_value: '3276.7'
+    step: '0.1'
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/0/45/0
+    key: lon_1_65_0_0_45_0
+    i18n:
+      de: Brennkammertemperatur
+      en: Combustion chamber temperature
+      fr: Température chambre de combustion
+      it: Temperatura camera di combustione
+    api_name: 00-045
+    hint_node: LogWIN
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: true
+    unit: °C
+    min_value: '-274.0'
+    max_value: '3276.7'
+    step: '0.1'
+    device_class: temperature
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/2/0/0
+    key: lon_1_65_0_2_0_0
+    i18n:
+      de: Alarmcode
+      en: 02-000
+      fr: 02-000
+      it: 02-000
+    api_name: 02-000
+    hint_node: LogWIN
+    type_id: 4
+    subtype_id: -1
+    unit_id: 0
+    write_protected: true
+    min_value: '0'
+    max_value: '65535'
+    step: '1'
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/2/1/0
+    key: lon_1_65_0_2_1_0
+    i18n:
+      de: Betriebsphasen
+      en: 02-001
+      fr: 02-001
+      it: 02-001
+    api_name: 02-001
+    hint_node: LogWIN
+    type_id: 9
+    subtype_id: -1
+    unit_id: 0
+    write_protected: true
+    enum_values:
+      - 1
+      - 2
+      - 3
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+    enum_i18n:
+      de:
+        '1': Selbsttest
+        '2': WE ausschalten
+        '3': Standby
+        '6': Zündphase
+        '7': Flammenstabilisierung
+        '8': Modulationsbetrieb
+        '9': Kessel gesperrt
+        '10': Standby Sperrzeit
+        '11': Gebläse AUS
+        '12': Verkleidungstür offen
+        '13': Zündung bereit
+        '14': Abbruch Zündphase
+        '15': Anheizvorgang
+        '16': Schichtladung
+        '17': Ausbrand
+      en:
+        '1': Self-test
+        '2': Switch-off heat gener.
+        '3': Stand-by
+        '6': Ignition phase
+        '7': Flame stabilisation
+        '8': Modulation mode
+        '9': Boiler locked
+        '10': Stand-by off period
+        '11': Fan OFF
+        '12': Cladding door open
+        '13': Ignition ready
+        '14': Cancel ignition phase
+        '15': Start procedure
+        '16': Step-loading
+        '17': Burnout
+      fr:
+        '1': Autotest
+        '2': Eteindre gén. chaleur
+        '3': Veille
+        '6': Phase d'allumage
+        '7': Stabilisation flamme
+        '8': Mode modulant
+        '9': Chaudière bloqué
+        '10': Veille temps différé
+        '11': Ventilateur Arrêté
+        '12': Porte de revêtement ouverte
+        '13': Allumage prêt
+        '14': Annuler phase d'allumage
+        '15': Préchauffage en cours
+        '16': Charge en couche
+        '17': Extinction
+      it:
+        '1': Self-test
+        '2': Spegnimento caldaia
+        '3': Attesa
+        '6': Fase di accensione
+        '7': Stabilizzazione fiamma
+        '8': Funzionamento modulato
+        '9': Caldaia bloccato
+        '10': Attesa tempo di arresto
+        '11': Ventilatore OFF
+        '12': Porta di contenimento aperta
+        '13': Accensione pronta
+        '14': Cancella fase di accensione
+        '15': Processo di accensione
+        '16': Carica stratificata
+        '17': Fine combustione
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/2/59/0
+    key: lon_1_65_0_2_59_0
+    i18n:
+      de: Betriebsarten
+      en: 02-059
+      fr: 02-059
+      it: 02-059
+    api_name: 02-059
+    hint_node: LogWIN
+    type_id: 9
+    subtype_id: -1
+    unit_id: 0
+    write_protected: true
+    enum_values:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+    enum_i18n:
+      de:
+        '0': Ausgeschaltet
+        '1': Abschaltvorgang
+        '2': Festbrennstoff-/ Pufferbetrieb
+        '3': Pelletszuführung in Betrieb
+        '4': Pelletszuführung
+        '5': Ein
+        '6': Pelletszuführung in Betrieb
+        '7': Pelletszuführung
+        '8': Handbetrieb
+        '9': Kaminkehrerfunktion
+        '10': Aktorentest
+        '11': Installationsvorgang aktiv
+      en:
+        '0': Switched off
+        '1': Shut-down procedure
+        '2': Solid fuel/ buffer mode
+        '3': Pellet feed in operation
+        '4': Pellet feed
+        '5': 'On'
+        '6': Pellet feed in operation
+        '7': Pellet feed
+        '8': Manual mode
+        '9': Chimney sweeper func
+        '10': Actuator test
+        '11': Installation procedure active
+      fr:
+        '0': Désactivée
+        '1': Désactivation
+        '2': Mode Combustible solide/tampon
+        '3': Alimentation en pellets active
+        '4': Alimentation en pellets
+        '5': 'On'
+        '6': Alimentation en pellets active
+        '7': Alimentation en pellets
+        '8': Mode manuel
+        '9': Fonction de ramonage
+        '10': Test d'actionneurs
+        '11': Installation active
+      it:
+        '0': Escluso
+        '1': Fase di spegnimento
+        '2': Combustibile solido/ Modalità accumulo
+        '3': Convogliamento Pellets in funzione
+        '4': Convogliamento Pellets
+        '5': 'On'
+        '6': Convogliamento Pellets in funzione
+        '7': Convogliamento Pellets
+        '8': Modalità manuale
+        '9': Funzione spazzacamino
+        '10': Test elementi
+        '11': Attivazione procedura  installazione
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/2/70/0
+    key: lon_1_65_0_2_70_0
+    i18n:
+      de: Datum
+      en: Date
+      fr: Date
+      it: Data
+    api_name: 02-070
+    hint_node: LogWIN
+    type_id: 4
+    subtype_id: -1
+    unit_id: 20
+    write_protected: false
+    unit: '20'
+    min_value: 01.01.1900
+    max_value: 05.06.2079
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+  - oid: 1/65/0/2/72/0
+    key: lon_1_65_0_2_72_0
+    i18n:
+      de: Uhrzeit
+      en: Time
+      fr: Heure
+      it: Ora
+    api_name: 02-072
+    hint_node: LogWIN
+    type_id: 4
+    subtype_id: -1
+    unit_id: 21
+    write_protected: false
+    unit: '21'
+    min_value: 00:00
+    max_value: '23:59'
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+  - oid: 1/65/0/2/81/0
+    key: lon_1_65_0_2_81_0
+    i18n:
+      de: Betriebsstunden
+      en: Operating hours
+      fr: Heures de service
+      it: Ore di funzionamento
+    api_name: 02-081
+    hint_node: LogWIN
+    type_id: 4
+    subtype_id: -1
+    unit_id: 5
+    write_protected: true
+    unit: h
+    min_value: '0'
+    max_value: '65535'
+    step: '1'
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/4/92/0
+    key: lon_1_65_0_4_92_0
+    i18n:
+      de: Softwareversion Feuerungsautomat
+      en: Software version firing automate
+      fr: Version de logiciel automate
+      it: Aut. Accensione versione software
+    api_name: 04-092
+    hint_node: LogWIN
+    type_id: 16
+    subtype_id: -1
+    unit_id: 0
+    write_protected: true
+    min_value: '0.00'
+    max_value: '655.34'
+    step: '0.01'
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/9/75/0
+    key: lon_1_65_0_9_75_0
+    i18n:
+      de: Betriebswahl
+      en: Select mode
+      fr: Choix fonction
+      it: Mod. selezione
+    api_name: 09-075
+    hint_node: LogWIN
+    type_id: 9
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    enum_values:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+    enum_i18n:
+      de:
+        '0': AUS
+        '1': EIN
+        '2': Handbetrieb
+        '3': Kaminkehrerbetrieb
+        '4': Aktorentest
+        '5': Inbetriebnahme
+      en:
+        '0': 'Off'
+        '1': 'On'
+        '2': Manual mode
+        '3': Chimney sweep mode
+        '4': Actuator test
+        '5': Start-up
+      fr:
+        '0': Arrêt
+        '1': Marche
+        '2': Mode manuel
+        '3': Mode ramoneur
+        '4': Test d'actionneurs
+        '5': Mise en service
+      it:
+        '0': 'Off'
+        '1': 'On'
+        '2': Modalità manuale
+        '3': Modalità spazzacamino
+        '4': Test elementi
+        '5': Messa in funzione
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+  - oid: 1/65/0/12/38/0
+    key: lon_1_65_0_12_38_0
+    i18n:
+      de: Kesseltype
+      en: Boiler model
+      fr: Type de chaudière
+      it: Tipo caldaia
+    api_name: 12-038
+    hint_node: LogWIN
+    type_id: 30
+    subtype_id: 9
+    unit_id: 0
+    write_protected: true
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/12/40/0
+    key: lon_1_65_0_12_40_0
+    i18n:
+      de: Kesseltemperatur für Neustart
+      en: Boiler temperature for restart
+      fr: Temp chaudière pour redémarrage
+      it: Temperatura caldaia per nuovo avvio
+    api_name: 12-040
+    hint_node: LogWIN
+    type_id: 13
+    subtype_id: -1
+    unit_id: 1
+    write_protected: false
+    unit: °C
+    min_value: '65.0'
+    max_value: '75.0'
+    step: '10.0'
+    device_class: temperature
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+  - oid: 1/65/0/12/42/0
+    key: lon_1_65_0_12_42_0
+    i18n:
+      de: Startverzögerung Automatikkessel
+      en: Start-up delay automatic boiler
+      fr: Retardement démarrage chaudière
+      it: Ritardo di accensione caldaia automatica
+    api_name: 12-042
+    hint_node: LogWIN
+    type_id: 4
+    subtype_id: -1
+    unit_id: 5
+    write_protected: false
+    unit: h
+    min_value: '0'
+    max_value: '24'
+    step: '1'
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+  - oid: 1/65/0/12/103/0
+    key: lon_1_65_0_12_103_0
+    i18n:
+      de: Ausbrand
+      en: Burnout
+      fr: Extinction
+      it: Fine combustione
+    api_name: 12-103
+    hint_node: LogWIN
+    type_id: 9
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    enum_values:
+      - 0
+      - 1
+      - 2
+    enum_i18n:
+      de:
+        '0': Automatische Erkennung
+        '1': Normal
+        '2': Gluterhaltung
+      en:
+        '0': Automatic detection
+        '1': Normal
+        '2': Ember quantity
+      fr:
+        '0': Détection autom.
+        '1': Normal
+        '2': Conserv. Incandescence
+      it:
+        '0': Rivelazione automatica
+        '1': Quantità normale di brace
+        '2': Quantidad de rescoldos
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+  - oid: 1/65/0/12/105/0
+    key: lon_1_65_0_12_105_0
+    i18n:
+      de: Elektrische Zündung
+      en: Automatic ignition
+      fr: Allumage électrique
+      it: Accensione elettrica
+    api_name: 12-105
+    hint_node: LogWIN
+    type_id: 9
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    enum_values:
+      - 0
+      - 1
+    enum_i18n:
+      de:
+        '0': Nein
+        '1': Ja
+      en:
+        '0': 'No'
+        '1': 'Yes'
+      fr:
+        '0': Non
+        '1': Oui
+      it:
+        '0': 'No'
+        '1': Sì
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+  - oid: 1/65/0/20/65/0
+    key: lon_1_65_0_20_65_0
+    i18n:
+      de: Startverzögerung Abbruch
+      en: 20-065
+      fr: 20-065
+      it: 20-065
+    api_name: 20-065
+    hint_node: LogWIN
+    type_id: 4
+    subtype_id: -1
+    unit_id: 5
+    write_protected: false
+    unit: h
+    min_value: '0'
+    max_value: '24'
+    step: '1'
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+  - oid: 1/65/0/20/111/0
+    key: lon_1_65_0_20_111_0
+    i18n:
+      de: Sperrzeit bis
+      en: Delay start until
+      fr: Différé jusqu'à
+      it: Tempo di arresto a
+    api_name: 20-111
+    hint_node: LogWIN
+    type_id: 4
+    subtype_id: -1
+    unit_id: 21
+    write_protected: false
+    unit: '21'
+    min_value: 00:00
+    max_value: '23:59'
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+  - oid: 1/65/0/20/112/0
+    key: lon_1_65_0_20_112_0
+    i18n:
+      de: Anzahl Anheizvorgänge
+      en: 20-112
+      fr: 20-112
+      it: 20-112
+    api_name: 20-112
+    hint_node: LogWIN
+    type_id: 4
+    subtype_id: -1
+    unit_id: 0
+    write_protected: true
+    min_value: '0'
+    max_value: '65535'
+    step: '1'
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/20/118/0
+    key: lon_1_65_0_20_118_0
+    i18n:
+      de: Kombikessel
+      en: 20-118
+      fr: 20-118
+      it: 20-118
+    api_name: 20-118
+    hint_node: LogWIN
+    type_id: 9
+    subtype_id: -1
+    unit_id: 0
+    write_protected: false
+    enum_values:
+      - 0
+      - 1
+    enum_i18n:
+      de:
+        '0': Nein
+        '1': Ja
+      en:
+        '0': 'No'
+        '1': 'Yes'
+      fr:
+        '0': Non
+        '1': Oui
+      it:
+        '0': 'No'
+        '1': Si
+    group: boiler
+    fct_type: 10
+    experience_minimum: comfort
+  - oid: 1/65/0/23/87/0
+    key: lon_1_65_0_23_87_0
+    i18n:
+      de: Puffer-Beladegrad
+      en: Charge status
+      fr: Charge tampon
+      it: Stato di carica
+    api_name: 23-087
+    hint_node: LogWIN
+    type_id: 0
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '0'
+    max_value: '254'
+    step: '1'
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/23/88/0
+    key: lon_1_65_0_23_88_0
+    i18n:
+      de: Saugzuggebläse Soll-Drehzahl
+      en: Induced draught fan Set speed
+      fr: Ventilateur tirage asp Vitesse consi.
+      it: Ventilatore Vel. Richiesta
+    api_name: 23-088
+    hint_node: LogWIN
+    type_id: 4
+    subtype_id: -1
+    unit_id: 10
+    write_protected: true
+    unit: U/min
+    min_value: '0'
+    max_value: '65535'
+    step: '1'
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/23/90/0
+    key: lon_1_65_0_23_90_0
+    i18n:
+      de: Position Primär-LK
+      en: Pos. Prim. airfl.
+      fr: Pos. vol. air prim.
+      it: Pos. valv. aria pri.
+    api_name: 23-090
+    hint_node: LogWIN
+    type_id: 0
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '0'
+    max_value: '254'
+    step: '1'
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/23/91/0
+    key: lon_1_65_0_23_91_0
+    i18n:
+      de: Position Sekundär-LK
+      en: Pos. Sec. airfl.
+      fr: Pos. vol. air sec.
+      it: Pos. valv. aria sec.
+    api_name: 23-091
+    hint_node: LogWIN
+    type_id: 0
+    subtype_id: -1
+    unit_id: 4
+    write_protected: true
+    unit: '%'
+    min_value: '0'
+    max_value: '254'
+    step: '1'
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert
+  - oid: 1/65/0/23/98/0
+    key: lon_1_65_0_23_98_0
+    i18n:
+      de: O2 Heizstrom
+      en: O2 heat current
+      fr: Courant de chauffage O2
+      it: Corrente di riscal. 02
+    api_name: 23-098
+    hint_node: LogWIN
+    type_id: 13
+    subtype_id: -1
+    unit_id: 48
+    write_protected: true
+    unit: A
+    min_value: '-3276.7'
+    max_value: '3276.7'
+    step: '0.1'
+    state_class: measurement
+    group: boiler
+    fct_type: 10
+    experience_minimum: expert

@@ -1,0 +1,80 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/DcmRC7030/api/1.0",
+    "resourcePath":"/msg1025",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/msg1025/push",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"push msg1025",
+                    "notes":"push msg1025",
+                    "type":"void",
+                    "nickname":"putPush",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "Srv1025Model object to action on.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "Srv1025Model",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "Srv1025Model":{
+            "id":"Srv1025Model",
+            "properties":{
+                "subnet": {
+                    "type":"integer",
+                    "defaultValue": 1
+                },
+                "nodeId":{
+                    "type":"integer",
+                    "defaultValue": 60
+                },
+                "fctId":{
+                    "type":"integer",
+                    "defaultValue": 0
+                },
+                "groupId":{
+                    "type":"integer",
+                    "defaultValue": 2
+                },
+                "memberId":{
+                    "type":"integer",
+                    "defaultValue": 32
+                },
+                "typeId":{
+                    "type":"integer",
+                    "defaultValue": 5
+                },
+                "propChanged":{
+                    "type":"integer",
+                    "defaultValue": 0
+                },
+                "data": {
+                    "uniqueItems": true,
+                    "items": {
+                        "type":"byte"
+                     },
+                     "defaultValue": [96,121,254,255]
+                }
+            }
+        }
+    }
+}

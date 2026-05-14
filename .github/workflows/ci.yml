@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.11-slim
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install --no-cache-dir -r requirements_test.txt
+
+      - name: Lint (ruff)
+        run: ruff check custom_components/windhager_unified tests
+
+      - name: Format check (black)
+        run: black --check --line-length 100 custom_components/windhager_unified tests
+
+      - name: Run tests
+        run: pytest --tb=short -v
+
+  hacs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hacs/action@main
+        with:
+          category: integration

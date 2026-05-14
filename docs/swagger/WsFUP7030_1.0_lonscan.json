@@ -1,0 +1,78 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsFUP7030/api/1.0",
+    "resourcePath":"/lonscan",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/lonscan/test/{step}",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"Retrieve test",
+                    "notes":"Retrieve test",
+                    "type":"void",
+                    "nickname":"postLonscanTest",
+                    "parameters":[
+                        {
+                            "name":"step",
+                            "description":"step id to be retrieve",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "1 RespondToQuery (group, on)",
+                                "2 QueryIdRequest",
+                                "3 QueryDomainRequest",
+                                "4 RespondToQuery (node, off)",
+                                "5 RespondToQuery (group, off)"
+                            ]
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/lonscan/run",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"run lonscan",
+                    "notes":"run lonscan",
+                    "type":"void",
+                    "nickname":"postLonscanRun",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "INFO":{
+            "id":"INFO",
+            "properties":{
+                "name":{
+                    "type":"string"
+                },
+                "version":{
+                    "type":"string"
+                }
+            }
+        }
+    }
+}

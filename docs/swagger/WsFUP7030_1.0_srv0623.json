@@ -1,0 +1,117 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsFUP7030/api/1.0",
+    "resourcePath":"/srv0623",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/srv0623",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Write srv0623 with OID",
+                    "notes":"Write srv0623 with OID and value",
+                    "type":"void",
+                    "nickname":"putSrv0623OidValue",
+                    "parameters":[
+                        {
+                            "name": "oid",
+                            "description": "OID as /subnet/nodeId/fctId/group/member/instance.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "value",
+                            "description": "value decimal or hex with prepanding 0x",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path":"/srv0623",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"Write srv0623 with body",
+                    "notes":"Write srv0623 with body",
+                    "type":"void",
+                    "nickname":"postSrv0623",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "Srv0623Model object to perform action.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "Srv0623Model",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+
+    ],
+
+    "models":{
+        "INFO":{
+            "id":"INFO",
+            "properties":{
+                "name":{
+                    "type":"string"
+                },
+                "version":{
+                    "type":"string"
+                }
+            }
+        },
+        "Srv0623Model":{
+            "id":"Srv0623Model",
+            "properties":{
+                "subnet": {
+                    "type":"integer",
+                    "defaultValue": 1
+                },
+                "nodeId": {
+                    "type":"integer",
+                    "defaultValue": 60
+                },
+                "mainSel":{
+                    "type":"string",
+                    "defaultValue": "8504"
+                },
+                "subSel":{
+                    "type":"string",
+                    "defaultValue": "4000"
+                },
+                "data": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type":"integer"
+                     }
+                }
+            }
+        }
+    }
+}

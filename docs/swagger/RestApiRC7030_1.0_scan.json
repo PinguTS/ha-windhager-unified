@@ -1,0 +1,326 @@
+{
+    "apiVersion": "1.0.1",
+    "swaggerVersion": "1.2",
+    "resourcePath": "/scan",
+    "basePath": "/api/1.0",
+    "produces": [
+        "application/json"
+    ],
+    "apis":[
+        {
+            "path": "/scan/nodes/model",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "scan model",
+                    "notes": "Retrieve scan model.",
+                    "type": "void",
+                    "nickname": "getScanNodesModel",
+                    "parameters": [
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary": "scan model",
+                    "notes": "Retrieve scan model.",
+                    "type": "void",
+                    "nickname": "putScanNodesModel",
+                    "parameters": [
+                        {
+                            "name": "lonScanModel",
+                            "description": "The `LonScanModel` of the Object to perform action with.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "LonScanModel",
+                            "allowMultiple": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/scan/nodes/status",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "scan status",
+                    "notes": "Retrieve scan status.",
+                    "type": "void",
+                    "nickname": "getScanNodesStatus",
+                    "parameters": [
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/scan/nodes/{cmd}",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary": "LonScanStateMachine commands.",
+                    "notes": "LonScanStateMachine commands.",
+                    "type": "void",
+                    "nickname": "putScanNodesCmd",
+                    "parameters": [
+                        {
+                            "name": "cmd",
+                            "description": "cmd to be posted.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "string",
+                            "enum":[
+                                "initscan",
+                                "start",
+                                "stop",
+                                "scanNodes",
+                                "queryID",
+                                "postScan",
+                                "queryNodeName",
+                                "queryNodeFunctions",
+                                "quit",
+                                "scanDone"
+                            ],
+                            "defaultValue": "initscan",
+                            "allowMultiple": false
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "/scan/nvcount/{subnetId}/{nodeId}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "get nvcount from a Node",
+                    "notes": "get nvcount from a Node.",
+                    "type": "void",
+                    "nickname": "getScanNv",
+                    "parameters": [
+                        {
+                            "name": "subnetId",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "/scan/nvstruct/{subnetId}/{nodeId}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "get nvstruct from a Node",
+                    "notes": "get nvstruct from a Node.",
+                    "type": "void",
+                    "nickname": "getScanNv",
+                    "parameters": [
+                        {
+                            "name": "subnetId",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "/scan/nv/{subnetId}/{nodeId}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "scan NVs from a Node",
+                    "notes": "scan NVs from a Node.",
+                    "type": "void",
+                    "nickname": "getScanNv",
+                    "parameters": [
+                        {
+                            "name": "subnetId",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        }
+                    ]
+                }
+            ]
+        }
+
+
+    ],
+
+    "models": {
+        "Status": {
+            "id": "Status",
+            "properties": {
+            "code": {
+                "type": "integer"
+            },
+            "message": {
+                "type": "string"
+            }
+        }
+        },
+        "Error": {
+            "id": "Error",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "fileds": {
+                    "type": "string"
+                }
+            }
+        },
+        "LonNode": {
+            "id": "LonNode",
+            "properties": {
+                "nodeId": {
+                    "type": "integer",
+                    "descripton": "id of the node"
+                },
+                "subnet": {
+                    "type": "integer",
+                    "description": "id of the subnet"
+                },
+                "neuronId": {
+                    "type": "string"
+                },
+                "programId": {
+                    "type": "string"
+                }
+            }
+        },
+        "Subnet": {
+            "id":"Subnet",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "id of the subnet"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "name of the subnet"
+                }
+            }
+        },
+        "Node": {
+            "id":"Node",
+            "properties": {
+                "nodeId": {
+                    "type": "integer",
+                    "descripton": "id of the node"
+                },
+                "subnet": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "functions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "Function"
+                    }
+                },
+                "neuronId": {
+                    "type": "string"
+                },
+                "programId": {
+                    "type": "string"
+                }
+            }
+        },
+        "Function": {
+            "id":"Function",
+            "properties": {
+                "fctId": {
+                    "type": "integer",
+                    "description": "id of the function"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "fctType": {
+                    "type": "integer"
+                },
+                "lock": {
+                    "type": "bool"
+                }
+            }
+        },
+        "Level": {
+            "id":"Level",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "id of the level"
+                },
+                "count": {
+                    "type": "integer",
+                    "description": "number of the datapoints inside this level"
+                }
+            }
+        },
+        "LonScanModel": {
+            "id":"LonScanModel",
+            "properties": {
+                "verbose": {
+                    "type": "boolean",
+                    "description": "verbose mode"
+                },
+                "auto": {
+                    "type": "boolean",
+                    "description": "auto mode",
+                    "defaultValue": false
+                },
+                "groups": {
+                    "type": "string",
+                    "description": "list of groups to scan seperator by comma",
+                    "defaultValue": "4,1"
+                }
+            }
+        }
+    }
+}

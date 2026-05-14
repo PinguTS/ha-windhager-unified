@@ -1,0 +1,211 @@
+{
+    "apiVersion":"1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/InfoWinHeartbeat/api/1.0",
+    "resourcePath":"/kesselwahl",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/kesselwahl/{method}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve kesselwahl",
+                    "notes":"Retrieve kesselwahl",
+                    "type":"KesselwahlModel",
+                    "nickname":"getHeartbeat",
+                    "parameters":[
+                        {
+                            "name":"method",
+                            "description":"method to perform action with.",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "list",
+                                "selected"
+                            ]
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path":"/kesselwahl/{id}",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"start kesselwahl",
+                    "notes":"start kesselwahl",
+                    "type":"void",
+                    "nickname":"putKesselwahl",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"id des Kesssels.",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "1 Pellets",
+                                "2 Holz",
+                                "3 Kombikessel",
+                                "4 Hackschnitzel",
+                                "5 Oel",
+                                "6 Nein",
+                                "7 MB1",
+                                "8 MB2"
+                            ]
+                        },
+                        {
+                            "name": "option",
+                            "description": "Option.",
+                            "paramType": "query",
+                            "required": false,
+                            "type": "string",
+                            "allowMultiple": false,
+                            "enum": [
+                                "0 none",
+                                "1 withServicePin"
+                            ]
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path":"/kesselwahl/servicepin",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"new servicepin message",
+                    "notes":"new servicepin message",
+                    "type":"void",
+                    "nickname":"putServicepin",
+                    "parameters":[
+                        {
+                            "name": "londevice",
+                            "description": "The `LonDevice` Object to perform action with.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "LonDeviceModel",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path":"/kesselwahl/servicepin/listener",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"get servicepin listener state",
+                    "notes":"get servicepin listener state",
+                    "type":"void",
+                    "nickname":"getServicepinListener",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path":"/kesselwahl/servicepin/listener/{method}",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"post service listener method",
+                    "notes":"post service listener method",
+                    "type":"void",
+                    "nickname":"postServicepinListenerEvent",
+                    "parameters":[
+                        {
+                            "name":"method",
+                            "description":"post servicepin listener method.",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "start",
+                                "stop"
+                            ]
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        }
+                    ]
+                }
+            ]
+        }
+
+
+    ],
+
+    "models":{
+        "KesselwahlModel":{
+            "id":"KesselwahlModel",
+            "properties":{
+                "id":{
+                    "type":"integer"
+                },
+                "name":{
+                    "type":"integer"
+                }
+            }
+        },
+        "LonDeviceModel":{
+            "id":"LonDeviceModel",
+            "properties":{
+                "domainIdx":{
+                    "type":"integer"
+                },
+                "subnet":{
+                    "type":"integer"
+                },
+                "nodeId":{
+                    "type":"integer"
+                },
+                "neuronId":{
+                    "type":"string"
+                },
+                "programId":{
+                    "type":"string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,103 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsFUP7030/api/1.0",
+    "resourcePath":"/hwtest",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/hwtest/fup",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve id info",
+                    "notes":"Retrieve id info",
+                    "type":"void",
+                    "nickname":"getHwTestFup",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/hwtest/lop/{id}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve LOP App info",
+                    "notes":"Retrieve LOP App info",
+                    "type":"void",
+                    "nickname":"getHwTestLopId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"id to be retrieve",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "info",
+                                "dummyRead"
+                            ]
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/hwtest/lop/brdcstLock",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Set Broadcast Lock",
+                    "notes":"Set Broadcast Lock",
+                    "type":"void",
+                    "nickname":"putHwTestLopBrdcstLock",
+                    "parameters":[
+                        {
+                            "name": "value",
+                            "description": "Numeric `timeout` in 0.1 seconds. (0 or none: forever)",
+                            "paramType": "query",
+                            "required": false,
+                            "type": "integer",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "INFO":{
+            "id":"INFO",
+            "properties":{
+                "name":{
+                    "type":"string"
+                },
+                "version":{
+                    "type":"string"
+                }
+            }
+        }
+    }
+}

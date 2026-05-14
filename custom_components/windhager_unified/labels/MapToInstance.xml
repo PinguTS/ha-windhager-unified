@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<entry type="4" desc="Kaskadenmanager">
+		<level id="107" instance="0" desc="Einstellungen WE 1"/>
+		<level id="108" instance="1" desc="Einstellungen WE 2"/>
+		<level id="109" instance="2" desc="Einstellungen WE 3"/>
+		<level id="110" instance="3" desc="Einstellungen WE 4"/>
+		<level id="111" instance="4" desc="Einstellungen WE 5"/>
+		<level id="112" instance="5" desc="Einstellungen WE 6"/>
+		<level id="113" instance="6" desc="Einstellungen WE 7"/>
+		<level id="114" instance="7" desc="Einstellungen WE 8"/>
+		<level id="127" instance="0" desc="Soll- und Istwerte WE 1"/>
+		<level id="128" instance="1" desc="Soll- und Istwerte WE 2"/>
+		<level id="129" instance="2" desc="Soll- und Istwerte WE 3"/>
+		<level id="130" instance="3" desc="Soll- und Istwerte WE 4"/>
+		<level id="131" instance="4" desc="Soll- und Istwerte WE 5"/>
+		<level id="132" instance="5" desc="Soll- und Istwerte WE 6"/>
+		<level id="133" instance="6" desc="Soll- und Istwerte WE 7"/>
+		<level id="134" instance="7" desc="Soll- und Istwerte WE 8"/>
+		<level id="137" instance="0" desc="Ausgänge WE 1"/>
+		<level id="138" instance="1" desc="Ausgänge WE 2"/>
+		<level id="139" instance="2" desc="Ausgänge WE 3"/>
+		<level id="140" instance="3" desc="Ausgänge WE 4"/>
+		<level id="141" instance="4" desc="Ausgänge WE 5"/>
+		<level id="142" instance="5" desc="Ausgänge WE 6"/>
+		<level id="143" instance="6" desc="Ausgänge WE 7"/>
+		<level id="144" instance="7" desc="Ausgänge WE 8"/>
+	</entry>
+	<entry type="12" desc="IO5500">
+		<level id="116" instance="0" desc="Soll-Istwerte Energiezählkreis 1"/>
+		<level id="117" instance="1" desc="Soll-Istwerte Energiezählkreis 2"/>
+		<level id="118" instance="3" desc="Soll-Istwerte Energiezählkreis 3"/>
+	</entry>
+	<entry type="13" desc="Solar ES">
+		<level id="106" instance="0" desc="Einstellungen Kollektor 1"/>
+		<level id="107" instance="1" desc="Einstellungen Kollektor 2"/>
+		<level id="108" instance="0" desc="Einstellungen Speicher 1"/>
+		<level id="109" instance="1" desc="Einstellungen Speicher 2"/>
+		<level id="111" instance="2" desc="Einstellungen Speicher 3"/>
+		<level id="112" instance="3" desc="Einstellungen Speicher 4"/>
+		<level id="116" instance="0" desc="Soll- und Istwerte Kollektor 1"/>
+		<level id="117" instance="1" desc="Soll- und Istwerte Kollektor 2"/>
+		<level id="118" instance="0" desc="Soll- und Istwerte Speicher 1"/>
+		<level id="119" instance="1" desc="Soll- und Istwerte Speicher 2"/>
+		<level id="120" instance="2" desc="Soll- und Istwerte Speicher 3"/>
+		<level id="121" instance="3" desc="Soll- und Istwerte Speicher 4"/>
+	</entry>
+</root>

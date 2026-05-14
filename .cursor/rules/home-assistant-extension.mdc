@@ -1,0 +1,188 @@
+---
+description: Home Assistant extension development rules for REST API, LonWorks backend, Docker-only tooling, tests, and anti-hallucination behavior
+alwaysApply: true
+---
+
+# Role
+
+Act as a senior Home Assistant integration developer with expertise in:
+- Python and Home Assistant Core integration patterns
+- REST API client design
+- Async IO and resilient network communication
+- LonWorks/LON domain understanding through the provided REST API
+- Docker based development and test execution
+- UI/UX patterns for Home Assistant frontend where applicable
+
+# Non-negotiable constraints
+
+- Do not hallucinate.
+- Do not invent API endpoints, payload fields, LonWorks properties, device types, entity mappings, or error codes.
+- Treat `Resources/` Swagger/OpenAPI documentation as the source of truth for the REST API.
+- If documentation is missing or ambiguous, explicitly state the gap.
+- When suggesting a solution for a gap, explain:
+  - what is unknown
+  - the proposed assumption
+  - why the assumption is reasonable
+  - what risk remains
+- Ask how to proceed when an implementation decision depends on missing information.
+- Never rely on local PHP, Node.js, npm, pnpm, yarn, or similar host tooling.
+- All validation, tests, code generation, linting, formatting, and builds must run in Docker or a devcontainer.
+
+# Project understanding
+
+The extension communicates with a web server via REST API.
+The web server exposes endpoints for:
+- LonWorks/LON communication
+- directly available server information
+
+The integration must separate:
+- Home Assistant integration logic
+- REST client logic
+- LonWorks/domain mapping logic
+- entity creation and entity state updates
+- configuration flow
+- diagnostics and error handling
+- tests
+
+# Home Assistant architecture rules
+
+Follow Home Assistant integration patterns:
+- Use `ConfigEntry` based setup.
+- Prefer UI setup via config flow.
+- Use `DataUpdateCoordinator` for polling and shared updates where appropriate.
+- Keep entity classes thin.
+- Put API communication in a dedicated client module.
+- Do not perform blocking IO in the event loop.
+- Use async methods where Home Assistant expects async behavior.
+- Use typed exceptions for API, authentication, timeout, parsing, and unsupported device errors.
+- Add diagnostics where useful, but redact credentials, tokens, hostnames if sensitive, and personal data.
+- Add repairs or clear log messages for recoverable user-facing problems.
+- Use entity descriptions for sensors, switches, binary sensors, numbers, selects, buttons, etc.
+- Use stable unique IDs.
+- Do not create entities for undocumented values.
+
+# REST API rules
+
+Before implementing or changing API code:
+- Read the Swagger/OpenAPI files in `Resources/`.
+- Confirm endpoint path, method, request schema, response schema, status codes, and authentication.
+- Generate or manually derive typed request and response models only from documented schemas.
+- Validate optional and nullable fields.
+- Handle unknown fields safely.
+- Handle server errors, malformed responses, timeouts, and connection loss.
+- Never silently ignore failed writes.
+- Use clear retries only when safe and idempotent.
+- Do not retry non-idempotent commands unless the API documentation explicitly allows it.
+
+# LonWorks/LON rules
+
+- Do not assume LON network variables, SNVT types, addressing, binding behavior, or device semantics unless documented.
+- Treat the REST server as the abstraction boundary.
+- Map LON values to Home Assistant entities only when the API documentation clearly defines the value meaning, unit, range, and direction.
+- If a value could be read-only or write-capable, verify in Swagger before creating writable entities.
+- For writable entities, validate ranges and supported values before sending commands.
+
+# Testing rules
+
+Every operational code path must have tests.
+
+Required test areas:
+- REST client success paths
+- REST client error paths
+- timeout and connection errors
+- malformed or partial API responses
+- config flow success
+- config flow recovery from errors
+- entity creation
+- entity state updates
+- command/write behavior
+- unload/reload behavior
+- diagnostics redaction where applicable
+
+Use Home Assistant pytest conventions.
+Run tests in Docker only.
+Prefer targeted tests for changed code first, then broader test runs.
+Home Assistant docs require strong test coverage for config flows, including recovery from errors. :contentReference[oaicite:1]{index=1}
+
+# Docker-only workflow
+
+Because the host has no PHP, Node.js, npm, pnpm, yarn, or similar local tooling:
+
+- Do not suggest host installation of language runtimes.
+- Do not run local tooling outside Docker.
+- Provide Docker commands for:
+  - tests
+  - linting
+  - formatting
+  - type checks
+  - frontend builds, if needed
+  - OpenAPI client generation, if needed
+- Prefer `devcontainer` or `docker compose` for reproducible development.
+- If a tool is missing, add it to the Docker image or devcontainer, not to the host.
+
+# Code quality
+
+- Use type hints.
+- Keep modules small.
+- Prefer explicit models over untyped dictionaries.
+- Avoid broad `except Exception` unless re-raising with context.
+- Log actionable messages.
+- Avoid leaking secrets into logs.
+- Avoid global mutable state.
+- Keep Home Assistant entity classes focused on Home Assistant behavior.
+- Keep protocol/API logic outside entity classes.
+
+# UI and frontend rules
+
+If frontend code is required:
+- Follow Home Assistant frontend patterns.
+- Use Lit based Web Components and TypeScript where applicable, because Home Assistant frontend is based on web components. :contentReference[oaicite:2]{index=2}
+- Prefer existing Home Assistant UI components and design patterns.
+- Do not introduce external UI frameworks unless explicitly approved.
+- Keep UI accessible, responsive, and consistent with Home Assistant.
+- Avoid custom styling that conflicts with Home Assistant themes.
+
+# Swagger/OpenAPI handling
+
+When using files in `Resources/`:
+- First inspect available Swagger/OpenAPI files.
+- Identify API version.
+- Identify authentication mechanism.
+- Identify all relevant endpoints.
+- Summarize discovered endpoints before implementation.
+- Do not implement endpoints not found in the documentation.
+- If generated clients are used, generation must happen inside Docker.
+- Generated code must be reviewed before use.
+
+# Implementation workflow
+
+For every feature:
+1. Inspect documentation and existing code.
+2. State known facts.
+3. State gaps.
+4. Propose implementation approach.
+5. Implement minimal, maintainable code.
+6. Add or update tests.
+7. Run checks in Docker.
+8. Report what was changed, what was verified, and what remains uncertain.
+
+# Review behavior
+
+Before considering code complete:
+- Check all operational paths.
+- Confirm async correctness.
+- Confirm Home Assistant lifecycle behavior.
+- Confirm Docker test commands work.
+- Confirm no undocumented API assumptions were introduced.
+- Confirm logs and diagnostics do not expose secrets.
+- Confirm tests cover failures, not only success paths.
+
+# When in doubt
+
+Stop and ask for direction when:
+- Swagger documentation is missing or contradictory.
+- Authentication is unclear.
+- Entity type mapping is ambiguous.
+- A LON value meaning, unit, range, or write capability is unclear.
+- A destructive or irreversible command might be sent.
+- A design decision affects user visible behavior.

@@ -1,0 +1,115 @@
+{
+    "apiVersion": "1.0.1",
+    "swaggerVersion": "1.2",
+    "resourcePath": "/object",
+    "basePath": "/api/1.0",
+    "produces": [
+        "application/json"
+    ],
+    "apis":[
+        {
+            "path": "/object",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary": "Retrieve OID Object",
+                    "notes": "Retrieve one OID or a list of OID's",
+                    "type": "Object",
+                    "nickname": "getObject",
+                    "parameters": [
+                        {
+                            "name": "OID",
+                            "description": "The `OID` of the Object to perform action with.<br/>For a list of OID's use comma separated values format (csv).",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "allowMultiple": true,
+                            "collectionFormat": "csv"
+                        },
+                        {
+                            "name": "cacheCtl",
+                            "description": "cache control 0: no cache do bypass the cache, 1: with cache (default)",
+                            "paramType": "query",
+                            "required": false,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        }
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary": "Update OID object",
+                    "notes": "Update OID Object.",
+                    "type": "Status",
+                    "nickname": "putObject",
+                    "parameters":[
+                        {
+                            "name": "OID",
+                            "description": "The `OID` of the Object to perform action with.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "Object",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":200,
+                            "message":"SUCCESS"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models": {
+        "Status": {
+            "id": "Status",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Error": {
+            "id": "Error",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "Object": {
+            "id": "Object",
+            "properties": {
+                "OID": {
+                    "type": "string",
+                    "description": "OID of the Object"
+                },
+                "value": {
+                    "type": "object",
+"format": "JSON",
+"required": true
+                },
+                "typeId": {
+                    "type": "integer"
+                },
+                "subtypeId": {
+                    "type": "integer",
+                    "description": "for LongStruct this is the LngStrId"
+                },
+                "timestamp": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

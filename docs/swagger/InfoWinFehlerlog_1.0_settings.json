@@ -1,0 +1,168 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/InfoWinFehlerlog/api/1.0",
+    "resourcePath":"/settings",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/settings",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"get settings list",
+                    "notes":"Returns a list of all key-value pairs.",
+                    "type":"void",
+                    "nickname":"getList",
+                    "parameters":[
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/settings/allKeys",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"get list af all keys",
+                    "notes":"Returns a list of all keys, including subkeys, that can be read using this service.",
+                    "type":"void",
+                    "nickname":"getAllKeys",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/settings/{key}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"get settings value from key",
+                    "notes":"get settings value from key",
+                    "type":"void",
+                    "nickname":"getKeyValue",
+                    "parameters":[
+                        {
+                            "name": "key",
+                            "description": "settings key.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "string",
+                            "defaultValue": "logging/level",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary":"update value value for key",
+                    "notes":"update value value for key",
+                    "type":"void",
+                    "nickname":"putKeyValue",
+                    "parameters":[
+                        {
+                            "name": "key",
+                            "description": "settings key.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "string",
+                            "defaultValue": "logging/level",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "value",
+                            "description": "value for key.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "defaultValue": "info",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/settings/logging/level",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"update logging level",
+                    "notes":"update logging level",
+                    "type":"void",
+                    "nickname":"putLoggingLevel",
+                    "parameters":[
+                        {
+                            "name": "value",
+                            "description": "level id to be updated.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "enum":[
+                                "none",
+                                "error",
+                                "warning",
+                                "info",
+                                "debug",
+                                "trace",
+                                "all"
+                            ],
+                            "defaultValue": "info",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "INFO":{
+            "id":"INFO",
+            "properties":{
+                "name":{
+                    "type":"string"
+                },
+                "version":{
+                    "type":"string"
+                }
+            }
+        },
+        "SettingsModel": {
+            "id": "SettingsModel",
+            "properties":{
+                "key":{
+                    "type":"string"
+                },
+                "value":{
+                    "type":"string"
+                }
+            }
+        }
+    }
+}

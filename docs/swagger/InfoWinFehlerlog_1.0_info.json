@@ -1,0 +1,54 @@
+{
+    "apiVersion":"1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/InfoWinFehlerlog/api/1.0",
+    "resourcePath":"/info",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/info/{id}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve id info",
+                    "notes":"Retrieve id info",
+                    "type":"InfoModel",
+                    "nickname":"getInfoId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"Info id to be retrieve",
+                            "required":true,
+                            "type":"string",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                "app"
+                            ]
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "InfoModel":{
+            "id":"InfoModel",
+            "properties":{
+                "name":{
+                    "type":"string"
+                },
+                "version":{
+                    "type":"string"
+                }
+            }
+        }
+    }
+}

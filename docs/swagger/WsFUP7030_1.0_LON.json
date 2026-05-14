@@ -1,0 +1,746 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsFUP7030/api/1.0",
+    "resourcePath":"/LON",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/LON/nodeAddress/{domainIdx}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"get nodeAdress",
+                    "notes":"get nodeAdress",
+                    "type":"void",
+                    "nickname":"getLONNodeAddress",
+                    "parameters":[
+                        {
+                            "name":"domainIdx",
+                            "description":"index of domain to be retrieve",
+                            "required":true,
+                            "type":"integer",
+                            "paramType":"path",
+                            "allowMultiple":false,
+                            "enum":[
+                                0,
+                                1
+                            ]
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/LON/nviTimeSet/{year}/{month}/{day}/{hour}/{min}/{sec}",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"update nviTimeSet",
+                    "notes":"update nviTimeSet",
+                    "type":"void",
+                    "nickname":"putLONnviTimeSet",
+                    "parameters":[
+                        {
+                            "name":"year",
+                            "description":"year: 0..3000  0 means year not specified. 65535 represents null date",
+                            "paramType":"path",
+                            "required":true,
+                            "type":"integer",
+                            "defaultValue": 2015,
+                            "allowMultiple":false
+                        },
+                        {
+                            "name":"month",
+                            "description":"month:  0..12    0 means month not specified",
+                            "paramType":"path",
+                            "required":true,
+                            "type":"integer",
+                            "defaultValue": 7,
+                            "allowMultiple":false
+                        },
+                        {
+                            "name":"day",
+                            "description":"day: 0..31    0 means day not specified",
+                            "paramType":"path",
+                            "required":true,
+                            "type":"integer",
+                            "defaultValue": 15,
+                            "allowMultiple":false
+                        },
+                        {
+                            "name":"hour",
+                            "description":"hour: 0..23",
+                            "paramType":"path",
+                            "required":true,
+                            "type":"integer",
+                            "defaultValue": 8,
+                            "allowMultiple":false
+                        },
+                        {
+                            "name":"min",
+                            "description":"min: 0..59",
+                            "paramType":"path",
+                            "required":true,
+                            "type":"integer",
+                            "defaultValue": 0,
+                            "allowMultiple":false
+                        },
+                        {
+                            "name":"sec",
+                            "description":"sec: 0..59",
+                            "paramType":"path",
+                            "required":true,
+                            "type":"integer",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/LON/msg",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Send msg Services (ACKD or UNACK)",
+                    "notes":"Send msg Services (ACKD or UNACK)",
+                    "type":"void",
+                    "nickname":"putLonMsg",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "LON Msg object to action on.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "LonMsgOut",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                },
+                {
+                    "method":"POST",
+                    "summary":"Request/Response msg Services",
+                    "notes":"Request/Response msg Services",
+                    "type":"void",
+                    "nickname":"postLonMsg",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "LON Msg object to action on.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "LonMsgOut",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/LON/NMPDU",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Network Management Services (ACKD or UNACK)",
+                    "notes":"Network Management Services (ACKD or UNACK)",
+                    "type":"void",
+                    "nickname":"putLonNMPDU",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "PDU object to action on.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "NMPDUrequest",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                },
+                {
+                    "method":"POST",
+                    "summary":"Network Management Services",
+                    "notes":"Network Management Services",
+                    "type":"void",
+                    "nickname":"postLonNMPDU",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "PDU object to action on.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "NMPDUrequest",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/LON/NMPDU/QueryID/{group}/{selector}",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"Network Management Query ID",
+                    "notes":"Network Management Query ID",
+                    "type":"void",
+                    "nickname":"postNMPDUQueryID",
+                    "parameters":[
+                        {
+                            "name": "group",
+                            "description": "Destination group address.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 4,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "selector",
+                            "description": "selector: <br/>0 = unconfigured nodes<br/>1 = respond to query set<br/>2 = 0 and 1",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/LON/NMPDU/RespondToQuery/group/{groupId}/{mode}",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Network Management Respond to Query (UNACKD)",
+                    "notes":"Network Management Respond to Query (UNACKD)",
+                    "type":"void",
+                    "nickname":"putNMPDUespondToQueryGroup",
+                    "parameters":[
+                        {
+                            "name": "groupId",
+                            "description": "Destination group address.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 4,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "1 => ON; 0 => OFF.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                },
+                {
+                    "method":"POST",
+                    "summary":"Network Management Respond to Query",
+                    "notes":"Network Management Respond to Query",
+                    "type":"void",
+                    "nickname":"postNMPDUespondToQueryGroup",
+                    "parameters":[
+                        {
+                            "name": "groupId",
+                            "description": "Destination group address.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 4,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "1 => ON; 0 => OFF.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/LON/NMPDU/RespondToQuery/snode/{subnet}/{nodeId}/{mode}",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"Network Management Respond to Query",
+                    "notes":"Network Management Respond to Query",
+                    "type":"void",
+                    "nickname":"postNMPDUespondToQuerySnode",
+                    "parameters":[
+                        {
+                            "name": "subnet",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 60,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "1 => ON; 0 => OFF.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/LON/NMPDU/RespondToQuery/neuronId",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Network Management Respond to Query (UNACKD)",
+                    "notes":"Network Management Respond to Query (UNACKD)",
+                    "type":"void",
+                    "nickname":"putNMPDUespondToQueryNeuronId",
+                    "parameters":[
+                        {
+                            "name": "neuronId",
+                            "description": "neuronID as target address.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "1 => ON; 0 => OFF.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                },
+                {
+                    "method":"POST",
+                    "summary":"Network Management Respond to Query",
+                    "notes":"Network Management Respond to Query",
+                    "type":"void",
+                    "nickname":"postNMPDUespondToQueryNeuronId",
+                    "parameters":[
+                        {
+                            "name": "neuronId",
+                            "description": "neuronID as target address.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "1 => ON; 0 => OFF.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path":"/LON/NMPDU/QueryAddress/{subnet}/{nodeId}/{index}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"NMPDU Query Address",
+                    "notes":"NMPDU Query Address",
+                    "type":"void",
+                    "nickname":"getNMPDUQueryAddress",
+                    "parameters":[
+                        {
+                            "name": "subnet",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 60,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "index",
+                            "description": "Index 0-14.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path":"/LON/NMPDU/QueryNvConfiguration/{subnet}/{nodeId}/{nvIndex}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"NMPDU Query Network Variable Configuration",
+                    "notes":"NMPDU Query Network Variable Configuration",
+                    "type":"void",
+                    "nickname":"getNMPDUQueryNvConfiguration",
+                    "parameters":[
+                        {
+                            "name": "subnet",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 60,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nvIndex",
+                            "description": "Network Variable Index.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path":"/LON/NMPDU/QueryDomain",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary":"Network Management Query Domain",
+                    "notes":"Network Management Query Domain",
+                    "type":"void",
+                    "nickname":"postNMPDUQueryDomain",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "LonDevice object for target address.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "LonDeviceModel",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                },
+                {
+                    "method":"GET",
+                    "summary":"Network Management Query Domain",
+                    "notes":"Network Management Query Domain",
+                    "type":"void",
+                    "nickname":"getNMPDUQueryDomainNID",
+                    "parameters":[
+                        {
+                            "name": "neuronId",
+                            "description": "neuronID as target address.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/LON/NMPDU/NvValueFetch/{subnet}/{nodeId}/{nvIndex}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Network Management Network Variable Value Fetch",
+                    "notes":"Network Management Network Variable Value Fetch",
+                    "type":"void",
+                    "nickname":"postNMPDUNvValueFetch",
+                    "parameters":[
+                        {
+                            "name": "subnet",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 60,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nvIndex",
+                            "description": "Network Variable Index.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "INFO":{
+            "id":"INFO",
+            "properties":{
+                "name":{
+                    "type":"string"
+                },
+                "version":{
+                    "type":"string"
+                }
+            }
+        },
+        "NodeAdress": {
+            "id": "NodeAdress",
+            "properties": {
+                "domainIdx": {
+                    "type":"integer",
+                    "defaultValue": 0
+                },
+                "subnet": {
+                    "type":"integer",
+                    "defaultValue": 1
+                },
+                "nodeId": {
+                    "type":"integer",
+                    "defaultValue": 100
+                }
+            }
+        },
+        "LonMsgOut": {
+            "id": "LonMsgOut",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type":"integer"
+                     }
+                },
+                "service": {
+                    "type":"integer",
+                    "defaultValue": 3
+                },
+                "addressMode": {
+                    "type":"integer",
+                    "defaultValue": 1
+                },
+                "address": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type":"integer",
+                        "defaultValue": 100
+                     }
+                }
+            }
+        },
+        "NMPDUrequest": {
+            "id": "NMPDUrequest",
+            "properties": {
+                "command": {
+                    "type": "integer"
+                },
+                "service": {
+                    "type":"integer",
+                    "defaultValue": 3
+                },
+                "addressMode": {
+                    "type":"integer",
+                    "defaultValue": 1
+                },
+                "address": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type":"integer",
+                        "defaultValue": 100
+                     }
+                },
+                "data": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type":"integer"
+                     }
+                }
+            }
+        },
+        "LonDeviceModel":{
+            "id":"LonDeviceModel",
+            "properties":{
+                "domainIdx":{
+                    "type":"integer"
+                },
+                "subnet":{
+                    "type":"integer"
+                },
+                "nodeId":{
+                    "type":"integer"
+                },
+                "neuronId":{
+                    "type":"string"
+                },
+                "programId":{
+                    "type":"string"
+                }
+            }
+        }
+    }
+}

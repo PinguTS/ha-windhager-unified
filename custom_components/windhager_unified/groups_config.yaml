@@ -1,0 +1,225 @@
+# Windhager integration — discovery and tier configuration
+#
+# This file controls three things:
+#
+#  1. tier_defaults      — which functional groups are pre-selected in the setup
+#                          wizard for each experience tier.
+#
+#  2. level_tiers        — which experience tier is assigned to each (fctType,
+#                          levelId) combination during discovery.  This is the
+#                          main knob for making whole levels appear earlier or
+#                          later in the tier hierarchy.
+#
+#  3. gn_mn_overrides    — per-datapoint (groupNr:memberNr) overrides applied on
+#                          top of the level_tiers result.  Use this to promote
+#                          or demote individual datapoints regardless of which
+#                          node or level they were found on.
+#
+# After changing this file, restart Home Assistant and re-run setup (or remove
+# and re-add the integration) so that discovery stores updated tier assignments.
+#
+# Tier values (ordered from least to most detailed):
+#   essential | comfort | advanced | expert | service
+
+# ---------------------------------------------------------------------------
+# 1. Tier default group selection
+# ---------------------------------------------------------------------------
+#
+# Rules:
+#   - List the group slugs you want pre-selected for each tier.
+#   - An empty list ( [] ) means "select all discovered groups".
+#   - Slugs that do not match any discovered group are silently ignored.
+#
+# Known slugs (add new ones if your device has additional function types):
+#   boiler              — main boiler / heat generator
+#   heating_circuit     — heating circuit controller (UMUMLZ, fctType 14)
+#   dhw                 — domestic hot water
+#   buffer              — buffer / shift-valve controller (WVF PUFFER, fctType 15)
+#   boiler_loading_pump — boiler loading pump / burner controller (B-PLM, fctType 16)
+#   cascade             — cascade manager
+#   solar               — solar
+#   io5500              — IO5500 expansion module
+#   central             — central controller
+
+tier_defaults:
+  essential:  [boiler, heating_circuit]
+  comfort:    [boiler, heating_circuit, dhw, buffer]
+  advanced:   [boiler, heating_circuit, dhw, buffer, boiler_loading_pump, central]
+  expert:     []   # empty = all discovered groups
+  service:    []   # empty = all discovered groups
+
+# ---------------------------------------------------------------------------
+# 2. Level → tier mapping per fctType
+# ---------------------------------------------------------------------------
+#
+# Key:   fctType integer (the numeric function-block type in the LON network)
+# Value: map of levelId (integer) → minimum tier string
+#
+# Known fctTypes:
+#   9, 10 — BioWIN / LogWIN boiler main function
+#   14    — UMUMLZ heating circuit controller
+#   15    — WVF PUFFER central controller / shift valve
+#   16    — B-PLM boiler loading pump / burner controller
+#
+# For any fctType not listed here the integration falls back to the writeProt
+# heuristic: write-protected → essential, writable → comfort.
+#
+# Level names are taken from EbenenTexte_en.xml bundled with the integration.
+
+level_tiers:
+
+  # fctType 9 — BioWIN boiler main function
+  # 155 = Titelbild, 156 = Information level,
+  # 157 = Boiler temperature (operator), 158 = Service level,
+  # 159 = observed on live hardware (not in EbenenTexte XML)
+  9:
+    155: essential   # Titelbild (cover page)
+    156: essential   # Information level (read-only readings)
+    157: comfort     # Boiler temperature set points (operator)
+    158: service     # Service level
+    159: service     # (not documented in EbenenTexte — assumed service)
+
+  # fctType 10 — LogWIN / BioWIN2 boiler main function (same levels as fctType 9)
+  10:
+    155: essential
+    156: essential
+    157: comfort
+    158: service
+    159: service
+
+  # fctType 14 — UMUMLZ heating circuit controller
+  14:
+    96:  essential   # Operating mode (current state)
+    97:  comfort     # Optimisation
+    98:  comfort     # DHW clearance
+    99:  comfort     # Eco / Party mode
+    100: comfort     # Holiday program
+    101: comfort     # Room temperature set points
+    102: comfort     # Time / Date
+    103: advanced    # Module functions
+    104: advanced    # Base temperatures
+    105: advanced    # Influence of room temperature
+    106: advanced    # Heating limits
+    107: advanced    # DHW load (module setting)
+    108: advanced    # Increase boiler temperature at
+    109: advanced    # Start-up optimisation
+    110: advanced    # LON system data
+    111: advanced    # Screed drying functions
+    112: advanced    # Module information
+    113: essential   # Room temperature (readings)
+    114: essential   # DHW temperatures (readings)
+    115: essential   # Outside temperature (readings)
+    116: essential   # Flow temperature (readings)
+    117: essential   # Boiler temperature (readings)
+    118: essential   # Buffer temperature (readings)
+    119: advanced    # Frost protection threshold
+    120: essential   # Heating circuit (readings)
+    121: essential   # DHW load (readings)
+
+  # fctType 15 — WVF PUFFER central controller / shift valve
+  15:
+    96:  essential   # Operating mode (current state)
+    97:  advanced    # System configuration
+    98:  advanced    # Module functions
+    99:  essential   # Buffer temperature (readings)
+    100: essential   # Boiler temperature (readings)
+    101: advanced    # Shift valve
+    102: advanced    # Strategic buffer loading
+    103: advanced    # Sensor contact Y2
+    104: essential   # Buffer temperature (readings, 2nd instance)
+    105: essential   # Boiler temperature (readings, 2nd instance)
+    106: advanced    # Hysteresis TBTmin
+    107: advanced    # Shift delay
+    108: advanced    # Module information
+
+  # fctType 16 — B-PLM boiler loading pump / burner controller
+  16:
+    96:  essential   # Operating mode (current state)
+    97:  advanced    # Module functions
+    98:  essential   # Boiler / Buffer temperature (readings)
+    99:  advanced    # Burner control
+    100: advanced    # Buffer loading pump
+    101: advanced    # External heating demand
+    102: advanced    # Module information
+    103: essential   # Boiler temperature (readings)
+    104: advanced    # Shift to buffer operation
+    105: advanced    # Heating generator pump
+    106: advanced    # DHW load
+
+# ---------------------------------------------------------------------------
+# 3. Per-datapoint overrides by groupNr:memberNr
+# ---------------------------------------------------------------------------
+#
+# Key format: "GN:MN"  (decimal integers matching the API's groupNr/memberNr)
+# Values (all optional):
+#
+#   experience_minimum: <tier>    — gate this datapoint at the given tier,
+#                                   regardless of which node or level it came from
+#
+#   canonical_group: <group-slug> — deduplication hint: when the same gn:mn
+#                                   appears on MULTIPLE NODES, keep only the
+#                                   instance(s) whose group matches this slug.
+#                                   Instances on the same node with different
+#                                   function indices (e.g. HC1 and HC2 on node 15)
+#                                   are always kept — they are distinct zones.
+#                                   If the canonical group is not found in the
+#                                   current result set, all instances are kept
+#                                   (safe fallback: no data is silently lost).
+#
+# Background: In a Windhager LON network several nodes share the same Network
+# Variable (NV) for measurements like buffer temperature.  The buffer controller
+# (node 16) produces the value; the boiler (node 65) and heating circuits
+# (node 15) receive and re-expose it.  Without deduplication, the same physical
+# temperature sensor appears 3-4 times as separate HA entities.
+
+gn_mn_overrides:
+
+  # --- Buffer temperatures (authoritative source: buffer controller, node 16) ---
+  "0:15":   # Puffertemperatur Oben
+    canonical_group: buffer
+  "0:16":   # Puffertemperatur Unten
+    canonical_group: buffer
+  "0:17":   # Puffertemperatur Mitte
+    canonical_group: buffer
+  "23:87":  # Buffer charge level / Puffer-Beladegrad (%)
+    experience_minimum: essential
+    canonical_group: buffer
+
+  # --- Boiler temperatures (authoritative source: boiler, node 65) ---
+  "0:7":    # Kessel-Temperatur
+    canonical_group: boiler
+  "0:11":   # Temperatur Abgas
+    canonical_group: boiler
+  "0:45":   # Brennkammertemperatur
+    canonical_group: boiler
+
+  # --- Date/time (authoritative source: boiler controller) ---
+  "2:70":   # Datum (date)
+    canonical_group: boiler
+  "2:72":   # Zeit (time)
+    canonical_group: boiler
+
+  # --- Flow temperature (authoritative source: heating circuit)
+  # Each physical heating circuit has its own flow sensor; HC1 and HC2
+  # instances (same node, different fct index) are both kept.
+  # Readings from other nodes (e.g. buffer or pump) are dropped.
+  "1:7":    # Vorlauftemperatur
+    canonical_group: heating_circuit
+
+  # --- Version / application information (technical, not useful for end users) ---
+  "4:5":    # LON application identifier
+    experience_minimum: service
+  "4:92":   # Software version
+    experience_minimum: service
+  "4:93":   # Hardware version
+    experience_minimum: service
+
+  # --- Module / system identifiers ---
+  "20:127": # Module information (type/variant)
+    experience_minimum: service
+
+  # --- Operating counters (useful from advanced tier onwards) ---
+  "2:81":   # Operating hours (Betriebsstunden)
+    experience_minimum: advanced
+  "20:112": # Starts counter (Anzahl Starts)
+    experience_minimum: advanced

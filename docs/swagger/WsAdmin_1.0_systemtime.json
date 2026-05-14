@@ -1,0 +1,284 @@
+{
+    "apiVersion":"1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsAdmin/api/1.0",
+    "resourcePath":"/systemtime",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/systemtime",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"get current systemtime [ISO 8601]",
+                    "notes":"get current systemtime [Internet Date/Time Format][ISO 8601]",
+                    "type":"void",
+                    "nickname":"getSystemtime",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":409,
+                            "message": "Conflict"
+                        }
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary":"update systemtime",
+                    "notes":"update systemtime",
+                    "type":"void",
+                    "nickname":"putSystemtime",
+                    "parameters":[
+                        {
+                            "name": "value",
+                            "description": "value for systemtime [Internet Date/Time Format] [ISO 8601]",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "defaultValue": "2015-07-17T18:37:00",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":409,
+                            "message": "Conflict"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/systemtime/ntpserver",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve ntp server list",
+                    "notes":"Retrieve ntp server list",
+                    "type":"void",
+                    "nickname":"getNtpServerList",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        }
+                    ]
+                },
+                {
+                    "method":"POST",
+                    "summary":"Add new ntp server item",
+                    "notes":"Add new ntp server item",
+                    "type":"void",
+                    "nickname":"postNtpServer",
+                    "parameters":[
+                        {
+                            "name": "hostname",
+                            "description": "The `hostname` to perform action with.",
+                            "paramType": "query",
+                            "required": true,
+                            "type": "string",
+                            "defaultValue": "ch.pool.ntp.org",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/systemtime/ntpserver/selected",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"get selected ntp server",
+                    "notes":"get selected ntp server",
+                    "type":"void",
+                    "nickname":"getNtpServerSelected",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":409,
+                            "message": "Conflict"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/systemtime/ntpserver/{id}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve ntp server at 'id'",
+                    "notes":"Retrieve ntp server ad 'id'",
+                    "type":"void",
+                    "nickname":"getNtpServerId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"id to perform action with.",
+                            "required":true,
+                            "type":"integer",
+                            "paramType":"path",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        },
+                        {
+                            "code":404,
+                            "message": "Not Found"
+                        }
+                    ]
+                },
+                {
+                    "method":"DELETE",
+                    "summary":"Delete ntp server at 'id'",
+                    "notes":"Delete ntp server ad 'id'",
+                    "type":"void",
+                    "nickname":"deleteNtpServerAtId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"id to perform action with.",
+                            "required":true,
+                            "type":"integer",
+                            "paramType":"path",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        },
+                        {
+                            "code":404,
+                            "message": "Not Found"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/systemtime/ntpserver/select/{id}",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Update ntpserver.selected at 'id'",
+                    "notes":"Update ntpserver.selected ad 'id'",
+                    "type":"void",
+                    "nickname":"putNtpServerSelectId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"id to perform action with.",
+                            "required":true,
+                            "type":"integer",
+                            "paramType":"path",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        },
+                        {
+                            "code":404,
+                            "message": "Not Found"
+                        }
+                    ]
+                }
+            ]
+        },
+	{
+	"path":"/systemtime/timezone",
+	    "operations":[
+	        {
+	            "method":"GET",
+	            "summary":"get current timezone information and timezone list",
+	            "type":"void",
+	            "nickname":"getTimezone",
+	            "parameters":[
+	            ],
+	            "responseMessages":[
+	                {
+	                    "code":409,
+	                    "message": "Conflict"
+	                }
+	            ]
+	        },
+	        {
+	            "method":"PUT",
+	            "summary":"update timezone",
+	            "notes":"update timezone",
+	            "type":"void",
+	            "nickname":"putTimezone",
+	            "parameters":[
+	                {
+	                    "name": "value",
+	                    "description": "value for systemtime Europe/Paris",
+	                    "paramType": "query",
+	                    "required": true,
+	                    "type": "string",
+	                    "defaultValue": "Europe/Paris",
+	                    "allowMultiple": false
+	                }
+	            ],
+	            "responseMessages":[
+	                {
+	                    "code":409,
+	                    "message": "Conflict"
+	                }
+	            ]
+	        }
+	    ]
+        }
+    ],
+
+    "models":{
+        "Status": {
+            "id": "Status",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "SystemTimeModel":{
+            "id":"SystemTimeModel",
+            "properties":{
+                "dateTime":{
+                    "type":"string"
+                }
+            }
+        },
+        "NtpServerModel":{
+            "id":"NtpServerModel",
+            "properties":{
+                "hostname":{
+                    "type":"string"
+                },
+                "selected":{
+                    "type":"integer"
+                }
+            }
+        }
+    }
+}

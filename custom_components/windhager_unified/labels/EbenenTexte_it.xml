@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by GenerateEbenenTextsInXML.php -->
+<EbenenTexte lang="it">
+	<fcttyp id="-1">
+		<ebene id="0">NV's</ebene>
+	</fcttyp>
+	<fcttyp id="0">
+	</fcttyp>
+	<fcttyp id="4">
+		<ebene id="97">mod. comfort</ebene>
+		<ebene id="98">ora/data</ebene>
+		<ebene id="99">funzioni del modulo</ebene>
+		<ebene id="100"></ebene>
+		<ebene id="101"></ebene>
+		<ebene id="102">Carico A.C.S.</ebene>
+		<ebene id="103">dati sistema LON</ebene>
+		<ebene id="104">tbd</ebene>
+		<ebene id="105">tbd</ebene>
+		<ebene id="106"></ebene>
+		<ebene id="107"></ebene>
+		<ebene id="108"></ebene>
+		<ebene id="109"></ebene>
+		<ebene id="111">info modulo</ebene>
+	</fcttyp>
+	<fcttyp id="9">
+		<ebene id="155">Titelbild</ebene>
+		<ebene id="156">Settore informazione</ebene>
+		<ebene id="157">temperatura caldaia</ebene>
+		<ebene id="158">Settore di servizio</ebene>
+	</fcttyp>
+	<fcttyp id="10">
+		<ebene id="155">Titelbild</ebene>
+		<ebene id="156">Settore informazione</ebene>
+		<ebene id="157">temperatura caldaia</ebene>
+		<ebene id="158">Settore di servizio</ebene>
+	</fcttyp>
+	<fcttyp id="14">
+		<ebene id="96">mod. comfort</ebene>
+		<ebene id="97">mod. comfort</ebene>
+		<ebene id="98">Attivazione ACS</ebene>
+		<ebene id="99">Mod. Eco/Party</ebene>
+		<ebene id="100">Prog. vacanza</ebene>
+		<ebene id="101">set points temp.ambiente</ebene>
+		<ebene id="102">ora/data</ebene>
+		<ebene id="103">funzioni del modulo</ebene>
+		<ebene id="104">Temp. di progetto</ebene>
+		<ebene id="105">Aggiustamento temp.amb.</ebene>
+		<ebene id="106">Limiti riscaldamento</ebene>
+		<ebene id="107">Carico A.C.S.</ebene>
+		<ebene id="108">inalzamento temp.in caldaia</ebene>
+		<ebene id="109">Ottimizzazione  accensione</ebene>
+		<ebene id="110">dati sistema LON</ebene>
+		<ebene id="111">Prog.asciugatura massetto</ebene>
+		<ebene id="112">info modulo</ebene>
+		<ebene id="113">temperatura ambiente</ebene>
+		<ebene id="114">temperatura ACS</ebene>
+		<ebene id="115">temperatura esterna</ebene>
+		<ebene id="116">temperatura di mandata</ebene>
+		<ebene id="117">temperatura caldaia</ebene>
+		<ebene id="118">temperatura accumulo</ebene>
+		<ebene id="119">soglia protezione antigelo</ebene>
+		<ebene id="120">circuito di riscaldamento</ebene>
+		<ebene id="121">carico ACS</ebene>
+	</fcttyp>
+	<fcttyp id="15">
+		<ebene id="96">mod. comfort</ebene>
+		<ebene id="97">configurazione sistema</ebene>
+		<ebene id="98">funzioni del modulo</ebene>
+		<ebene id="99">temperatura accumulo</ebene>
+		<ebene id="100">temperatura caldaia</ebene>
+		<ebene id="101">valvola di commutazione</ebene>
+		<ebene id="102">livello di carica</ebene>
+		<ebene id="103">sensore di contatto Y3</ebene>
+		<ebene id="104">temperatura accumulo</ebene>
+		<ebene id="105">temperatura caldaia</ebene>
+		<ebene id="106">isteresi TBT minimo</ebene>
+		<ebene id="107">ritardo commutazione</ebene>
+		<ebene id="108">info modulo</ebene>
+	</fcttyp>
+	<fcttyp id="16">
+		<ebene id="96">mod. comfort</ebene>
+		<ebene id="97">funzioni del modulo</ebene>
+		<ebene id="98">temp. caldaia/accumulo</ebene>
+		<ebene id="99">controllo bruciatore</ebene>
+		<ebene id="100">pompa caricam. puffer</ebene>
+		<ebene id="101">richiesta calore esterna</ebene>
+		<ebene id="102">info modulo</ebene>
+		<ebene id="103">temperatura caldaia</ebene>
+		<ebene id="104">commutazione funz.puffer</ebene>
+		<ebene id="105">pompa caldaia</ebene>
+		<ebene id="106">carico ACS</ebene>
+	</fcttyp>
+	<fcttyp id="20">
+		<ebene id="97">info</ebene>
+		<ebene id="98">Comando pompa</ebene>
+		<ebene id="99">richiesta calore esterna</ebene>
+		<ebene id="100">Allarme collettivo</ebene>
+		<ebene id="101">funzioni del modulo</ebene>
+		<ebene id="102">Test elementi</ebene>
+	</fcttyp>
+</EbenenTexte>

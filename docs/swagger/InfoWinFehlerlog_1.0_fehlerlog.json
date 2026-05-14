@@ -1,0 +1,272 @@
+{
+    "apiVersion":"1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/InfoWinFehlerlog/api/1.0",
+    "resourcePath":"/fehlerlog",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/fehlerlog",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve fehlerlog list",
+                    "notes":"Retrieve fehlerlog list",
+                    "type":"void",
+                    "nickname":"getFehlerlog",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        }
+                    ]
+                },
+                {
+                    "method":"POST",
+                    "summary":"Add new fehlerlog item",
+                    "notes":"Add new fehlerlog item",
+                    "type":"Status",
+                    "nickname":"postFehlerlog",
+                    "parameters":[
+                        {
+                            "name": "fehlerlog",
+                            "description": "The `fehlerlog` Object to perform action with.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "FehlerlogModel",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/fehlerlog/rawlist",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve fehlerlog raw list",
+                    "notes":"Retrieve fehlerlog raw list",
+                    "type":"void",
+                    "nickname":"getFehlerlog",
+                    "parameters":[
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/fehlerlog/{id}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Retrieve fehlerlog at 'id'",
+                    "notes":"Retrieve fehlerlog ad 'id'",
+                    "type":"void",
+                    "nickname":"getFehlerlogId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"id to perform action with.",
+                            "required":true,
+                            "type":"integer",
+                            "paramType":"path",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        },
+                        {
+                            "code":404,
+                            "message": "Not Found"
+                        }
+                    ]
+                },
+                {
+                    "method":"PUT",
+                    "summary":"Update fehlerlog.status at 'id'",
+                    "notes":"Update fehlerlog.status ad 'id'",
+                    "type":"void",
+                    "nickname":"putFehlerlogId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"id to perform action with.",
+                            "required":true,
+                            "type":"integer",
+                            "paramType":"path",
+                            "allowMultiple":false
+                        },
+                        {
+                            "name": "status",
+                            "in": "query",
+                            "description": "'status' to perform action with.",
+                            "required": true,
+                            "type": "string",
+                            "defaultValue": "unread"
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        },
+                        {
+                            "code":404,
+                            "message": "Not Found"
+                        }
+                    ]
+                },
+                {
+                    "method":"DELETE",
+                    "summary":"Delete fehlerlog at 'id'",
+                    "notes":"Delete fehlerlog ad 'id'",
+                    "type":"void",
+                    "nickname":"deleteFehlerlogId",
+                    "parameters":[
+                        {
+                            "name":"id",
+                            "description":"id to perform action with.",
+                            "required":true,
+                            "type":"integer",
+                            "paramType":"path",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        },
+                        {
+                            "code":404,
+                            "message": "Not Found"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/fehlerlog/reset/{id}",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary": "Reset id (Quittierung)",
+                    "notes": "Reset id (Quittierung)",
+                    "type": "void",
+                    "nickname": "putFehlerlogResetId",
+                    "parameters": [
+                        {
+                            "name":"id",
+                            "description":"id to perform action with.",
+                            "required":true,
+                            "type":"integer",
+                            "paramType":"path",
+                            "allowMultiple":false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Bad Request"
+                        },
+                        {
+                            "code":404,
+                            "message": "Not Found"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/fehlerlog/{subnetId}/{nodeId}",
+            "operations":[
+                {
+                    "method":"POST",
+                    "summary": "Add 'eBUS FE01' message",
+                    "notes": "Add 'eBUS FE01' message",
+                    "type": "void",
+                    "nickname": "postFehlerlogSubnetId",
+                    "parameters": [
+                        {
+                            "name": "subnetId",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "value",
+                            "in": "query",
+                            "description": "'eBUS FE01 Message' or 'error code' to perform action with.",
+                            "required": true,
+                            "type": "string",
+                            "defaultValue": "PCM 14 OK"
+                        }
+                    ]
+                }
+            ],
+            "responseMessages":[
+                {
+                    "code":400,
+                    "message":"Bad Request"
+                }
+            ]
+        }
+
+    ],
+
+    "models":{
+        "Status": {
+            "id": "Status",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "FehlerlogModel":{
+            "id":"FehlerlogModel",
+            "properties":{
+                "id":{
+                    "type":"integer"
+                },
+                "code":{
+                    "type":"integer"
+                },
+                "timestamp": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

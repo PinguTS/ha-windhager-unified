@@ -1,0 +1,354 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion":"1.2",
+    "basePath": "/WsFUP7030/api/1.0",
+    "resourcePath":"/windyndata",
+    "produces":["application/json"],
+    "apis":[
+        {
+            "path":"/windyndata/{subnetId}/{nodeId}/1/{DapId}/{value}",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"windyndata WriteDap",
+                    "notes":"windyndata WriteDap",
+                    "type":"void",
+                    "nickname":"putWindyndataWriteDapDapIdVal1",
+                    "parameters":[
+                        {
+                            "name": "subnet",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 60,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "DapId",
+                            "description": "Numeric `id` of the `DAP` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "allowMultiple": false,
+                            "type": "integer",
+                            "defaultValue": 1
+                        },
+                        {
+                            "name": "value",
+                            "description": "value to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/windyndata/{subnetId}/{nodeId}/2/{DapId}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"windyndata ReadDap",
+                    "notes":"windyndata ReadDap",
+                    "type":"void",
+                    "nickname":"getWindyndataReadDapDapId",
+                    "parameters":[
+                        {
+                            "name": "subnet",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 60,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "DapId",
+                            "description": "Numeric `id` of the `DAP` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "allowMultiple": false,
+                            "type": "integer",
+                            "defaultValue": 5
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/windyndata/{subnetId}/{nodeId}/3/{FctSel}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Read windyndata FctCall",
+                    "notes":"Read windyndata FctCall",
+                    "type":"void",
+                    "nickname":"getWindyndataFctCallFctSel",
+                    "parameters":[
+                        {
+                            "name": "subnet",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 60,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "FctSel",
+                            "description": "Function selector to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "allowMultiple": false,
+                            "type": "string",
+                            "enum":[
+                                "5 Inbetriebnahme",
+                                "6 Aktorentest",
+                                "7 Dyn Version"
+                            ]
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/windyndata/{subnetId}/{nodeId}/3/{FctSel}/{Param}",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Write windyndata FctCall",
+                    "notes":"Write windyndata FctCall",
+                    "type":"void",
+                    "nickname":"putWindyndataFctCallFctSelVal1",
+                    "parameters":[
+                        {
+                            "name": "subnet",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 60,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "FctSel",
+                            "description": "Function selector to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "allowMultiple": false,
+                            "type": "string",
+                            "enum":[
+                                "1 Heartbeat",
+                                "2 Entriegelung",
+                                "3 Anheizen"
+                            ]
+                        },
+                        {
+                            "name": "Param",
+                            "description": "Parameter to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 0,
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path":"/windyndata/{subnetId}/{nodeId}/3/{FctSel}/{k}/{value}",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Write windyndata FctCall",
+                    "notes":"Write windyndata FctCall",
+                    "type":"void",
+                    "nickname":"putWindyndataFctCallFctSelVal1Val2",
+                    "parameters":[
+                        {
+                            "name": "subnet",
+                            "description": "Numeric `id` of the subnet to perform action with. (for RC7030 it is always 1).",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 1,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "nodeId",
+                            "description": "Numeric `id` of the `Node` to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 60,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "FctSel",
+                            "description": "Function selector to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "allowMultiple": false,
+                            "type": "string",
+                            "enum":[
+                                "5 Inbetriebnahme",
+                                "6 Aktorentest"
+                            ]
+                        },
+                        {
+                            "name": "k",
+                            "description": "Parameter k (logischer Ausgang) to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "defaultValue": 99,
+                            "allowMultiple": false
+                        },
+                        {
+                            "name": "value",
+                            "description": "Value to perform action with.",
+                            "paramType": "path",
+                            "required": true,
+                            "type": "integer",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path":"/windyndata",
+            "operations":[
+                {
+                    "method":"PUT",
+                    "summary":"Write windyndata with body",
+                    "notes":"Write windyndata with body",
+                    "type":"void",
+                    "nickname":"putWindyndata",
+                    "parameters":[
+                        {
+                            "name": "body",
+                            "description": "WinDataModel object to perform action.",
+                            "paramType": "body",
+                            "required": true,
+                            "type": "WinDynDataModel",
+                            "allowMultiple": false
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid data supplied"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "models":{
+        "WinDynDataModel": {
+            "id": "WinDynDataModel",
+            "properties": {
+                "subnet": {
+                    "type":"integer",
+                    "defaultValue": 1
+                },
+                "nodeId": {
+                    "type":"integer",
+                    "defaultValue": 60
+                },
+                "FctId": {
+                    "type":"integer",
+                    "defaultValue": 1
+                },
+                "DapId": {
+                    "type":"integer",
+                    "defaultValue": 1
+                },
+                "FctSel": {
+                    "type":"integer",
+                    "defaultValue": 0
+                },
+                "data": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                        "type":"integer"
+                     }
+                }
+            }
+        }
+    }
+}

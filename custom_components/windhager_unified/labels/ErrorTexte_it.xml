@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by GenerateErrorTextsInXML.php -->
+<ErrorTexte lang="it">
+	<error code="1" text="Valvola aria primaria bloccata o difettosa."/>
+	<error code="3" text="Valvola aria secondaria bloccata o difettosa."/>
+	<error code="5" text="Pulizia ceneri / Scuotimento griglia difettoso o bloccato. Pulire tazza bruc."/>
+	<error code="6" text="Motore coclea difettoso."/>
+	<error code="8" text="Pulizia scambiatore difettoso Controllare pulizia scambiatore."/>
+	<error code="15" text="230V non disponibile"/>
+	<error code="16" text="Ventilatore difettoso Pulire il ventilatore."/>
+	<error code="17" text="Ventilatore di tiraggio difettoso Pulire il ventilatore."/>
+	<error code="18" text="Ventilatore di tiraggio instabile"/>
+	<error code="37" text="Serranda convogl. pellets non apre Controllare serranda di convogliamento."/>
+	<error code="40" text="Elemento di chiusura difettoso Elemento di chiusura dell'alimientazione pellet non si apre oppure n"/>
+	<error code="41" text="Interruttore copertura stiva difettoso Controllare interruttore copertura stiva."/>
+	<error code="42" text="Relè turbina di aspirazione difettoso Disconnettere la spina di rete situata nella caldaia."/>
+	<error code="57" text="Bruciatore guasto"/>
+	<error code="62" text="Serranda aria in difettosa."/>
+	<error code="71" text="Apertura dispositivo di sicurezza Verificare parametri di settaggio del  dispositivo di sicurezza."/>
+	<error code="76" text="Sonda temperatura  caldaia difettosa Verificare sonda e collegamenti elettrici."/>
+	<error code="78" text="Sonda thermocontrol difettosa Verificare sonda e collegamenti elettrici."/>
+	<error code="88" text="Sonda O2 difettosa Verificare sonda O2 e collegamenti"/>
+	<error code="89" text="sonda riscaldamento O2 difettosa Verificare sonda O2, trasformatore e collegamenti"/>
+	<error code="101" text="TWE - sensore difettoso"/>
+	<error code="103" text="sonda caldaia difettosa"/>
+	<error code="104" text="Sonda puffer TPE difettosa"/>
+	<error code="105" text="Sonda puffer TPA difettosa"/>
+	<error code="107" text="Ventilatore di tiraggio difettoso Pulire il ventilatore."/>
+	<error code="114" text="Sensore Puffer difettoso Verificare sensore Puffer, rimuzione cenere  e modulo cascata"/>
+	<error code="115" text="ZSK -  sensore caldaia difettoso "/>
+	<error code="128" text="Nessuna formazione di fiamma Pulire cald. e bruc. "/>
+	<error code="129" text="Tempo  massimo di accensione superato"/>
+	<error code="130" text="Temperatura camera di combustione troppo bassa"/>
+	<error code="133" text="Intervento termostato di sicurezza Verificare la pressione di impianto."/>
+	<error code="135" text="Temperatura tubo coclea troppo alta"/>
+	<error code="144" text="Dispositivo di sicurezza interrotto Controllare dispositivi di sicurezza."/>
+	<error code="155" text="Sicurezza mancanza acqua si è avviata Controllare pressione impianto."/>
+	<error code="156" text="Nessuna depressione in camera di combust.   o sensore difettoso."/>
+	<error code="171" text="Superato Massimo tempo di accensione Pulire tazza bruc."/>
+	<error code="186" text="Nessuna comunicazione con MES Modulo"/>
+	<error code="187" text="Verificare Accenditore§ Verificare cavi di collegamento. "/>
+	<error code="188" text="Internal error occurred"/>
+	<error code="189" text="Nessuna comunicazione con circuito addizionale  Verificare collegamento al circuito addizionale"/>
+	<error code="191" text="Guasto PCB caldaia a gas"/>
+	<error code="194" text="Nessuna comunicazione con la caldaia"/>
+	<error code="195" text="Porta aperta durante il funzionamento "/>
+	<error code="206" text="Controllo  coclea di alimentazione"/>
+	<error code="208" text="Pulizia scambiatore difettoso Controllare pulizia scambiatore."/>
+	<error code="226" text="Nessuna fiamma nella fase di accensione Accensione non riuscita"/>
+	<error code="238" text="La coclea non trasporta pellets Verificare presenza pellets nel serbatoio in caldaia o nella stiva."/>
+	<error code="239" text="Commutazione sonde difettosa Controllare sistema di commutazione."/>
+	<error code="240" text="Unità bloccante alimentazione pellets aperta Unità blocc. dell'alimentazione pellets non si chiude"/>
+	<error code="241" text="Coperchio stiva aperto Coperchio stiva ciudere"/>
+	<error code="266" text="Interruttore porta di carico non in contatto Nessun riscaldamento."/>
+	<error code="268" text="Interruttore porta di contenimento difettoso"/>
+	<error code="281" text="Sonda temperatura gas combusti difettosa Verificare sonda e collegamenti elettrici e interruttori."/>
+	<error code="296" text="Sonda mandata difettosa"/>
+	<error code="297" text="Setpoint non raggiunto"/>
+	<error code="299" text="Sonda AT difettosa"/>
+	<error code="300" text="Sonda ACS difettosa"/>
+	<error code="320" text="Fare la pulizia"/>
+	<error code="321" text="Fare la pulizia generale"/>
+	<error code="322" text="Svuotere il cassetto ceneri, pulire il bruciatore e camera combustione."/>
+	<error code="324" text="E' richiesta la manutenzione per la garanzia dell'apparecchio."/>
+	<error code="330" text="Temperatura camera di combustione troppo bassa Eseguire la pulizia secondo le istruzioni."/>
+	<error code="345" text="Sportello camera combustione aperto Bruciatore bloccato."/>
+	<error code="356" text="Pressione camera combustione non stabile"/>
+	<error code="372" text="Analisi riscaldamento Temperatura camera combustione troppo bassa all'accensione."/>
+	<error code="373" text="Potenza assorbita durante il riscaldam."/>
+	<error code="374" text="Interruzione"/>
+	<error code="375" text="Sovrainnalzamento  temperatura caldaia"/>
+	<error code="381" text="Stiva vuota Programmazione oraria non coerente. Cambiare programmazione nel livello sett. utente."/>
+	<error code="382" text="Controllare serranda di convogliamento e interruttore."/>
+	<error code="387" text="Errore di comunicazione con bruciatore automatico Premere il tasto reset per min. 5 sec."/>
+	<error code="390" text="Funzion. di emergenza! Pulire cald. e bruc."/>
+	<error code="393" text="Messaggio di errore E1"/>
+	<error code="395" text="Sportello camera combustione o portello cenere aperto"/>
+	<error code="396" text="Chiudere porta di contenimento."/>
+	<error code="438" text="Una zona nel serbatoio di stoccaggio è vuota Verificare rifornimento pellet nel serbatoio"/>
+	<error code="496" text="Sistema antigelo attivo"/>
+	<error code="499" text="Protezione antigelo amb. attivo"/>
+	<error code="500" text="Protezione antigelo a.c.s. attivo"/>
+	<error code="504" text="TP/TW protezione antigelo attiva"/>
+	<error code="520" text="Pulizia Svuotare casetto ceneri, rim. ceneri sotto batteria riscald. Pulire sensore Thermocontrol"/>
+	<error code="521" text="Pulizia generale Eseguire la pulizia secondo le istruzioni."/>
+	<error code="522" text="Pulizia Svuotere il cassetto ceneri,
+pulire il bruciatore e camera combustione."/>
+	<error code="523" text="Pulizia generale Eseguire la pulizia secondo le istruzioni."/>
+	<error code="524" text="Manutenzione  E' richiesta la manutenzione per la garanzia dell'apparecchio."/>
+	<error code="581" text="Combustibile in esaurimento. Ricaricare il  pellets."/>
+	<error code="582" text="Stiva vuota. Ricaricare il pellets. Bruciatore spento."/>
+	<error code="590" text="Pulire caldaia e bruciatore. Confermare settore."/>
+	<error code="591" text="Attenzione quando si apre la porta di carica aspettare almeno 15 sec. prima di sganciare il fermo"/>
+	<error code="595" text="Aprire la porta"/>
+</ErrorTexte>
