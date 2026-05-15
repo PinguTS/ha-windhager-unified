@@ -11,7 +11,7 @@
 
 1. Open **HACS** in Home Assistant.
 2. Go to **Integrations** → three-dot menu → **Custom repositories**.
-3. Add `https://github.com/pinguts/ha-windhager-unified` as an **Integration** repository.
+3. Add `https://github.com/PinguTS/ha-windhager-unified` as an **Integration** repository.
 4. Search for **Windhager Unified** and click **Download**.
 5. Restart Home Assistant.
 6. Continue with [Setup](setup.md).

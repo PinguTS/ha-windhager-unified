@@ -122,7 +122,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             ),
             errors=errors,
             description_placeholders={
-                "docs_url": "https://github.com/pinguts/ha-windhager-unified/blob/main/docs/user/setup.md"
+                "docs_url": "https://github.com/PinguTS/ha-windhager-unified/blob/main/docs/user/setup.md"
             },
         )
 

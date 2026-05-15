@@ -72,4 +72,4 @@ The diagnostics download (available to all users) contains:
 
 Include the diagnostics file and the relevant debug log section (with any
 hostnames/IPs replaced by `<redacted>`). Open an issue at
-<https://github.com/pinguts/ha-windhager-unified/issues>.
+<https://github.com/PinguTS/ha-windhager-unified/issues>.

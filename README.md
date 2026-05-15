@@ -3,8 +3,8 @@
 > Home Assistant integration for Windhager biomass heating systems
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz)
-[![GitHub release](https://img.shields.io/github/v/release/pinguts/ha-windhager-unified)](https://github.com/pinguts/ha-windhager-unified/releases)
-[![CI](https://github.com/pinguts/ha-windhager-unified/actions/workflows/ci.yml/badge.svg)](https://github.com/pinguts/ha-windhager-unified/actions/workflows/ci.yml)
+[![GitHub release](https://img.shields.io/github/v/release/PinguTS/ha-windhager-unified)](https://github.com/PinguTS/ha-windhager-unified/releases)
+[![CI](https://github.com/PinguTS/ha-windhager-unified/actions/workflows/ci.yml/badge.svg)](https://github.com/PinguTS/ha-windhager-unified/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![HA min version](https://img.shields.io/badge/Home%20Assistant-%3E%3D%202024.1-brightgreen)](https://www.home-assistant.io/)
 
@@ -49,7 +49,7 @@ Feedback from users with these devices is highly welcome to expand the confirmed
 
 1. Open **HACS** in your Home Assistant instance.
 2. Click **Integrations** → three-dot menu → **Custom repositories**.
-3. Add `[https://github.com/pinguts/ha-windhager-unified](https://github.com/pinguts/ha-windhager-unified)` with category **Integration**.
+3. Add `[https://github.com/PinguTS/ha-windhager-unified](https://github.com/PinguTS/ha-windhager-unified)` with category **Integration**.
 4. Search for **Windhager Unified** in the HACS store and click **Download**.
 5. Restart Home Assistant.
 
@@ -114,7 +114,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for details on PR expectations and testin
 
 ## Security
 
-**Do not open public issues for security vulnerabilities.** Please use [GitHub private vulnerability reporting](https://github.com/pinguts/ha-windhager-unified/security/advisories/new) instead.
+**Do not open public issues for security vulnerabilities.** Please use [GitHub private vulnerability reporting](https://github.com/PinguTS/ha-windhager-unified/security/advisories/new) instead.
 
 ---
 
