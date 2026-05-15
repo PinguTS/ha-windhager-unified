@@ -5,6 +5,7 @@ import logging
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError
+from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.typing import ConfigType
 
 from .const import (
@@ -26,6 +27,8 @@ from .coordinator import WindhagerCoordinator
 from .exceptions import WindhagerAuthError, WindhagerConnectionError, WindhagerTimeoutError
 
 _LOGGER = logging.getLogger(__name__)
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
 def _resolve_config_entry(hass: HomeAssistant, call: ServiceCall) -> ConfigEntry:

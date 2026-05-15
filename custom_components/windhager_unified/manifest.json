@@ -1,12 +1,12 @@
 {
   "domain": "windhager_unified",
   "name": "Windhager Unified",
-  "version": "0.1.0",
-  "documentation": "https://github.com/PinguTS/ha-windhager-unified",
-  "issue_tracker": "https://github.com/PinguTS/ha-windhager-unified/issues",
   "codeowners": ["@PinguTS"],
-  "requirements": [],
   "config_flow": true,
+  "documentation": "https://github.com/PinguTS/ha-windhager-unified",
+  "integration_type": "hub",
   "iot_class": "local_polling",
-  "integration_type": "hub"
+  "issue_tracker": "https://github.com/PinguTS/ha-windhager-unified/issues",
+  "requirements": [],
+  "version": "0.1.0"
 }

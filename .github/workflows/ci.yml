@@ -30,6 +30,12 @@ jobs:
       - name: Run tests
         run: pytest --tb=short -v
 
+  hassfest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: home-assistant/actions/hassfest@master
+
   hacs:
     runs-on: ubuntu-latest
     steps:

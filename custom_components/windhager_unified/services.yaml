@@ -6,7 +6,8 @@ set_datapoint:
   fields:
     oid:
       name: OID
-      description: The OID of the datapoint to set (format: subnetId/nodeId/fctId/groupId/memberId/varInst)
+      description: >-
+        The OID of the datapoint to set (six parts: subnetId/nodeId/fctId/groupId/memberId/varInst)
       required: true
       selector:
         text:
