@@ -20,6 +20,7 @@ from .const import (
 )
 from .exceptions import WindhagerAuthError, WindhagerError
 from .labels import LabelCatalog
+from .lon_values import is_datetime_datapoint, parse_lon_datetime_value
 from .tier_lookup import GN_MN_OVERRIDES, uses_easy_lookup_discovery
 
 _LOGGER = logging.getLogger(__name__)
@@ -87,6 +88,11 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.adhoc_entries: list[dict[str, str]] = self._coerce_adhoc_entries(adhoc_oids)
         self.label_catalog: LabelCatalog | None = None
 
+        # Populated by async_initialize_catalog via run_in_executor (avoids blocking IO).
+        self.datapoints: list[dict[str, Any]] = []
+        self.oid_disambiguators: dict[str, str] = {}
+        self.restapi_endpoints: dict[str, list[dict[str, Any]]] = {}
+
         super().__init__(
             hass,
             logger=_LOGGER,
@@ -94,39 +100,53 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             update_interval=timedelta(seconds=scan_interval),
         )
 
-        all_datapoints: list[dict[str, Any]] = self._load_yaml(
-            _YAML_BASE / "oids.yaml", "datapoints"
-        )
-        all_restapi: dict[str, list[dict[str, Any]]] = self._load_yaml(
-            _YAML_BASE / "restapi_endpoints.yaml", "restapi_endpoints"
-        )
-
-        self.datapoints = self._build_lon_datapoints(all_datapoints)
-        self.oid_disambiguators: dict[str, str] = self._compute_oid_disambiguators(self.datapoints)
-        self.restapi_endpoints = self._filter_restapi(all_restapi)
-
         # OIDs that returned 404 (not present on this device) — tracked for diagnostics
         self.unknown_oids: set[str] = set()
 
         # Background export task — set by export.async_start_export()
         self.export_task: asyncio.Task[None] | None = None
 
-        _LOGGER.debug(
-            "Coordinator: tier=%s groups=%s → %d LON datapoints, %d RestAPI groups",
-            experience_level,
-            sorted(self.selected_groups) if self.selected_groups else "(all)",
-            len(self.datapoints),
-            len(self.restapi_endpoints),
-        )
-
     # ------------------------------------------------------------------
     # Label catalogue
     # ------------------------------------------------------------------
 
     async def async_initialize_catalog(self) -> None:
-        """Load bundled XML label files into memory (non-blocking)."""
+        """Load XML labels and static YAML config into memory (non-blocking).
+
+        Both operations are dispatched to a thread-pool executor so the event
+        loop is never blocked by file I/O or YAML parsing.
+        """
         loop = asyncio.get_running_loop()
         self.label_catalog = await loop.run_in_executor(None, LabelCatalog.load)
+        all_datapoints, all_restapi = await loop.run_in_executor(None, self._load_static_yaml)
+        self._apply_static_config(all_datapoints, all_restapi)
+
+    def _load_static_yaml(self) -> tuple[list[dict[str, Any]], dict[str, list[dict[str, Any]]]]:
+        """Load oids.yaml and restapi_endpoints.yaml synchronously (run in executor)."""
+        all_datapoints: list[dict[str, Any]] = self._load_yaml(
+            _YAML_BASE / "oids.yaml", "datapoints"
+        )
+        all_restapi: dict[str, list[dict[str, Any]]] = self._load_yaml(
+            _YAML_BASE / "restapi_endpoints.yaml", "restapi_endpoints"
+        )
+        return all_datapoints, all_restapi
+
+    def _apply_static_config(
+        self,
+        all_datapoints: list[dict[str, Any]],
+        all_restapi: dict[str, list[dict[str, Any]]],
+    ) -> None:
+        """Filter and assign loaded YAML data (runs on the event loop after executor)."""
+        self.datapoints = self._build_lon_datapoints(all_datapoints)
+        self.oid_disambiguators = self._compute_oid_disambiguators(self.datapoints)
+        self.restapi_endpoints = self._filter_restapi(all_restapi)
+        _LOGGER.debug(
+            "Coordinator: tier=%s groups=%s → %d LON datapoints, %d RestAPI groups",
+            self.experience_level,
+            sorted(self.selected_groups) if self.selected_groups else "(all)",
+            len(self.datapoints),
+            len(self.restapi_endpoints),
+        )
 
     def get_label(self, oid: str, lang: str) -> str | None:
         """Return the VarIdent label for an OID's gn/mn in the requested language.
@@ -501,6 +521,10 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         oid = str(row["oid"])
         key = f"lon_{oid.replace('/', '_')}"
         label = row.get("api_name") or oid
+        unit_id = row.get("unit_id", -1)
+        # Date/time unit_ids must not carry state_class — they produce datetime values,
+        # not numeric measurements, and would cause HA's float() conversion to crash.
+        state_class = None if is_datetime_datapoint({"unit_id": unit_id}) else "measurement"
         dp: dict[str, Any] = {
             "oid": oid,
             "key": key,
@@ -510,10 +534,10 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             "experience_minimum": row.get("experience_minimum", DEFAULT_LON_EXPERIENCE_MINIMUM),
             "unit": None,
             "device_class": None,
-            "state_class": "measurement",
+            "state_class": state_class,
             "type_id": row.get("type_id", -1),
             "subtype_id": -1,
-            "unit_id": row.get("unit_id", -1),
+            "unit_id": unit_id,
             "write_protected": row.get("write_prot", True),
             "discovered": True,
         }
@@ -638,7 +662,11 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 try:
                     result = await self.api_client.async_get_datapoint(oid_parts)
                     if isinstance(result, dict) and "value" in result:
-                        data[key] = _normalize_lon_datapoint_value(result["value"])
+                        raw = result["value"]
+                        if is_datetime_datapoint(datapoint):
+                            data[key] = parse_lon_datetime_value(raw, datapoint)
+                        else:
+                            data[key] = _normalize_lon_datapoint_value(raw)
                     else:
                         _LOGGER.debug("No value in response for %s: %s", key, result)
                 except WindhagerAuthError:

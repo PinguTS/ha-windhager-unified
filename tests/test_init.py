@@ -31,21 +31,21 @@ def _mock_coordinator(hass):
     """Return a coordinator mock that passes first refresh."""
     from custom_components.windhager_unified.coordinator import WindhagerCoordinator
 
-    with patch.object(WindhagerCoordinator, "_load_yaml", return_value=[]) as _:
-        coord = WindhagerCoordinator(
-            hass=hass,
-            host="http://test-host",
-            username="user",
-            password="pass",
-            verify_ssl=False,
-            scan_interval=30,
-        )
-        coord.api_client.async_init = AsyncMock()
-        coord.api_client.async_close = AsyncMock()
-        coord.async_config_entry_first_refresh = AsyncMock()
-        coord.last_update_success = True
-        coord.data = {}
-        return coord
+    coord = WindhagerCoordinator(
+        hass=hass,
+        host="http://test-host",
+        username="user",
+        password="pass",
+        verify_ssl=False,
+        scan_interval=30,
+    )
+    coord.api_client.async_init = AsyncMock()
+    coord.api_client.async_close = AsyncMock()
+    coord.async_initialize_catalog = AsyncMock()
+    coord.async_config_entry_first_refresh = AsyncMock()
+    coord.last_update_success = True
+    coord.data = {}
+    return coord
 
 
 async def test_setup_entry_stores_coordinator(hass):

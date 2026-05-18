@@ -52,15 +52,14 @@ _ENTRY_DATA = {
 def _make_coordinator(hass):
     from custom_components.windhager_unified.coordinator import WindhagerCoordinator
 
-    with patch.object(WindhagerCoordinator, "_load_yaml", return_value=[]):
-        coord = WindhagerCoordinator(
-            hass=hass,
-            host="http://test-host",
-            username="user",
-            password="pass",
-            verify_ssl=False,
-            scan_interval=30,
-        )
+    coord = WindhagerCoordinator(
+        hass=hass,
+        host="http://test-host",
+        username="user",
+        password="pass",
+        verify_ssl=False,
+        scan_interval=30,
+    )
     coord.api_client.async_init = AsyncMock()
     coord.api_client.async_close = AsyncMock()
     coord.api_client.async_request = AsyncMock(return_value={"text": ""})

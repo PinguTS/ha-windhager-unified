@@ -59,23 +59,17 @@ def mock_hass():
 
 @pytest.fixture
 def coordinator(mock_hass):
-    with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
-
-        def _side_effect(path, root_key):
-            if root_key == "datapoints":
-                return MINIMAL_OIDS
-            return MINIMAL_RESTAPI
-
-        mock_load.side_effect = _side_effect
-        return WindhagerCoordinator(
-            hass=mock_hass,
-            host="http://test-host",
-            username="user",
-            password="pass",
-            verify_ssl=False,
-            scan_interval=30,
-            experience_level="advanced",  # advanced sees essential LON + advanced REST
-        )
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test-host",
+        username="user",
+        password="pass",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="advanced",  # advanced sees essential LON + advanced REST
+    )
+    coord._apply_static_config(MINIMAL_OIDS, MINIMAL_RESTAPI)
+    return coord
 
 
 # ---------------------------------------------------------------------------
@@ -282,17 +276,16 @@ def test_coordinator_filters_by_experience_essential(mock_hass):
             {**MINIMAL_RESTAPI["heartbeat"][0], "experience_minimum": "advanced"},
         ]
     }
-    with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
-        mock_load.side_effect = lambda path, key: all_oids if key == "datapoints" else all_restapi
-        coord = WindhagerCoordinator(
-            hass=mock_hass,
-            host="http://test",
-            username="u",
-            password="p",
-            verify_ssl=False,
-            scan_interval=30,
-            experience_level="essential",
-        )
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="essential",
+    )
+    coord._apply_static_config(all_oids, all_restapi)
 
     keys = [dp["key"] for dp in coord.datapoints]
     assert "logwin.boiler_temp" in keys
@@ -313,18 +306,17 @@ def test_coordinator_filters_by_group(mock_hass):
             "experience_minimum": "essential",
         },
     ]
-    with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
-        mock_load.side_effect = lambda path, key: all_oids if key == "datapoints" else {}
-        coord = WindhagerCoordinator(
-            hass=mock_hass,
-            host="http://test",
-            username="u",
-            password="p",
-            verify_ssl=False,
-            scan_interval=30,
-            experience_level="expert",
-            groups=["heating_circuit"],
-        )
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="expert",
+        groups=["heating_circuit"],
+    )
+    coord._apply_static_config(all_oids, {})
 
     keys = [dp["key"] for dp in coord.datapoints]
     assert "hc_dp" in keys
@@ -394,18 +386,17 @@ def test_build_lon_datapoints_easy_tier_whitelist(mock_hass):
         },
     ]
     discovered = [{"oid": "1/1/0/0/0/0", "group": "boiler", "experience_minimum": "essential"}]
-    with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
-        mock_load.side_effect = lambda path, key: all_oids if key == "datapoints" else {}
-        coord = WindhagerCoordinator(
-            hass=mock_hass,
-            host="http://test",
-            username="u",
-            password="p",
-            verify_ssl=False,
-            scan_interval=30,
-            experience_level="essential",
-            discovered_datapoints=discovered,
-        )
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="essential",
+        discovered_datapoints=discovered,
+    )
+    coord._apply_static_config(all_oids, {})
     assert [d["key"] for d in coord.datapoints] == ["k1"]
 
 
@@ -430,18 +421,17 @@ def test_build_lon_datapoints_expert_adds_discovery_only_synthetic(mock_hass):
             "write_prot": True,
         }
     ]
-    with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
-        mock_load.side_effect = lambda path, key: all_oids if key == "datapoints" else {}
-        coord = WindhagerCoordinator(
-            hass=mock_hass,
-            host="http://test",
-            username="u",
-            password="p",
-            verify_ssl=False,
-            scan_interval=30,
-            experience_level="expert",
-            discovered_datapoints=discovered,
-        )
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="expert",
+        discovered_datapoints=discovered,
+    )
+    coord._apply_static_config(all_oids, {})
     keys = {d["oid"]: d for d in coord.datapoints}
     assert "1/1/0/0/0/0" in keys
     assert "9/9/0/9/9/0" in keys
@@ -479,18 +469,17 @@ def test_build_lon_datapoints_discovery_gap_preserves_yaml_unit(mock_hass):
             "write_prot": True,
         }
     ]
-    with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
-        mock_load.side_effect = lambda path, key: [yaml_entry] if key == "datapoints" else {}
-        coord = WindhagerCoordinator(
-            hass=mock_hass,
-            host="http://test",
-            username="u",
-            password="p",
-            verify_ssl=False,
-            scan_interval=30,
-            experience_level="comfort",  # below expert → yaml entry is filtered out
-            discovered_datapoints=discovered,
-        )
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="comfort",  # below expert → yaml entry is filtered out
+        discovered_datapoints=discovered,
+    )
+    coord._apply_static_config([yaml_entry], {})
     assert len(coord.datapoints) == 1
     dp = coord.datapoints[0]
     assert dp["oid"] == "1/16/0/0/15/0"
@@ -679,29 +668,25 @@ def test_compute_disambiguators_partial_function_names_falls_back_to_number():
 
 def test_get_entity_name_no_disambiguation(mock_hass):
     """When a (gn, mn) is unique, get_entity_name returns the base name."""
-    with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
-        mock_load.side_effect = lambda path, key: (
-            [
-                {
-                    "oid": "1/65/0/0/7/0",
-                    "key": "k",
-                    "group": "boiler",
-                    "experience_minimum": "essential",
-                    "i18n": {"en": "Boiler Temp"},
-                }
-            ]
-            if key == "datapoints"
-            else {}
-        )
-        coord = WindhagerCoordinator(
-            hass=mock_hass,
-            host="http://t",
-            username="u",
-            password="p",
-            verify_ssl=False,
-            scan_interval=30,
-            experience_level="advanced",
-        )
+    oids = [
+        {
+            "oid": "1/65/0/0/7/0",
+            "key": "k",
+            "group": "boiler",
+            "experience_minimum": "essential",
+            "i18n": {"en": "Boiler Temp"},
+        }
+    ]
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://t",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="advanced",
+    )
+    coord._apply_static_config(oids, {})
     name = coord.get_entity_name("1/65/0/0/7/0", "en", {"en": "Boiler Temp"}, "k")
     assert name == "Boiler Temp"
     assert "(1)" not in name
@@ -709,36 +694,32 @@ def test_get_entity_name_no_disambiguation(mock_hass):
 
 def test_get_entity_name_with_numeric_disambiguation(mock_hass):
     """Without function_name the fallback is a parenthesised number suffix."""
-    with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
-        mock_load.side_effect = lambda path, key: (
-            [
-                {
-                    "oid": "1/10/0/0/7/0",
-                    "key": "k",
-                    "group": "boiler",
-                    "experience_minimum": "essential",
-                    "i18n": {"en": "Boiler Temp"},
-                },
-                {
-                    "oid": "1/65/0/0/7/0",
-                    "key": "k2",
-                    "group": "boiler",
-                    "experience_minimum": "essential",
-                    "i18n": {"en": "Boiler Temp"},
-                },
-            ]
-            if key == "datapoints"
-            else {}
-        )
-        coord = WindhagerCoordinator(
-            hass=mock_hass,
-            host="http://t",
-            username="u",
-            password="p",
-            verify_ssl=False,
-            scan_interval=30,
-            experience_level="advanced",
-        )
+    oids = [
+        {
+            "oid": "1/10/0/0/7/0",
+            "key": "k",
+            "group": "boiler",
+            "experience_minimum": "essential",
+            "i18n": {"en": "Boiler Temp"},
+        },
+        {
+            "oid": "1/65/0/0/7/0",
+            "key": "k2",
+            "group": "boiler",
+            "experience_minimum": "essential",
+            "i18n": {"en": "Boiler Temp"},
+        },
+    ]
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://t",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="advanced",
+    )
+    coord._apply_static_config(oids, {})
     name_10 = coord.get_entity_name("1/10/0/0/7/0", "en", {"en": "Boiler Temp"}, "k")
     name_65 = coord.get_entity_name("1/65/0/0/7/0", "en", {"en": "Boiler Temp"}, "k2")
     assert name_10 == "Boiler Temp (1)"
@@ -747,38 +728,34 @@ def test_get_entity_name_with_numeric_disambiguation(mock_hass):
 
 def test_get_entity_name_with_function_name_prefix(mock_hass):
     """With function_name the prefix pattern 'FunctionName Base' is used."""
-    with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
-        mock_load.side_effect = lambda path, key: (
-            [
-                {
-                    "oid": "1/10/0/0/7/0",
-                    "key": "k",
-                    "group": "boiler",
-                    "experience_minimum": "essential",
-                    "i18n": {"en": "Kesseltemperatur"},
-                    "function_name": "BioWIN",
-                },
-                {
-                    "oid": "1/65/0/0/7/0",
-                    "key": "k2",
-                    "group": "boiler",
-                    "experience_minimum": "essential",
-                    "i18n": {"en": "Kesseltemperatur"},
-                    "function_name": "LogWIN",
-                },
-            ]
-            if key == "datapoints"
-            else {}
-        )
-        coord = WindhagerCoordinator(
-            hass=mock_hass,
-            host="http://t",
-            username="u",
-            password="p",
-            verify_ssl=False,
-            scan_interval=30,
-            experience_level="advanced",
-        )
+    oids = [
+        {
+            "oid": "1/10/0/0/7/0",
+            "key": "k",
+            "group": "boiler",
+            "experience_minimum": "essential",
+            "i18n": {"en": "Kesseltemperatur"},
+            "function_name": "BioWIN",
+        },
+        {
+            "oid": "1/65/0/0/7/0",
+            "key": "k2",
+            "group": "boiler",
+            "experience_minimum": "essential",
+            "i18n": {"en": "Kesseltemperatur"},
+            "function_name": "LogWIN",
+        },
+    ]
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://t",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="advanced",
+    )
+    coord._apply_static_config(oids, {})
     name_10 = coord.get_entity_name("1/10/0/0/7/0", "en", {"en": "Kesseltemperatur"}, "k")
     name_65 = coord.get_entity_name("1/65/0/0/7/0", "en", {"en": "Kesseltemperatur"}, "k2")
     assert name_10 == "BioWIN Kesseltemperatur"
@@ -814,17 +791,15 @@ def _make_coord_with_catalog(mock_hass):
     """Return a minimal coordinator with a real LabelCatalog loaded."""
     from custom_components.windhager_unified.labels import LabelCatalog
 
-    with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
-        mock_load.return_value = []
-        coord = WindhagerCoordinator(
-            hass=mock_hass,
-            host="http://t",
-            username="u",
-            password="p",
-            verify_ssl=False,
-            scan_interval=30,
-            experience_level="advanced",
-        )
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://t",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="advanced",
+    )
     coord.label_catalog = LabelCatalog.load()
     return coord
 
@@ -877,16 +852,14 @@ def test_coordinator_get_enum_options_non_empty(mock_hass):
 
 def test_coordinator_get_enum_options_no_catalog(mock_hass):
     """Returns empty list when catalog is not loaded."""
-    with patch.object(WindhagerCoordinator, "_load_yaml") as mock_load:
-        mock_load.return_value = []
-        coord = WindhagerCoordinator(
-            hass=mock_hass,
-            host="http://t",
-            username="u",
-            password="p",
-            verify_ssl=False,
-            scan_interval=30,
-            experience_level="advanced",
-        )
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://t",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="advanced",
+    )
     # label_catalog is None by default before async_initialize_catalog
     assert coord.get_enum_options("1/65/0/2/1/0", "en") == []

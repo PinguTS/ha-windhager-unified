@@ -350,7 +350,7 @@ datapoints:
     subtype_id: -1
     unit_id: 20
     write_protected: true
-    unit: '20'
+
     min_value: 01.01.1900
     max_value: 17.12.2077
     group: central
@@ -369,7 +369,7 @@ datapoints:
     subtype_id: -1
     unit_id: 21
     write_protected: true
-    unit: '21'
+
     min_value: 00:00
     max_value: '23:59'
     group: central
@@ -748,7 +748,7 @@ datapoints:
     subtype_id: -1
     unit_id: 20
     write_protected: false
-    unit: '20'
+
     min_value: 01.01.2009
     max_value: 31.12.2078
     group: central
@@ -1615,7 +1615,7 @@ datapoints:
     subtype_id: -1
     unit_id: 20
     write_protected: true
-    unit: '20'
+
     min_value: 01.01.1900
     max_value: 17.12.2077
     group: central
@@ -1634,7 +1634,7 @@ datapoints:
     subtype_id: -1
     unit_id: 21
     write_protected: true
-    unit: '21'
+
     min_value: 00:00
     max_value: '23:59'
     group: central
@@ -2013,7 +2013,7 @@ datapoints:
     subtype_id: -1
     unit_id: 20
     write_protected: false
-    unit: '20'
+
     min_value: 01.01.2009
     max_value: 31.12.2078
     group: central
@@ -3425,7 +3425,7 @@ datapoints:
     subtype_id: -1
     unit_id: 20
     write_protected: true
-    unit: '20'
+
     min_value: 01.01.1900
     max_value: 17.12.2077
     group: buffer
@@ -3444,7 +3444,7 @@ datapoints:
     subtype_id: -1
     unit_id: 21
     write_protected: true
-    unit: '21'
+
     min_value: 00:00
     max_value: '23:59'
     group: buffer
@@ -5401,7 +5401,7 @@ datapoints:
     subtype_id: -1
     unit_id: 20
     write_protected: false
-    unit: '20'
+
     min_value: 01.01.1900
     max_value: 05.06.2079
     group: boiler
@@ -5420,7 +5420,7 @@ datapoints:
     subtype_id: -1
     unit_id: 21
     write_protected: false
-    unit: '21'
+
     min_value: 00:00
     max_value: '23:59'
     group: boiler
@@ -5678,7 +5678,7 @@ datapoints:
     subtype_id: -1
     unit_id: 21
     write_protected: false
-    unit: '21'
+
     min_value: 00:00
     max_value: '23:59'
     group: boiler

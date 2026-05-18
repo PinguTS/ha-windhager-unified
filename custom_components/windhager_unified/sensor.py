@@ -28,6 +28,7 @@ from .const import (
     EXPERIENCE_TIERS,
 )
 from .coordinator import WindhagerCoordinator
+from .lon_values import is_datetime_datapoint
 
 
 def _is_enabled_default(experience_minimum: str | None, selected_tier: str) -> bool:
@@ -198,6 +199,15 @@ async def async_setup_entry(
             sc = None
             unit = None
             options = coordinator.get_enum_options(oid, lang) or None
+        elif is_datetime_datapoint(datapoint):
+            # Date (unit_id 20) and time (unit_id 21) datapoints return string values
+            # like "18.05.2026" or "16:53" from the API.  The coordinator parses them
+            # to timezone-aware datetime objects before storing.  HA requires
+            # TIMESTAMP device class and no unit/state_class for datetime sensors.
+            dc = SensorDeviceClass.TIMESTAMP
+            sc = None
+            unit = None
+            options = None
         else:
             dc = _DEVICE_CLASS_MAP.get(datapoint.get("device_class", ""))
             sc = _STATE_CLASS_MAP.get(datapoint.get("state_class", ""))
