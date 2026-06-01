@@ -14,7 +14,7 @@ functions return None so the sensor shows "Unknown" rather than crashing.
 from __future__ import annotations
 
 import logging
-from datetime import datetime, time
+from datetime import datetime
 from typing import Any
 
 from homeassistant.util import dt as dt_util
@@ -28,8 +28,8 @@ _LOGGER = logging.getLogger(__name__)
 # for HH:MM values that carry no date component on the wire.
 
 # Windhager unit_id values that carry date or time strings instead of numbers.
-_DATE_UNIT_ID = 20   # DD.MM.YYYY
-_TIME_UNIT_ID = 21   # HH:MM
+_DATE_UNIT_ID = 20  # DD.MM.YYYY
+_TIME_UNIT_ID = 21  # HH:MM
 
 
 def is_datetime_datapoint(datapoint: dict[str, Any]) -> bool:

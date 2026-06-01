@@ -118,11 +118,21 @@ async def test_update_lon_datapoint_hyphen_string_becomes_none(coordinator):
 
 
 def test_normalize_lon_datapoint_value_hyphen_and_blank():
-    assert _normalize_lon_datapoint_value("-") is None
-    assert _normalize_lon_datapoint_value(" - ") is None
+    # blank / whitespace
     assert _normalize_lon_datapoint_value("") is None
     assert _normalize_lon_datapoint_value("  ") is None
+    # single hyphen sentinels
+    assert _normalize_lon_datapoint_value("-") is None
+    assert _normalize_lon_datapoint_value(" - ") is None
+    # Windhager "no reading" dot-hyphen sentinels (e.g. '-.-', '-.--', '--.-')
+    assert _normalize_lon_datapoint_value("-.-") is None
+    assert _normalize_lon_datapoint_value("-.--") is None
+    assert _normalize_lon_datapoint_value("--.-") is None
+    assert _normalize_lon_datapoint_value("--") is None
+    assert _normalize_lon_datapoint_value("...") is None
+    # valid values must pass through unchanged
     assert _normalize_lon_datapoint_value("42") == "42"
+    assert _normalize_lon_datapoint_value("21.5") == "21.5"
     assert _normalize_lon_datapoint_value(42) == 42
     assert _normalize_lon_datapoint_value(42.5) == 42.5
     assert _normalize_lon_datapoint_value(None) is None

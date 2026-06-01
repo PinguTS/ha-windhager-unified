@@ -2,17 +2,15 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from unittest.mock import patch
-
-import pytest
 
 from custom_components.windhager_unified.lon_values import (
     is_datetime_datapoint,
     parse_lon_datetime_value,
 )
 
-_UTC = timezone.utc
+_UTC = UTC
 
 # ---------------------------------------------------------------------------
 # is_datetime_datapoint
