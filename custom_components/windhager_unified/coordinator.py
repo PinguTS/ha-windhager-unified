@@ -18,8 +18,10 @@ from .const import (
     DEFAULT_REST_SENSOR_EXPERIENCE_MINIMUM,
     EXPERIENCE_TIERS,
 )
+from .entity_roles import identity_device_info_field, numeric_format_confirmed
 from .exceptions import WindhagerAuthError, WindhagerError
 from .labels import LabelCatalog
+from .lon_devices import build_function_block_device_info, function_block_identifier
 from .lon_values import is_datetime_datapoint, parse_lon_datetime_value
 from .tier_lookup import GN_MN_OVERRIDES, uses_easy_lookup_discovery
 
@@ -47,14 +49,19 @@ def _passes_tier(
 
 
 def _normalize_lon_datapoint_value(value: Any) -> Any:
-    """Map API placeholder strings to unknown so numeric HA sensors do not raise.
+    """Map API placeholder strings to None so numeric HA sensors do not raise.
 
     GET datapoint documents ``value`` as string (RestApiRC7030_1.0_datapoint).
-    Devices may return ``-`` or whitespace when no reading is available.
+    Devices return sentinel strings such as ``-``, ``-.-``, ``-.--`` when no
+    reading is available.  Any string consisting solely of hyphens and dots is
+    treated as "no value".
     """
     if isinstance(value, str):
         stripped = value.strip()
-        if not stripped or stripped == "-":
+        if not stripped:
+            return None
+        # Windhager "no reading" sentinels: -, -.-,  -.-, --.- etc.
+        if all(c in "-." for c in stripped):
             return None
     return value
 
@@ -74,6 +81,7 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         groups: list[str] | None = None,
         discovered_datapoints: list[dict[str, Any]] | None = None,
         adhoc_oids: list[Any] | None = None,
+        entry_id: str | None = None,
     ) -> None:
         self.api_client = WindhagerApiClient(
             host=host,
@@ -87,6 +95,7 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.discovered_datapoints: list[dict[str, Any]] = list(discovered_datapoints or [])
         self.adhoc_entries: list[dict[str, str]] = self._coerce_adhoc_entries(adhoc_oids)
         self.label_catalog: LabelCatalog | None = None
+        self.entry_id = entry_id
 
         # Populated by async_initialize_catalog via run_in_executor (avoids blocking IO).
         self.datapoints: list[dict[str, Any]] = []
@@ -102,9 +111,16 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
         # OIDs that returned 404 (not present on this device) — tracked for diagnostics
         self.unknown_oids: set[str] = set()
+        # OIDs whose response never included a "value" key — warned once, then silenced
+        self._no_value_oids: set[str] = set()
 
         # Background export task — set by export.async_start_export()
         self.export_task: asyncio.Task[None] | None = None
+
+        # Raw LON values as returned by GET (for write format inference).
+        self.raw_lon_values: dict[str, str] = {}
+        # Cached DeviceInfo per function-block identifier.
+        self._function_block_device_info: dict[str, dict[str, Any]] = {}
 
     # ------------------------------------------------------------------
     # Label catalogue
@@ -209,6 +225,83 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             return self.label_catalog.enum_options(gn, mn, lang)
         except (ValueError, IndexError):
             return []
+
+    def get_enum_id(self, oid: str, label: str, lang: str) -> int | None:
+        """Return the enum id for a human-readable label (select writes)."""
+        if self.label_catalog is None:
+            return None
+        parts = oid.split("/")
+        if len(parts) != 6:
+            return None
+        try:
+            gn, mn = int(parts[3]), int(parts[4])
+            return self.label_catalog.enum_id(gn, mn, label, lang)
+        except (ValueError, IndexError):
+            return None
+
+    def lon_numeric_format_confirmed(self, datapoint: dict[str, Any]) -> bool:
+        """Return True when a numeric config write format is confirmed from a live read."""
+        key = str(datapoint.get("key", ""))
+        raw = self.raw_lon_values.get(key)
+        return numeric_format_confirmed(datapoint, raw)
+
+    def get_raw_lon_value(self, datapoint: dict[str, Any]) -> str | None:
+        """Return the last raw GET value string for a datapoint key."""
+        key = str(datapoint.get("key", ""))
+        return self.raw_lon_values.get(key)
+
+    def get_function_block_device_info(
+        self,
+        entry_id: str,
+        datapoint: dict[str, Any],
+    ) -> dict[str, Any]:
+        """Return cached DeviceInfo for the datapoint's LON function block."""
+        oid = str(datapoint.get("oid", ""))
+        fb_id = function_block_identifier(entry_id, oid)
+        if fb_id and fb_id in self._function_block_device_info:
+            return self._function_block_device_info[fb_id]
+        return build_function_block_device_info(entry_id, datapoint)
+
+    def _rebuild_function_block_device_info(
+        self,
+        entry_id: str,
+        values: dict[str, Any] | None = None,
+    ) -> None:
+        """Rebuild function-block DeviceInfo from datapoints and identity values."""
+        values = values if values is not None else (self.data or {})
+        identity_by_fb: dict[str, dict[str, str]] = {}
+        templates: dict[str, dict[str, Any]] = {}
+
+        for dp in self.datapoints:
+            oid = str(dp.get("oid", ""))
+            fb_id = function_block_identifier(entry_id, oid)
+            if not fb_id:
+                continue
+            templates.setdefault(fb_id, dp)
+            field = identity_device_info_field(dp)
+            if not field:
+                continue
+            key = str(dp.get("key", ""))
+            raw = values.get(key)
+            if raw is None:
+                continue
+            text = str(raw).strip()
+            if not text:
+                continue
+            identity_by_fb.setdefault(fb_id, {})[field] = text
+
+        rebuilt: dict[str, dict[str, Any]] = {}
+        for fb_id, template_dp in templates.items():
+            attrs = identity_by_fb.get(fb_id, {})
+            rebuilt[fb_id] = build_function_block_device_info(
+                entry_id,
+                template_dp,
+                sw_version=attrs.get("sw_version"),
+                hw_version=attrs.get("hw_version"),
+                model=attrs.get("model"),
+                serial_number=attrs.get("serial_number"),
+            )
+        self._function_block_device_info = rebuilt
 
     def get_entity_name(
         self,
@@ -663,12 +756,24 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     result = await self.api_client.async_get_datapoint(oid_parts)
                     if isinstance(result, dict) and "value" in result:
                         raw = result["value"]
+                        if raw is not None:
+                            self.raw_lon_values[key] = str(raw)
                         if is_datetime_datapoint(datapoint):
                             data[key] = parse_lon_datetime_value(raw, datapoint)
                         else:
                             data[key] = _normalize_lon_datapoint_value(raw)
                     else:
-                        _LOGGER.debug("No value in response for %s: %s", key, result)
+                        if oid_str not in self._no_value_oids:
+                            self._no_value_oids.add(oid_str)
+                            _LOGGER.warning(
+                                "OID %s (%s) returned no 'value' field; sensor will be "
+                                "unknown until the device provides a reading. Response: %s",
+                                oid_str,
+                                key,
+                                result,
+                            )
+                        else:
+                            _LOGGER.debug("No value in response for %s: %s", key, result)
                 except WindhagerAuthError:
                     raise
                 except WindhagerError as err:
@@ -679,6 +784,9 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                         _LOGGER.warning(
                             "Failed to fetch LON datapoint %s (%s): %s", key, oid_str, err
                         )
+
+            if self.entry_id:
+                self._rebuild_function_block_device_info(self.entry_id, data)
 
             # --- RestAPI sensor endpoints ---
             for _group_name, endpoints in self.restapi_endpoints.items():

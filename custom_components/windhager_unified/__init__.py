@@ -25,6 +25,7 @@ from .const import (
 )
 from .coordinator import WindhagerCoordinator
 from .exceptions import WindhagerAuthError, WindhagerConnectionError, WindhagerTimeoutError
+from .migrate import async_migrate_entry  # noqa: F401 — HA migration hook
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -70,6 +71,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         groups=options.get(CONF_GROUPS),
         discovered_datapoints=options.get(CONF_DISCOVERED_DATAPOINTS),
         adhoc_oids=options.get(CONF_ADHOC_OIDS),
+        entry_id=entry.entry_id,
     )
 
     # Open session once; persists for the life of this config entry.

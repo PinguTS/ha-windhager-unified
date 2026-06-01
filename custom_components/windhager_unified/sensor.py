@@ -14,6 +14,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -26,8 +27,13 @@ from .const import (
     DEFAULT_REST_SENSOR_EXPERIENCE_MINIMUM,
     DOMAIN,
     EXPERIENCE_TIERS,
+    ROLE_CONFIG,
+    ROLE_DIAGNOSTIC,
+    ROLE_MEASUREMENT,
 )
 from .coordinator import WindhagerCoordinator
+from .entity_roles import resolve_config_platform, resolve_role
+from .lon_entity_helpers import lon_device_info, lon_unique_id
 from .lon_values import is_datetime_datapoint
 
 
@@ -70,6 +76,7 @@ class WindhagerLONSensorDescription(SensorEntityDescription):
 
     oid: str = ""
     hint_node: str | None = None
+    datapoint: dict[str, Any] | None = None
 
 
 class WindhagerLONSensor(CoordinatorEntity[WindhagerCoordinator], SensorEntity):
@@ -85,16 +92,13 @@ class WindhagerLONSensor(CoordinatorEntity[WindhagerCoordinator], SensorEntity):
     ) -> None:
         super().__init__(coordinator)
         self.entity_description = description
-        host = entry.data.get("host", "unknown")
-        self._attr_unique_id = hashlib.md5(
-            f"{host}_{description.oid}_{description.key}".encode()
-        ).hexdigest()
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, entry.entry_id)},
-            name="Windhager",
-            manufacturer="Windhager",
-            model=description.hint_node or "LogWIN",
-        )
+        dp = description.datapoint or {
+            "oid": description.oid,
+            "hint_node": description.hint_node,
+            "key": description.key,
+        }
+        self._attr_unique_id = lon_unique_id(entry, description.oid, description.key)
+        self._attr_device_info = lon_device_info(coordinator, entry, dp)
 
     @property
     def suggested_object_id(self) -> str | None:
@@ -190,6 +194,18 @@ async def async_setup_entry(
         exp_min = datapoint.get("experience_minimum", DEFAULT_LON_EXPERIENCE_MINIMUM)
         i18n = datapoint.get("i18n", {})
         oid = datapoint["oid"]
+        has_enum = coordinator.has_enum_labels(oid)
+        role = resolve_role(datapoint, has_enum=has_enum)
+        config_platform = resolve_config_platform(
+            datapoint,
+            has_enum=has_enum,
+            numeric_format_confirmed=coordinator.lon_numeric_format_confirmed(datapoint),
+        )
+        if role == ROLE_CONFIG and config_platform is not None:
+            continue
+        if role not in (ROLE_MEASUREMENT, ROLE_DIAGNOSTIC, ROLE_CONFIG):
+            continue
+
         name = coordinator.get_entity_name(oid, lang, i18n, datapoint["key"])
 
         # Enum-typed datapoints get SensorDeviceClass.ENUM and no unit / state_class.
@@ -214,6 +230,8 @@ async def async_setup_entry(
             unit = datapoint.get("unit")
             options = None
 
+        entity_category = EntityCategory.DIAGNOSTIC if role == ROLE_DIAGNOSTIC else None
+
         description = WindhagerLONSensorDescription(
             key=datapoint["key"],
             translation_key=datapoint["key"].replace(".", "_"),
@@ -224,6 +242,8 @@ async def async_setup_entry(
             options=options,
             oid=oid,
             hint_node=datapoint.get("hint_node"),
+            datapoint=datapoint,
+            entity_category=entity_category,
             entity_registry_enabled_default=_is_enabled_default(exp_min, selected_tier),
         )
         entities.append(WindhagerLONSensor(coordinator, entry, description))

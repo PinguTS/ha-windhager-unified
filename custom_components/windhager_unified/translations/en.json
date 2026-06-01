@@ -110,6 +110,9 @@
         "name": "LON Status"
       }
     },
+    "number": {},
+    "select": {},
+    "switch": {},
     "button": {
       "heartbeat_start": {
         "name": "Start Heartbeat"

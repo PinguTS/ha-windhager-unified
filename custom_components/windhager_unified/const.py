@@ -40,8 +40,19 @@ DEFAULT_LON_EXPERIENCE_MINIMUM = "expert"
 DEFAULT_REST_SENSOR_EXPERIENCE_MINIMUM = "advanced"
 DEFAULT_REST_ACTUATOR_EXPERIENCE_MINIMUM = "service"
 
+# LON datapoint entity roles (explicit in oids.yaml or derived).
+ROLE_MEASUREMENT = "measurement"
+ROLE_DIAGNOSTIC = "diagnostic"
+ROLE_CONFIG = "config"
+ROLE_COMMAND = "command"
+
+DEFAULT_COMMAND_VALUE = "1"
+
+CONFIG_ENTRY_VERSION = 2
+
 PLATFORMS: list[Platform] = [
     Platform.SENSOR,
+    Platform.NUMBER,
     Platform.SWITCH,
     Platform.BUTTON,
     Platform.SELECT,

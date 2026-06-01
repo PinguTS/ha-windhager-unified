@@ -41,6 +41,7 @@ from .const import (
     CONF_SCAN_INTERVAL,
     CONF_USERNAME,
     CONF_VERIFY_SSL,
+    CONFIG_ENTRY_VERSION,
     DEFAULT_EXPERIENCE_LEVEL,
     DEFAULT_NAME,
     DEFAULT_SCAN_INTERVAL,
@@ -72,7 +73,7 @@ def _default_groups_for_tier(tier: str, all_group_ids: list[str]) -> list[str]:
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Multi-step config flow for Windhager."""
 
-    VERSION = 1
+    VERSION = CONFIG_ENTRY_VERSION
 
     def __init__(self) -> None:
         self._user_data: dict[str, Any] = {}
