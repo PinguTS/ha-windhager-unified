@@ -17,6 +17,7 @@ from custom_components.windhager_unified.exceptions import (
     WindhagerApiError,
     WindhagerAuthError,
     WindhagerConnectionError,
+    WindhagerTimeoutError,
 )
 from custom_components.windhager_unified.tier_lookup import GN_MN_OVERRIDES
 
@@ -138,18 +139,40 @@ def test_normalize_lon_datapoint_value_hyphen_and_blank():
     assert _normalize_lon_datapoint_value(None) is None
 
 
+# ---------------------------------------------------------------------------
+# Data update — LON polling error handling
+# ---------------------------------------------------------------------------
+
+
 @pytest.mark.asyncio
-async def test_update_lon_single_failure_does_not_abort(coordinator):
-    """A failing LON datapoint should log a warning, not raise UpdateFailed."""
+async def test_update_lon_timeout_triggers_backoff_and_does_not_abort(coordinator):
+    """A single timing-out LON datapoint is counted but does not abort the cycle."""
     coordinator.api_client.async_get_datapoint = AsyncMock(
-        side_effect=WindhagerConnectionError("no route")
+        side_effect=WindhagerTimeoutError("timeout")
     )
     with patch.object(coordinator, "_call_restapi_endpoint", new_callable=AsyncMock) as mock_rest:
         mock_rest.return_value = None
         result = await coordinator._async_update_data()
 
-    # Key absent (not set to None) when fetch fails
+    # Key absent because there was no previous value to carry forward
     assert "logwin.boiler_temp" not in result
+    # First failure increments the counter, no suspension yet
+    assert coordinator._timeout_failures.get("1/65/0/0/0/0") == 1
+    assert coordinator._timeout_suspension.get("1/65/0/0/0/0") is None
+
+
+@pytest.mark.asyncio
+async def test_update_lon_connection_error_aborts_cycle(coordinator):
+    """Connection errors abort the whole cycle to avoid hammering a dead gateway."""
+    from homeassistant.helpers.update_coordinator import UpdateFailed
+
+    coordinator.api_client.async_get_datapoint = AsyncMock(
+        side_effect=WindhagerConnectionError("no route")
+    )
+    with patch.object(coordinator, "_call_restapi_endpoint", new_callable=AsyncMock) as mock_rest:
+        mock_rest.return_value = None
+        with pytest.raises(UpdateFailed):
+            await coordinator._async_update_data()
 
 
 @pytest.mark.asyncio
@@ -181,10 +204,10 @@ async def test_update_restapi_sensor_success(coordinator):
 
 @pytest.mark.asyncio
 async def test_update_restapi_sensor_failure_continues(coordinator):
-    """A RestAPI sensor failure should not stop the full update cycle."""
+    """A non-connection RestAPI sensor failure should not stop the full update cycle."""
     coordinator.api_client.async_get_datapoint = AsyncMock(return_value={"value": 75.5})
     coordinator.api_client.async_get_heartbeat = AsyncMock(
-        side_effect=WindhagerConnectionError("timeout")
+        side_effect=WindhagerApiError("bad request", status=400)
     )
 
     result = await coordinator._async_update_data()
@@ -192,6 +215,239 @@ async def test_update_restapi_sensor_failure_continues(coordinator):
     assert result["logwin.boiler_temp"] == 75.5
     # Heartbeat absent — not None
     assert "heartbeat.status" not in result
+
+
+@pytest.mark.asyncio
+async def test_update_restapi_connection_error_aborts_cycle(coordinator):
+    """Connection errors on RestAPI sensors abort the whole cycle."""
+    from homeassistant.helpers.update_coordinator import UpdateFailed
+
+    coordinator.api_client.async_get_datapoint = AsyncMock(return_value={"value": 75.5})
+    coordinator.api_client.async_get_heartbeat = AsyncMock(
+        side_effect=WindhagerConnectionError("no route")
+    )
+
+    with pytest.raises(UpdateFailed):
+        await coordinator._async_update_data()
+
+
+# ---------------------------------------------------------------------------
+# Timeout backoff
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_timeout_backoff_suspends_after_two_failures(coordinator):
+    """After two consecutive timeouts the OID is suspended for 10 cycles."""
+    coordinator.api_client.async_get_datapoint = AsyncMock(
+        side_effect=WindhagerTimeoutError("timeout")
+    )
+    with patch.object(coordinator, "_call_restapi_endpoint", new_callable=AsyncMock) as mock_rest:
+        mock_rest.return_value = None
+
+        await coordinator._async_update_data()
+        assert coordinator._timeout_suspension.get("1/65/0/0/0/0") is None
+        assert coordinator._timeout_failures.get("1/65/0/0/0/0") == 1
+
+        await coordinator._async_update_data()
+        assert coordinator._timeout_suspension.get("1/65/0/0/0/0") == 10
+        assert coordinator._timeout_failures.get("1/65/0/0/0/0") == 0
+
+
+@pytest.mark.asyncio
+async def test_timeout_backoff_carries_previous_value(coordinator):
+    """A suspended OID keeps the previous value instead of flapping to unknown."""
+    coordinator.data = {"logwin.boiler_temp": 42.0}
+    coordinator.api_client.async_get_datapoint = AsyncMock(
+        side_effect=WindhagerTimeoutError("timeout")
+    )
+    with patch.object(coordinator, "_call_restapi_endpoint", new_callable=AsyncMock) as mock_rest:
+        mock_rest.return_value = None
+
+        # Two timeouts to trigger suspension
+        await coordinator._async_update_data()
+        await coordinator._async_update_data()
+
+        result = await coordinator._async_update_data()
+        assert result["logwin.boiler_temp"] == 42.0
+
+
+@pytest.mark.asyncio
+async def test_timeout_backoff_resets_on_success(coordinator):
+    """A successful read clears the timeout history."""
+    coordinator._timeout_failures["1/65/0/0/0/0"] = 1
+
+    coordinator.api_client.async_get_datapoint = AsyncMock(return_value={"value": 75.5})
+    with patch.object(coordinator, "_call_restapi_endpoint", new_callable=AsyncMock) as mock_rest:
+        mock_rest.return_value = None
+        result = await coordinator._async_update_data()
+
+    assert result["logwin.boiler_temp"] == 75.5
+    assert "1/65/0/0/0/0" not in coordinator._timeout_failures
+    assert "1/65/0/0/0/0" not in coordinator._timeout_suspension
+
+
+@pytest.mark.asyncio
+async def test_timeout_backoff_retries_after_suspension_expires(coordinator):
+    """After the suspension window the OID is tried again."""
+    coordinator._timeout_suspension["1/65/0/0/0/0"] = 1
+
+    call_count = 0
+
+    def _side_effect(*args, **kwargs):
+        nonlocal call_count
+        call_count += 1
+        if call_count == 1:
+            return {"value": 75.5}
+        raise WindhagerTimeoutError("timeout")
+
+    coordinator.api_client.async_get_datapoint = AsyncMock(side_effect=_side_effect)
+    with patch.object(coordinator, "_call_restapi_endpoint", new_callable=AsyncMock) as mock_rest:
+        mock_rest.return_value = None
+
+        # First call: suspension is decremented from 1 to 0, OID is skipped
+        await coordinator._async_update_data()
+        assert coordinator._timeout_suspension.get("1/65/0/0/0/0") == 0
+
+        # Second call: suspension is 0, OID is tried and succeeds
+        result = await coordinator._async_update_data()
+        assert result["logwin.boiler_temp"] == 75.5
+        assert coordinator._timeout_suspension.get("1/65/0/0/0/0") is None
+
+        # Third call: success cleared suspension, so another timeout starts fresh
+        await coordinator._async_update_data()
+        assert coordinator._timeout_failures.get("1/65/0/0/0/0") == 1
+
+
+# ---------------------------------------------------------------------------
+# Allowed-node set from kesselwahl + discovered topology
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_build_allowed_nodes_from_kesselwahl_range_and_discovery(mock_hass):
+    """kesselwahl/selected firstNodeId/lastNodeId plus discovered OIDs populate allowed_nodes."""
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="expert",
+        discovered_datapoints=[
+            {"oid": "1/15/0/0/0/0", "group": "heating_circuit", "experience_minimum": "expert"}
+        ],
+    )
+    coord.api_client = AsyncMock()
+    coord.api_client.async_get_kesselwahl_selected = AsyncMock(
+        return_value={"id": 2, "name": "Holz", "firstNodeId": 65, "lastNodeId": 65}
+    )
+    await coord._build_allowed_nodes()
+
+    assert ("1", "65") in coord.allowed_nodes
+    assert ("1", "15") in coord.allowed_nodes
+
+
+@pytest.mark.asyncio
+async def test_build_allowed_nodes_ignores_out_of_range_node_ids(mock_hass):
+    """Malformed or out-of-range firstNodeId/lastNodeId are ignored."""
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="expert",
+    )
+    coord.api_client = AsyncMock()
+    coord.api_client.async_get_kesselwahl_selected = AsyncMock(
+        return_value={"id": 2, "name": "Holz", "firstNodeId": 500, "lastNodeId": 700}
+    )
+    await coord._build_allowed_nodes()
+
+    assert ("1", "500") not in coord.allowed_nodes
+
+
+# ---------------------------------------------------------------------------
+# Node filter (expert/service tier)
+# ---------------------------------------------------------------------------
+
+
+def test_build_lon_datapoints_expert_filters_static_catalog_to_allowed_nodes(mock_hass):
+    """Expert tier drops static oids.yaml entries on nodes absent from discovery."""
+    all_oids = [
+        {
+            "oid": "1/60/0/0/0/0",
+            "key": "node60",
+            "group": "boiler",
+            "experience_minimum": "expert",
+            "i18n": {"en": "A"},
+        },
+        {
+            "oid": "1/65/0/0/0/0",
+            "key": "node65",
+            "group": "boiler",
+            "experience_minimum": "expert",
+            "i18n": {"en": "B"},
+        },
+    ]
+    discovered = [{"oid": "1/65/0/0/0/0", "group": "boiler", "experience_minimum": "expert"}]
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="expert",
+        discovered_datapoints=discovered,
+    )
+    coord.allowed_nodes = {("1", "65")}
+    coord._apply_static_config(all_oids, {})
+
+    keys = [d["key"] for d in coord.datapoints]
+    assert "node65" in keys
+    assert "node60" not in keys
+
+
+def test_build_lon_datapoints_easy_tier_keeps_whitelist_behavior(mock_hass):
+    """Easy tiers keep the existing whitelist behavior, not node filtering."""
+    all_oids = [
+        {
+            "oid": "1/60/0/0/0/0",
+            "key": "node60",
+            "group": "boiler",
+            "experience_minimum": "essential",
+            "i18n": {"en": "A"},
+        },
+        {
+            "oid": "1/65/0/0/0/0",
+            "key": "node65",
+            "group": "boiler",
+            "experience_minimum": "essential",
+            "i18n": {"en": "B"},
+        },
+    ]
+    discovered = [{"oid": "1/65/0/0/0/0", "group": "boiler", "experience_minimum": "essential"}]
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="essential",
+        discovered_datapoints=discovered,
+    )
+    coord.allowed_nodes = {("1", "65")}
+    coord._apply_static_config(all_oids, {})
+
+    # Easy tier: whitelist restricts to discovered OIDs, node filter is ignored
+    keys = [d["key"] for d in coord.datapoints]
+    assert "node65" in keys
+    assert "node60" not in keys
 
 
 # ---------------------------------------------------------------------------
@@ -354,7 +610,7 @@ async def test_unknown_oids_tracked_on_404(coordinator):
 @pytest.mark.asyncio
 async def test_unknown_oids_not_set_for_non_404(coordinator):
     coordinator.api_client.async_get_datapoint = AsyncMock(
-        side_effect=WindhagerConnectionError("timeout")
+        side_effect=WindhagerApiError("other error", status=500)
     )
     with patch.object(coordinator, "_call_restapi_endpoint", new_callable=AsyncMock) as mock_rest:
         mock_rest.return_value = None

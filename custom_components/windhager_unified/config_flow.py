@@ -39,6 +39,7 @@ from .const import (
     CONF_HISTORY_SAMPLE_INTERVAL,
     CONF_HISTORY_STORAGE_MODE,
     CONF_HOST,
+    CONF_NODE_NAMES,
     CONF_PASSWORD,
     CONF_REFRESH_LABELS,
     CONF_SCAN_INTERVAL,
@@ -65,6 +66,7 @@ from .discovery import (
     DiscoveryResult,
     discover,
     serialize_discovered_datapoints_for_config,
+    serialize_discovered_node_names,
 )
 from .exceptions import WindhagerAuthError, WindhagerConnectionError, WindhagerTimeoutError
 from .tier_lookup import get_tier_defaults
@@ -304,6 +306,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             CONF_VERIFY_SSL: self._user_data.get(CONF_VERIFY_SSL, False),
             CONF_REFRESH_LABELS: False,
             CONF_DISCOVERED_DATAPOINTS: serialize_discovered_datapoints_for_config(disc),
+            CONF_NODE_NAMES: serialize_discovered_node_names(disc),
             CONF_ADHOC_OIDS: [],
             CONF_HISTORY_STORAGE_MODE: self._user_data.get(
                 CONF_HISTORY_STORAGE_MODE, DEFAULT_HISTORY_STORAGE_MODE

@@ -12,6 +12,7 @@ from custom_components.windhager_unified.const import (
     CONF_DISCOVERED_DATAPOINTS,
     CONF_HISTORY_STORAGE_MODE,
     CONF_HOST,
+    CONF_NODE_NAMES,
     CONF_PASSWORD,
     CONF_SCAN_INTERVAL,
     CONF_USERNAME,
@@ -101,6 +102,8 @@ async def test_config_flow_success(hass, mock_client):
     entries = hass.config_entries.async_entries(DOMAIN)
     assert entries
     assert CONF_DISCOVERED_DATAPOINTS in entries[0].options
+    assert CONF_NODE_NAMES in entries[0].options
+    assert entries[0].options[CONF_NODE_NAMES] == {}
     assert CONF_ADHOC_OIDS in entries[0].options
     assert entries[0].options[CONF_ADHOC_OIDS] == []
 

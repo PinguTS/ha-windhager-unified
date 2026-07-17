@@ -20,6 +20,8 @@ CONF_DISCOVERED_DATAPOINTS = "discovered_datapoints"
 # Ad-hoc OID entries added via ``windhager_unified.add_datapoint`` service
 # (list of ``{"oid": "...", "group": "boiler"}`` or legacy list of OID strings).
 CONF_ADHOC_OIDS = "adhoc_oids"
+# Configured node names from discovery (display-only, never part of identifiers).
+CONF_NODE_NAMES = "node_names"
 
 # History storage profile options
 CONF_HISTORY_STORAGE_MODE = "history_storage_mode"

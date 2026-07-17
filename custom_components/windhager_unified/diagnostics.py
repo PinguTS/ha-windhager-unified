@@ -207,6 +207,7 @@ async def async_get_config_entry_diagnostics(
             "restapi_groups": list(coordinator.restapi_endpoints.keys()),
             "restapi_endpoints_count": sum(len(v) for v in coordinator.restapi_endpoints.values()),
             "unknown_oids": sorted(coordinator.unknown_oids),
+            "suspended_oids": sorted(coordinator._timeout_suspension.keys()),
             "metadata_summary": [_metadata_summary(dp) for dp in coordinator.datapoints],
             "data": coordinator.data,
         },

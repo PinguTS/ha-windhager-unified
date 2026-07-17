@@ -20,6 +20,7 @@ from .const import (
     CONF_HISTORY_SAMPLE_INTERVAL,
     CONF_HISTORY_STORAGE_MODE,
     CONF_HOST,
+    CONF_NODE_NAMES,
     CONF_PASSWORD,
     CONF_SCAN_INTERVAL,
     CONF_USERNAME,
@@ -88,6 +89,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         groups=options.get(CONF_GROUPS),
         discovered_datapoints=options.get(CONF_DISCOVERED_DATAPOINTS),
         adhoc_oids=options.get(CONF_ADHOC_OIDS),
+        node_names=options.get(CONF_NODE_NAMES),
         entry_id=entry.entry_id,
     )
 
@@ -95,8 +97,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await coordinator.api_client.async_init()
     await coordinator.async_initialize_catalog()
 
+    # Use a cheap endpoint as a connectivity / auth probe instead of blocking on
+    # the full first refresh. The full refresh can take minutes in expert mode and
+    # would cause HA to cancel the setup task. Entities already tolerate empty
+    # coordinator data by showing "unknown" until the first cycle completes.
     try:
-        await coordinator.async_config_entry_first_refresh()
+        await coordinator.api_client.async_get_subnets()
     except (WindhagerAuthError, WindhagerConnectionError, WindhagerTimeoutError) as err:
         await coordinator.api_client.async_close()
         raise ConfigEntryNotReady(str(err)) from err
@@ -106,6 +112,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await _async_setup_history_archive(hass, entry, coordinator)
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
+    # Kick off the first full refresh in the background so the integration
+    # becomes available immediately while the slow expert-mode poll runs.
+    entry.async_create_background_task(hass, coordinator.async_refresh(), "windhager_first_refresh")
 
     # Register set_datapoint service
     async def handle_set_datapoint(call: ServiceCall) -> None:

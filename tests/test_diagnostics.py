@@ -36,6 +36,8 @@ def mock_coordinator():
     coord.datapoints = []
     coord.restapi_endpoints = {"heartbeat": []}
     coord.data = {"heartbeat.status": "ok"}
+    coord._timeout_suspension = {}
+    coord.unknown_oids = set()
     return coord
 
 

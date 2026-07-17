@@ -37,3 +37,45 @@ def test_function_block_device_info_links_hub():
     assert info["via_device"] == (DOMAIN, "entry1")
     assert info["sw_version"] == "1.2.3"
     assert info["model"] == "BioWIN"
+
+
+def test_function_block_fallback_name_uses_configured_node_name():
+    dp = {
+        "oid": "1/65/0/0/0/0",
+        "hint_node": "LogWIN",
+        "group": "boiler",
+        "fct_type": 10,
+        "function_name": "Kessel",
+    }
+    name = function_block_fallback_name(dp, node_names={"1/65": "Hauptkessel"})
+    assert name == "Hauptkessel Kessel"
+
+
+def test_function_block_device_info_uses_configured_node_name_for_display():
+    dp = {
+        "oid": "1/65/0/0/0/0",
+        "hint_node": "LogWIN",
+        "group": "boiler",
+        "fct_type": 10,
+        "function_name": "Kessel",
+    }
+    info = build_function_block_device_info(
+        "entry1",
+        dp,
+        node_names={"1/65": "Hauptkessel"},
+    )
+    assert info["name"] == "Hauptkessel Kessel"
+    # Identifier must remain OID-based, never include the configured name
+    assert info["identifiers"] == {(DOMAIN, "entry1_fb_1_65_0")}
+
+
+def test_function_block_fallback_name_skips_placeholder_node_name():
+    dp = {
+        "oid": "1/65/0/0/0/0",
+        "hint_node": "LogWIN",
+        "group": "boiler",
+        "fct_type": 10,
+    }
+    name = function_block_fallback_name(dp, node_names={"1/65": "node_65"})
+    assert "node_65" not in name
+    assert "Boiler" in name

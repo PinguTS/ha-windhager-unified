@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import time
 from datetime import timedelta
 from pathlib import Path
 from typing import Any
@@ -19,7 +20,12 @@ from .const import (
     EXPERIENCE_TIERS,
 )
 from .entity_roles import identity_device_info_field, numeric_format_confirmed
-from .exceptions import WindhagerAuthError, WindhagerError
+from .exceptions import (
+    WindhagerAuthError,
+    WindhagerConnectionError,
+    WindhagerError,
+    WindhagerTimeoutError,
+)
 from .labels import LabelCatalog
 from .lon_devices import build_function_block_device_info, function_block_identifier
 from .lon_values import is_datetime_datapoint, parse_lon_datetime_value
@@ -81,6 +87,7 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         groups: list[str] | None = None,
         discovered_datapoints: list[dict[str, Any]] | None = None,
         adhoc_oids: list[Any] | None = None,
+        node_names: dict[str, str] | None = None,
         entry_id: str | None = None,
     ) -> None:
         self.api_client = WindhagerApiClient(
@@ -102,6 +109,11 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.oid_disambiguators: dict[str, str] = {}
         self.restapi_endpoints: dict[str, list[dict[str, Any]]] = {}
 
+        # Configured node names from discovery (display-only, never part of identifiers).
+        self.node_names: dict[str, str] = dict(node_names or {})
+        # Allowed (subnet, node) pairs; populated by async_initialize_catalog.
+        self.allowed_nodes: set[tuple[str, str]] = set()
+
         super().__init__(
             hass,
             logger=_LOGGER,
@@ -113,6 +125,15 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.unknown_oids: set[str] = set()
         # OIDs whose response never included a "value" key — warned once, then silenced
         self._no_value_oids: set[str] = set()
+
+        # Per-OID timeout backoff: counts consecutive failures; a value > 0 means
+        # the OID is currently being skipped for a few cycles. The thresholds are
+        # a heuristic, not documented API behavior. The integration starts fast
+        # enough on easy tiers; expert/service tiers are where node-60 vs node-65
+        # mismatches and slow LON reads create the timeout storms.
+        self._timeout_failures: dict[str, int] = {}
+        # Cycles remaining for a suspended OID before it is retried once.
+        self._timeout_suspension: dict[str, int] = {}
 
         # Background export task — set by export.async_start_export()
         self.export_task: asyncio.Task[None] | None = None
@@ -135,7 +156,68 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         loop = asyncio.get_running_loop()
         self.label_catalog = await loop.run_in_executor(None, LabelCatalog.load)
         all_datapoints, all_restapi = await loop.run_in_executor(None, self._load_static_yaml)
+        await self._build_allowed_nodes()
         self._apply_static_config(all_datapoints, all_restapi)
+
+    async def _build_allowed_nodes(self) -> None:
+        """Build the set of nodes known to exist on this plant.
+
+        Sources, in order:
+          1. ``kesselwahl/selected`` optional ``firstNodeId``/``lastNodeId``
+             (user-reported device behavior, not documented in Swagger, so it is
+             treated as optional and validated). When present, the inclusive range
+             is added to the allowed set.
+          2. All (subnet, node) pairs found in ``discovered_datapoints`` from the
+             discovery topology (scan + /api/1.0/nodes for expert/service tiers).
+
+        In expert/service tiers the static catalog is filtered to these nodes so
+        requests to non-existent LON nodes (which time out and load the bus) are
+        avoided. Easy tiers keep the full discovery whitelist behavior unchanged.
+        """
+        self.allowed_nodes = set()
+
+        try:
+            kw = await self.api_client.async_get_kesselwahl_selected()
+        except Exception as err:
+            _LOGGER.debug("discovery: kesselwahl/selected probe failed: %s", err)
+            kw = None
+
+        if isinstance(kw, dict):
+            first = kw.get("firstNodeId")
+            last = kw.get("lastNodeId")
+            try:
+                first_int = int(first)  # type: ignore[arg-type]
+                last_int = int(last)  # type: ignore[arg-type]
+                if 0 <= first_int <= last_int <= 255:
+                    for node in range(first_int, last_int + 1):
+                        self.allowed_nodes.add(("1", str(node)))
+                    _LOGGER.debug(
+                        "discovery: kesselwahl/selected allowed nodes %d..%d",
+                        first_int,
+                        last_int,
+                    )
+                else:
+                    _LOGGER.debug(
+                        "discovery: kesselwahl/selected node range %s..%s out of range, ignoring",
+                        first,
+                        last,
+                    )
+            except (TypeError, ValueError):
+                _LOGGER.debug(
+                    "discovery: kesselwahl/selected returned no usable node range: %s",
+                    kw,
+                )
+
+        for row in self.discovered_datapoints:
+            oid = str(row.get("oid", ""))
+            parts = oid.split("/")
+            if len(parts) == 6:
+                self.allowed_nodes.add((parts[0], parts[1]))
+
+        _LOGGER.debug(
+            "discovery: allowed-node set from topology and kesselwahl: %s",
+            sorted(self.allowed_nodes),
+        )
 
     def _load_static_yaml(self) -> tuple[list[dict[str, Any]], dict[str, list[dict[str, Any]]]]:
         """Load oids.yaml and restapi_endpoints.yaml synchronously (run in executor)."""
@@ -156,7 +238,7 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.datapoints = self._build_lon_datapoints(all_datapoints)
         self.oid_disambiguators = self._compute_oid_disambiguators(self.datapoints)
         self.restapi_endpoints = self._filter_restapi(all_restapi)
-        _LOGGER.debug(
+        _LOGGER.info(
             "Coordinator: tier=%s groups=%s → %d LON datapoints, %d RestAPI groups",
             self.experience_level,
             sorted(self.selected_groups) if self.selected_groups else "(all)",
@@ -260,7 +342,7 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         fb_id = function_block_identifier(entry_id, oid)
         if fb_id and fb_id in self._function_block_device_info:
             return self._function_block_device_info[fb_id]
-        return build_function_block_device_info(entry_id, datapoint)
+        return build_function_block_device_info(entry_id, datapoint, node_names=self.node_names)
 
     def _rebuild_function_block_device_info(
         self,
@@ -300,6 +382,7 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 hw_version=attrs.get("hw_version"),
                 model=attrs.get("model"),
                 serial_number=attrs.get("serial_number"),
+                node_names=self.node_names,
             )
         self._function_block_device_info = rebuilt
 
@@ -410,6 +493,14 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         if easy and self.discovered_datapoints:
             whitelist = {str(d["oid"]) for d in self.discovered_datapoints if d.get("oid")}
 
+        # In expert/service tiers we filter the static catalogue to nodes that are
+        # known to exist on the plant. The gateway does not return 404 for a
+        # non-existent LON node; it attempts a LON read and times out after 10 s,
+        # which can overload the embedded gateway / LON bus. Easy tiers keep the
+        # existing whitelist behavior.
+        apply_node_filter = not easy and bool(self.allowed_nodes)
+        dropped_by_node: dict[str, int] = {}
+
         result: list[dict[str, Any]] = []
 
         for dp in all_datapoints:
@@ -424,6 +515,11 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             oid = str(dp.get("oid", ""))
             if whitelist is not None and oid and oid not in whitelist:
                 continue
+            if apply_node_filter:
+                node = self._node_from_oid(oid)
+                if node is not None and node not in self.allowed_nodes:
+                    dropped_by_node[node] = dropped_by_node.get(node, 0) + 1
+                    continue
             result.append(dp)
 
         # For each OID in discovered_datapoints that passes tier + group filters,
@@ -492,7 +588,18 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 result.append(self._synthetic_lon_datapoint_from_adhoc_oid(oid, grp))
                 result_oids.add(oid)
 
-        return self._deduplicate_cross_node(result)
+        deduplicated = self._deduplicate_cross_node(result)
+
+        if dropped_by_node:
+            for node, count in sorted(dropped_by_node.items()):
+                _LOGGER.info(
+                    "Filtered %d static catalogue entries for absent node %s/%s (expert/service)",
+                    count,
+                    node[0],
+                    node[1],
+                )
+
+        return deduplicated
 
     @staticmethod
     def _deduplicate_cross_node(
@@ -590,6 +697,14 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             kept.extend(dp for node, dp in entries if node in canonical_nodes)
 
         return kept
+
+    @staticmethod
+    def _node_from_oid(oid: str) -> tuple[str, str] | None:
+        """Return (subnet, node) from a 6-part OID, or None if unparseable."""
+        parts = str(oid).split("/")
+        if len(parts) == 6:
+            return parts[0], parts[1]
+        return None
 
     @staticmethod
     def _coerce_adhoc_entries(raw: list[Any] | None) -> list[dict[str, str]]:
@@ -741,6 +856,16 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     async def _async_update_data(self) -> dict[str, Any]:
         """Fetch all datapoints and RestAPI sensors in one coordinator cycle."""
+        # Heuristic thresholds for timeout backoff. Not documented API behavior;
+        # chosen to prevent the timeout-storm that overwhelms the embedded gateway.
+        TIMEOUT_FAILURES_BEFORE_SUSPENSION = 2
+        TIMEOUT_SUSPENSION_CYCLES = 10
+        COOLDOWN_AFTER_TIMEOUT_S = 1.0
+        CYCLE_OVERRUN_LOG_INTERVAL = 60 * 60  # seconds
+
+        cycle_start = time.monotonic()
+        last_overrun_warning = getattr(self, "_last_overrun_warning", 0)
+
         try:
             data: dict[str, Any] = {}
 
@@ -752,8 +877,21 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 if len(oid_parts) != 6:
                     _LOGGER.warning("Skipping datapoint %s: OID '%s' invalid", key, oid_str)
                     continue
+
+                # Timeout backoff: skip OIDs that have repeatedly timed out.
+                suspension = self._timeout_suspension.get(oid_str, 0)
+                if suspension > 0:
+                    self._timeout_suspension[oid_str] = suspension - 1
+                    # Carry the previous value forward so entities don't flap.
+                    if self.data and key in self.data:
+                        data[key] = self.data[key]
+                    continue
+
                 try:
                     result = await self.api_client.async_get_datapoint(oid_parts)
+                    # Success: clear any failure/suspension history.
+                    self._timeout_failures.pop(oid_str, None)
+                    self._timeout_suspension.pop(oid_str, None)
                     if isinstance(result, dict) and "value" in result:
                         raw = result["value"]
                         if raw is not None:
@@ -776,6 +914,30 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                             _LOGGER.debug("No value in response for %s: %s", key, result)
                 except WindhagerAuthError:
                     raise
+                except WindhagerConnectionError as err:
+                    # If the gateway is down/rebooting, do not continue hammering
+                    # it with the remaining ~200 requests. Fail the whole cycle.
+                    raise UpdateFailed(f"Cannot connect to Windhager gateway: {err}") from err
+                except WindhagerTimeoutError:
+                    # Cool-down: a timeout means the gateway is likely still busy
+                    # with the LON read for this OID; let it breathe before the
+                    # next request.
+                    await asyncio.sleep(COOLDOWN_AFTER_TIMEOUT_S)
+                    failures = self._timeout_failures.get(oid_str, 0) + 1
+                    self._timeout_failures[oid_str] = failures
+                    if failures >= TIMEOUT_FAILURES_BEFORE_SUSPENSION:
+                        self._timeout_suspension[oid_str] = TIMEOUT_SUSPENSION_CYCLES
+                        self._timeout_failures[oid_str] = 0
+                        _LOGGER.warning(
+                            "OID %s (%s) timed out %d times; suspending for %d cycles",
+                            oid_str,
+                            key,
+                            TIMEOUT_FAILURES_BEFORE_SUSPENSION,
+                            TIMEOUT_SUSPENSION_CYCLES,
+                        )
+                    # Carry previous value forward so the sensor stays usable.
+                    if self.data and key in self.data:
+                        data[key] = self.data[key]
                 except WindhagerError as err:
                     if getattr(err, "status", None) == 404:
                         self.unknown_oids.add(oid_str)
@@ -803,13 +965,34 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                             _LOGGER.debug("Empty response for RestAPI sensor %s", key)
                     except WindhagerAuthError:
                         raise
+                    except WindhagerConnectionError as err:
+                        raise UpdateFailed(f"Cannot connect to Windhager gateway: {err}") from err
                     except WindhagerError as err:
                         _LOGGER.warning("Failed to fetch RestAPI sensor %s: %s", key, err)
+
+            # Warn when a poll cycle exceeds the configured interval. The default
+            # 30 s is fine for easy tiers but can be too short for expert tiers
+            # with hundreds of datapoints.
+            elapsed = time.monotonic() - cycle_start
+            interval = self.update_interval.total_seconds()
+            if elapsed > interval:
+                now = time.monotonic()
+                if now - last_overrun_warning > CYCLE_OVERRUN_LOG_INTERVAL:
+                    self._last_overrun_warning = now
+                    _LOGGER.warning(
+                        "Windhager poll cycle took %.1f s, longer than the configured "
+                        "scan interval of %.0f s. Consider increasing the scan interval "
+                        "or selecting a lower experience tier.",
+                        elapsed,
+                        interval,
+                    )
 
             return data
 
         except WindhagerAuthError as err:
             raise UpdateFailed(f"Authentication failed: {err}") from err
+        except UpdateFailed:
+            raise
         except Exception as err:
             raise UpdateFailed(f"Error communicating with Windhager: {err}") from err
 
