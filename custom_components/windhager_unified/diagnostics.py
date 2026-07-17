@@ -19,8 +19,25 @@ from .const import (
 )
 from .coordinator import WindhagerCoordinator
 from .discovery import KESSELWAHL_FAMILY
+from .entity_metadata import parse_datapoint_metadata
 
 _REDACTED = {CONF_PASSWORD, CONF_USERNAME, "host"}
+
+
+def _metadata_summary(dp: dict[str, Any]) -> dict[str, Any]:
+    """Return a redacted metadata summary for a datapoint."""
+    meta = parse_datapoint_metadata(dp)
+    return {
+        "oid": dp.get("oid"),
+        "key": dp.get("key"),
+        "write_protected": dp.get("write_protected"),
+        "data_role": str(meta.data_role.value),
+        "temporal_semantics": str(meta.temporal_semantics.value),
+        "model_role": str(meta.model_role.value),
+        "history_importance": str(meta.history_importance.value),
+        "device_class": meta.device_class.value if meta.device_class else None,
+        "state_class": meta.state_class.value if meta.state_class else None,
+    }
 
 
 async def async_get_config_entry_diagnostics(
@@ -81,6 +98,7 @@ async def async_get_config_entry_diagnostics(
             "restapi_groups": list(coordinator.restapi_endpoints.keys()),
             "restapi_endpoints_count": sum(len(v) for v in coordinator.restapi_endpoints.values()),
             "unknown_oids": sorted(coordinator.unknown_oids),
+            "metadata_summary": [_metadata_summary(dp) for dp in coordinator.datapoints],
             "data": coordinator.data,
         },
     }

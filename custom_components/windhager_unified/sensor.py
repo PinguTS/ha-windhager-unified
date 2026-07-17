@@ -11,7 +11,6 @@ from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
     SensorEntityDescription,
-    SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import EntityCategory
@@ -21,48 +20,25 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
-    CONF_EXPERIENCE_LEVEL,
-    DEFAULT_EXPERIENCE_LEVEL,
     DEFAULT_LON_EXPERIENCE_MINIMUM,
     DEFAULT_REST_SENSOR_EXPERIENCE_MINIMUM,
     DOMAIN,
-    EXPERIENCE_TIERS,
     ROLE_CONFIG,
     ROLE_DIAGNOSTIC,
     ROLE_MEASUREMENT,
 )
 from .coordinator import WindhagerCoordinator
+from .entity_metadata import (
+    DatapointMetadata,
+    enabled_default,
+    parse_datapoint_metadata,
+    semantic_state_attributes,
+)
 from .entity_roles import resolve_config_platform, resolve_role
 from .lon_entity_helpers import lon_device_info, lon_unique_id
 from .lon_values import is_datetime_datapoint
 
-
-def _is_enabled_default(experience_minimum: str | None, selected_tier: str) -> bool:
-    """Entity enabled by default only at essential/comfort/advanced minimum level."""
-    min_tier = experience_minimum or DEFAULT_LON_EXPERIENCE_MINIMUM
-    min_idx = (
-        EXPERIENCE_TIERS.index(min_tier)
-        if min_tier in EXPERIENCE_TIERS
-        else len(EXPERIENCE_TIERS) - 1
-    )
-    return min_idx <= 2
-
-
 _LOGGER = logging.getLogger(__name__)
-
-_DEVICE_CLASS_MAP = {
-    "temperature": SensorDeviceClass.TEMPERATURE,
-    "timestamp": SensorDeviceClass.TIMESTAMP,
-    "humidity": SensorDeviceClass.HUMIDITY,
-    "pressure": SensorDeviceClass.PRESSURE,
-    "energy": SensorDeviceClass.ENERGY,
-    "power": SensorDeviceClass.POWER,
-}
-_STATE_CLASS_MAP = {
-    "measurement": SensorStateClass.MEASUREMENT,
-    "total": SensorStateClass.TOTAL,
-    "total_increasing": SensorStateClass.TOTAL_INCREASING,
-}
 
 
 # ---------------------------------------------------------------------------
@@ -77,12 +53,23 @@ class WindhagerLONSensorDescription(SensorEntityDescription):
     oid: str = ""
     hint_node: str | None = None
     datapoint: dict[str, Any] | None = None
+    metadata: DatapointMetadata | None = None
 
 
 class WindhagerLONSensor(CoordinatorEntity[WindhagerCoordinator], SensorEntity):
     """Sensor entity backed by a LON OID datapoint."""
 
     _attr_has_entity_name = True
+    _unrecorded_attributes = frozenset(
+        {
+            "windhager_data_role",
+            "windhager_temporal_semantics",
+            "windhager_model_role",
+            "windhager_history_importance",
+            "windhager_oid",
+            "windhager_write_protected",
+        }
+    )
 
     def __init__(
         self,
@@ -99,6 +86,7 @@ class WindhagerLONSensor(CoordinatorEntity[WindhagerCoordinator], SensorEntity):
         }
         self._attr_unique_id = lon_unique_id(entry, description.oid, description.key)
         self._attr_device_info = lon_device_info(coordinator, entry, dp)
+        self._metadata = description.metadata
 
     @property
     def suggested_object_id(self) -> str | None:
@@ -109,6 +97,14 @@ class WindhagerLONSensor(CoordinatorEntity[WindhagerCoordinator], SensorEntity):
         and produces ``_2``, ``_3`` suffixes for distinct OIDs.
         """
         return self.entity_description.key.replace(".", "_")
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        """Expose static semantic metadata for diagnostics and future export."""
+        if self._metadata is None:
+            return None
+        dp = self.entity_description.datapoint or {}
+        return semantic_state_attributes(self._metadata, dp)
 
     @property
     def native_value(self) -> Any:
@@ -138,12 +134,23 @@ class WindhagerRestAPISensorDescription(SensorEntityDescription):
 
     endpoint: str = ""
     group: str = ""
+    metadata: DatapointMetadata | None = None
 
 
 class WindhagerRestAPISensor(CoordinatorEntity[WindhagerCoordinator], SensorEntity):
     """Sensor entity backed by a RestAPI endpoint."""
 
     _attr_has_entity_name = True
+    _unrecorded_attributes = frozenset(
+        {
+            "windhager_data_role",
+            "windhager_temporal_semantics",
+            "windhager_model_role",
+            "windhager_history_importance",
+            "windhager_oid",
+            "windhager_write_protected",
+        }
+    )
 
     def __init__(
         self,
@@ -163,6 +170,16 @@ class WindhagerRestAPISensor(CoordinatorEntity[WindhagerCoordinator], SensorEnti
             manufacturer="Windhager",
             model="LogWIN",
             via_device=(DOMAIN, entry.entry_id),
+        )
+        self._metadata = description.metadata
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        """Expose static semantic metadata for diagnostics and future export."""
+        if self._metadata is None:
+            return None
+        return semantic_state_attributes(
+            self._metadata, {"endpoint": self.entity_description.endpoint}
         )
 
     @property
@@ -185,8 +202,6 @@ async def async_setup_entry(
     """Set up LON and RestAPI sensors from a config entry."""
     coordinator: WindhagerCoordinator = hass.data[DOMAIN][entry.entry_id]
     entities: list[SensorEntity] = []
-
-    selected_tier = entry.options.get(CONF_EXPERIENCE_LEVEL, DEFAULT_EXPERIENCE_LEVEL)
     lang = hass.config.language
 
     # LON OID sensors
@@ -207,6 +222,7 @@ async def async_setup_entry(
             continue
 
         name = coordinator.get_entity_name(oid, lang, i18n, datapoint["key"])
+        metadata = parse_datapoint_metadata(datapoint)
 
         # Enum-typed datapoints get SensorDeviceClass.ENUM and no unit / state_class.
         # Options are built from the catalog in the current HA language.
@@ -215,6 +231,15 @@ async def async_setup_entry(
             sc = None
             unit = None
             options = coordinator.get_enum_options(oid, lang) or None
+            # Log any incompatible YAML metadata that we are forced to ignore.
+            if metadata.state_class is not None:
+                _LOGGER.debug(
+                    "Ignoring state_class %r on enum datapoint %s",
+                    metadata.state_class.value,
+                    oid,
+                )
+            if metadata.unit is not None:
+                _LOGGER.debug("Ignoring unit %r on enum datapoint %s", metadata.unit, oid)
         elif is_datetime_datapoint(datapoint):
             # Date (unit_id 20) and time (unit_id 21) datapoints return string values
             # like "18.05.2026" or "16:53" from the API.  The coordinator parses them
@@ -224,13 +249,23 @@ async def async_setup_entry(
             sc = None
             unit = None
             options = None
+            if metadata.state_class is not None:
+                _LOGGER.debug(
+                    "Ignoring state_class %r on datetime datapoint %s",
+                    metadata.state_class.value,
+                    oid,
+                )
+            if metadata.unit is not None:
+                _LOGGER.debug("Ignoring unit %r on datetime datapoint %s", metadata.unit, oid)
         else:
-            dc = _DEVICE_CLASS_MAP.get(datapoint.get("device_class", ""))
-            sc = _STATE_CLASS_MAP.get(datapoint.get("state_class", ""))
-            unit = datapoint.get("unit")
+            dc = metadata.device_class
+            sc = metadata.state_class
+            unit = metadata.unit
             options = None
 
-        entity_category = EntityCategory.DIAGNOSTIC if role == ROLE_DIAGNOSTIC else None
+        entity_category = metadata.entity_category
+        if entity_category is None and role == ROLE_DIAGNOSTIC:
+            entity_category = EntityCategory.DIAGNOSTIC
 
         description = WindhagerLONSensorDescription(
             key=datapoint["key"],
@@ -240,11 +275,14 @@ async def async_setup_entry(
             device_class=dc,
             state_class=sc,
             options=options,
+            suggested_display_precision=metadata.suggested_display_precision,
+            icon=metadata.icon,
             oid=oid,
             hint_node=datapoint.get("hint_node"),
             datapoint=datapoint,
+            metadata=metadata,
             entity_category=entity_category,
-            entity_registry_enabled_default=_is_enabled_default(exp_min, selected_tier),
+            entity_registry_enabled_default=enabled_default(metadata, exp_min),
         )
         entities.append(WindhagerLONSensor(coordinator, entry, description))
 
@@ -258,16 +296,22 @@ async def async_setup_entry(
                 continue
             exp_min = ep_cfg.get("experience_minimum", DEFAULT_REST_SENSOR_EXPERIENCE_MINIMUM)
             i18n = ep_cfg.get("i18n", {})
+            metadata = parse_datapoint_metadata(ep_cfg)
             name = coordinator.get_entity_name(ep_cfg.get("oid", ""), lang, i18n, ep_cfg["key"])
             description = WindhagerRestAPISensorDescription(
                 key=ep_cfg["key"],
                 translation_key=ep_cfg["key"].replace(".", "_"),
                 name=name,
-                device_class=_DEVICE_CLASS_MAP.get(ep_cfg.get("device_class") or ""),
-                state_class=_STATE_CLASS_MAP.get(ep_cfg.get("state_class") or ""),
+                device_class=metadata.device_class,
+                state_class=metadata.state_class,
+                native_unit_of_measurement=metadata.unit,
+                suggested_display_precision=metadata.suggested_display_precision,
+                icon=metadata.icon,
                 endpoint=ep_cfg["endpoint"],
                 group=group_name,
-                entity_registry_enabled_default=_is_enabled_default(exp_min, selected_tier),
+                metadata=metadata,
+                entity_category=metadata.entity_category,
+                entity_registry_enabled_default=enabled_default(metadata, exp_min),
             )
             entities.append(WindhagerRestAPISensor(coordinator, entry, description))
 

@@ -1,4 +1,4 @@
-"""Select platform — RestAPI-backed selects."""
+"""Select platform — RestAPI-backed selects and LON enum selects."""
 
 from __future__ import annotations
 
@@ -17,39 +17,21 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
-    CONF_EXPERIENCE_LEVEL,
-    DEFAULT_EXPERIENCE_LEVEL,
     DEFAULT_LON_EXPERIENCE_MINIMUM,
     DEFAULT_REST_ACTUATOR_EXPERIENCE_MINIMUM,
     DOMAIN,
-    EXPERIENCE_TIERS,
     ROLE_CONFIG,
 )
 from .coordinator import WindhagerCoordinator
+from .entity_metadata import (
+    DatapointMetadata,
+    enabled_default,
+    parse_datapoint_metadata,
+    semantic_state_attributes,
+)
 from .entity_roles import resolve_config_platform, resolve_role
 from .exceptions import WindhagerError
 from .lon_entity_helpers import lon_device_info, lon_suggested_object_id, lon_unique_id
-
-
-def _is_enabled_default(experience_minimum: str | None, selected_tier: str) -> bool:
-    min_tier = experience_minimum or DEFAULT_REST_ACTUATOR_EXPERIENCE_MINIMUM
-    min_idx = (
-        EXPERIENCE_TIERS.index(min_tier)
-        if min_tier in EXPERIENCE_TIERS
-        else len(EXPERIENCE_TIERS) - 1
-    )
-    return min_idx <= 2
-
-
-def _is_lon_enabled_default(experience_minimum: str | None, selected_tier: str) -> bool:
-    min_tier = experience_minimum or DEFAULT_LON_EXPERIENCE_MINIMUM
-    min_idx = (
-        EXPERIENCE_TIERS.index(min_tier)
-        if min_tier in EXPERIENCE_TIERS
-        else len(EXPERIENCE_TIERS) - 1
-    )
-    return min_idx <= 2
-
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -61,12 +43,23 @@ class WindhagerRestAPISelectDescription(SelectEntityDescription):
     endpoint: str = ""
     group: str = ""
     options: list[str] = field(default_factory=list)
+    metadata: DatapointMetadata | None = None
 
 
 class WindhagerRestAPISelect(CoordinatorEntity[WindhagerCoordinator], SelectEntity):
     """Select entity backed by a RestAPI endpoint."""
 
     _attr_has_entity_name = True
+    _unrecorded_attributes = frozenset(
+        {
+            "windhager_data_role",
+            "windhager_temporal_semantics",
+            "windhager_model_role",
+            "windhager_history_importance",
+            "windhager_oid",
+            "windhager_write_protected",
+        }
+    )
 
     def __init__(
         self,
@@ -77,6 +70,7 @@ class WindhagerRestAPISelect(CoordinatorEntity[WindhagerCoordinator], SelectEnti
         super().__init__(coordinator)
         self.entity_description = description
         self._attr_options = description.options
+        self._metadata = description.metadata
         host = entry.data.get("host", "unknown")
         self._attr_unique_id = hashlib.md5(
             f"{host}_{description.endpoint}_{description.key}".encode()
@@ -87,6 +81,14 @@ class WindhagerRestAPISelect(CoordinatorEntity[WindhagerCoordinator], SelectEnti
             manufacturer="Windhager",
             model="LogWIN",
             via_device=(DOMAIN, entry.entry_id),
+        )
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        if self._metadata is None:
+            return None
+        return semantic_state_attributes(
+            self._metadata, {"endpoint": self.entity_description.endpoint, "write_protected": False}
         )
 
     @property
@@ -118,6 +120,7 @@ class WindhagerLONSelectDescription(SelectEntityDescription):
 
     oid: str = ""
     datapoint: dict[str, Any] | None = None
+    metadata: DatapointMetadata | None = None
 
 
 class WindhagerLONSelect(CoordinatorEntity[WindhagerCoordinator], SelectEntity):
@@ -125,6 +128,16 @@ class WindhagerLONSelect(CoordinatorEntity[WindhagerCoordinator], SelectEntity):
 
     _attr_has_entity_name = True
     _attr_entity_category = EntityCategory.CONFIG
+    _unrecorded_attributes = frozenset(
+        {
+            "windhager_data_role",
+            "windhager_temporal_semantics",
+            "windhager_model_role",
+            "windhager_history_importance",
+            "windhager_oid",
+            "windhager_write_protected",
+        }
+    )
 
     def __init__(
         self,
@@ -138,11 +151,18 @@ class WindhagerLONSelect(CoordinatorEntity[WindhagerCoordinator], SelectEntity):
         self._attr_options = list(description.options or [])
         self._attr_unique_id = lon_unique_id(entry, description.oid, description.key or "")
         self._attr_device_info = lon_device_info(coordinator, entry, self._datapoint)
+        self._metadata = description.metadata
 
     @property
     def suggested_object_id(self) -> str | None:
         key = self.entity_description.key
         return lon_suggested_object_id(key) if key else None
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        if self._metadata is None:
+            return None
+        return semantic_state_attributes(self._metadata, self._datapoint)
 
     @property
     def current_option(self) -> str | None:
@@ -181,8 +201,6 @@ async def async_setup_entry(
     """Set up RestAPI and LON selects from a config entry."""
     coordinator: WindhagerCoordinator = hass.data[DOMAIN][entry.entry_id]
     entities: list[SelectEntity] = []
-
-    selected_tier = entry.options.get(CONF_EXPERIENCE_LEVEL, DEFAULT_EXPERIENCE_LEVEL)
     lang = hass.config.language
 
     for datapoint in coordinator.datapoints:
@@ -201,6 +219,7 @@ async def async_setup_entry(
             continue
         exp_min = datapoint.get("experience_minimum", DEFAULT_LON_EXPERIENCE_MINIMUM)
         i18n = datapoint.get("i18n", {})
+        metadata = parse_datapoint_metadata(datapoint)
         name = coordinator.get_entity_name(oid, lang, i18n, datapoint["key"])
         options = coordinator.get_enum_options(oid, lang)
         description = WindhagerLONSelectDescription(
@@ -209,8 +228,11 @@ async def async_setup_entry(
             name=name,
             oid=oid,
             datapoint=datapoint,
+            metadata=metadata,
             options=options,
-            entity_registry_enabled_default=_is_lon_enabled_default(exp_min, selected_tier),
+            icon=metadata.icon,
+            entity_category=metadata.entity_category or EntityCategory.CONFIG,
+            entity_registry_enabled_default=enabled_default(metadata, exp_min),
         )
         entities.append(WindhagerLONSelect(coordinator, entry, description))
 
@@ -220,6 +242,7 @@ async def async_setup_entry(
                 continue
             exp_min = ep_cfg.get("experience_minimum", DEFAULT_REST_ACTUATOR_EXPERIENCE_MINIMUM)
             i18n = ep_cfg.get("i18n", {})
+            metadata = parse_datapoint_metadata(ep_cfg)
             name = coordinator.get_entity_name(ep_cfg.get("oid", ""), lang, i18n, ep_cfg["key"])
             description = WindhagerRestAPISelectDescription(
                 key=ep_cfg["key"],
@@ -228,7 +251,10 @@ async def async_setup_entry(
                 endpoint=ep_cfg["endpoint"],
                 group=group_name,
                 options=ep_cfg.get("options", []),
-                entity_registry_enabled_default=_is_enabled_default(exp_min, selected_tier),
+                metadata=metadata,
+                icon=metadata.icon,
+                entity_category=metadata.entity_category,
+                entity_registry_enabled_default=enabled_default(metadata, exp_min),
             )
             entities.append(WindhagerRestAPISelect(coordinator, entry, description))
 

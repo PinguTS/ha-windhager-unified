@@ -22,6 +22,11 @@ restapi_endpoints:
       state_class: null
       group: heartbeat
       experience_minimum: advanced
+      data_role: diagnostic
+      temporal_semantics: snapshot
+      model_role: context
+      history_importance: low
+      icon: mdi:heart-pulse
 
     - endpoint: "/InfoWinHeartbeat/api/1.0/heartbeat"
       key: "heartbeat.start"
@@ -33,6 +38,11 @@ restapi_endpoints:
         en: "Start Heartbeat"
       group: heartbeat
       experience_minimum: service
+      data_role: command
+      temporal_semantics: event
+      model_role: control
+      history_importance: low
+      icon: mdi:play-circle
 
     - endpoint: "/InfoWinHeartbeat/api/1.0/heartbeat"
       key: "heartbeat.stop"
@@ -44,6 +54,11 @@ restapi_endpoints:
         en: "Stop Heartbeat"
       group: heartbeat
       experience_minimum: service
+      data_role: command
+      temporal_semantics: event
+      model_role: control
+      history_importance: low
+      icon: mdi:stop-circle
 
   fehlerlog:
     - endpoint: "/InfoWinFehlerlog/api/1.0/fehlerlog"
@@ -57,6 +72,11 @@ restapi_endpoints:
       state_class: null
       group: fehlerlog
       experience_minimum: advanced
+      data_role: diagnostic
+      temporal_semantics: snapshot
+      model_role: event
+      history_importance: critical
+      icon: mdi:alert-box
 
     # ASSUMPTION: id=0 resets all errors — must be verified on real hardware.
     - endpoint: "/InfoWinFehlerlog/api/1.0/fehlerlog/reset/0"
@@ -69,6 +89,11 @@ restapi_endpoints:
         en: "Reset Error Log"
       group: fehlerlog
       experience_minimum: service
+      data_role: command
+      temporal_semantics: event
+      model_role: control
+      history_importance: low
+      icon: mdi:playlist-remove
 
   system:
     - endpoint: "/api/1.0/lookup"
@@ -82,6 +107,11 @@ restapi_endpoints:
       state_class: null
       group: system
       experience_minimum: expert
+      data_role: diagnostic
+      temporal_semantics: snapshot
+      model_role: context
+      history_importance: low
+      icon: mdi:lan
 
   vpn:
     - endpoint: "/api/1.0/vpn/status"
@@ -95,6 +125,11 @@ restapi_endpoints:
       state_class: null
       group: system
       experience_minimum: advanced
+      data_role: diagnostic
+      temporal_semantics: snapshot
+      model_role: context
+      history_importance: low
+      icon: mdi:vpn
 
   dynip:
     - endpoint: "/api/1.0/DynIP/CheckIP"
@@ -108,6 +143,11 @@ restapi_endpoints:
       state_class: null
       group: system
       experience_minimum: advanced
+      data_role: diagnostic
+      temporal_semantics: snapshot
+      model_role: context
+      history_importance: low
+      icon: mdi:ip-network
 
   systemtime:
     - endpoint: "/WsAdmin/api/1.0/systemtime"
@@ -121,6 +161,11 @@ restapi_endpoints:
       state_class: null
       group: system
       experience_minimum: advanced
+      data_role: diagnostic
+      temporal_semantics: snapshot
+      model_role: context
+      history_importance: low
+      icon: mdi:clock-outline
 
     - endpoint: "/WsAdmin/api/1.0/systemtime/ntpserver"
       key: "systemtime.ntp_servers"
@@ -133,6 +178,11 @@ restapi_endpoints:
       state_class: null
       group: system
       experience_minimum: expert
+      data_role: configuration
+      temporal_semantics: step
+      model_role: context
+      history_importance: low
+      icon: mdi:server-network
 
     - endpoint: "/WsAdmin/api/1.0/systemtime/ntpserver/selected"
       key: "systemtime.ntp_selected"
@@ -145,6 +195,11 @@ restapi_endpoints:
       state_class: null
       group: system
       experience_minimum: expert
+      data_role: configuration
+      temporal_semantics: step
+      model_role: context
+      history_importance: low
+      icon: mdi:server-network
 
     - endpoint: "/WsAdmin/api/1.0/systemtime/timezone"
       key: "systemtime.timezone"
@@ -157,6 +212,11 @@ restapi_endpoints:
       state_class: null
       group: system
       experience_minimum: advanced
+      data_role: configuration
+      temporal_semantics: step
+      model_role: context
+      history_importance: low
+      icon: mdi:map-clock
 
   admin:
     - endpoint: "/WsAdmin/api/1.0/led"
@@ -170,6 +230,11 @@ restapi_endpoints:
       state_class: null
       group: system
       experience_minimum: service
+      data_role: diagnostic
+      temporal_semantics: snapshot
+      model_role: context
+      history_importance: low
+      icon: mdi:led-on
 
     - endpoint: "/WsAdmin/api/1.0/settings"
       key: "admin.settings"
@@ -182,6 +247,11 @@ restapi_endpoints:
       state_class: null
       group: system
       experience_minimum: service
+      data_role: diagnostic
+      temporal_semantics: snapshot
+      model_role: context
+      history_importance: low
+      icon: mdi:cog
 
   kesselwahl:
     - endpoint: "/InfoWinHeartbeat/api/1.0/kesselwahl/selected"
@@ -195,6 +265,11 @@ restapi_endpoints:
       state_class: null
       group: boiler
       experience_minimum: advanced
+      data_role: configuration
+      temporal_semantics: step
+      model_role: context
+      history_importance: standard
+      icon: mdi:boiler
 
     - endpoint: "/InfoWinHeartbeat/api/1.0/kesselwahl/list"
       key: "kesselwahl.list"
@@ -207,3 +282,8 @@ restapi_endpoints:
       state_class: null
       group: boiler
       experience_minimum: expert
+      data_role: diagnostic
+      temporal_semantics: snapshot
+      model_role: context
+      history_importance: low
+      icon: mdi:boiler

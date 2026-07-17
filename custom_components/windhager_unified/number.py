@@ -15,14 +15,17 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
-    CONF_EXPERIENCE_LEVEL,
-    DEFAULT_EXPERIENCE_LEVEL,
     DEFAULT_LON_EXPERIENCE_MINIMUM,
     DOMAIN,
-    EXPERIENCE_TIERS,
     ROLE_CONFIG,
 )
 from .coordinator import WindhagerCoordinator
+from .entity_metadata import (
+    DatapointMetadata,
+    enabled_default,
+    parse_datapoint_metadata,
+    semantic_state_attributes,
+)
 from .entity_roles import (
     format_write_value,
     parse_catalog_float,
@@ -44,22 +47,13 @@ _DEVICE_CLASS_MAP = {
 }
 
 
-def _is_enabled_default(experience_minimum: str | None, selected_tier: str) -> bool:
-    min_tier = experience_minimum or DEFAULT_LON_EXPERIENCE_MINIMUM
-    min_idx = (
-        EXPERIENCE_TIERS.index(min_tier)
-        if min_tier in EXPERIENCE_TIERS
-        else len(EXPERIENCE_TIERS) - 1
-    )
-    return min_idx <= 2
-
-
 @dataclass
 class WindhagerLONNumberDescription(NumberEntityDescription):
     """Description for a LON OID-based number."""
 
     oid: str = ""
     datapoint: dict[str, Any] | None = None
+    metadata: DatapointMetadata | None = None
 
 
 class WindhagerLONNumber(CoordinatorEntity[WindhagerCoordinator], NumberEntity):
@@ -67,6 +61,16 @@ class WindhagerLONNumber(CoordinatorEntity[WindhagerCoordinator], NumberEntity):
 
     _attr_has_entity_name = True
     _attr_entity_category = EntityCategory.CONFIG
+    _unrecorded_attributes = frozenset(
+        {
+            "windhager_data_role",
+            "windhager_temporal_semantics",
+            "windhager_model_role",
+            "windhager_history_importance",
+            "windhager_oid",
+            "windhager_write_protected",
+        }
+    )
 
     def __init__(
         self,
@@ -79,11 +83,18 @@ class WindhagerLONNumber(CoordinatorEntity[WindhagerCoordinator], NumberEntity):
         self._datapoint = description.datapoint or {}
         self._attr_unique_id = lon_unique_id(entry, description.oid, description.key or "")
         self._attr_device_info = lon_device_info(coordinator, entry, self._datapoint)
+        self._metadata = description.metadata
 
     @property
     def suggested_object_id(self) -> str | None:
         key = self.entity_description.key
         return lon_suggested_object_id(key) if key else None
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        if self._metadata is None:
+            return None
+        return semantic_state_attributes(self._metadata, self._datapoint)
 
     @property
     def native_value(self) -> float | None:
@@ -118,7 +129,6 @@ async def async_setup_entry(
     """Set up LON number entities from a config entry."""
     coordinator: WindhagerCoordinator = hass.data[DOMAIN][entry.entry_id]
     entities: list[NumberEntity] = []
-    selected_tier = entry.options.get(CONF_EXPERIENCE_LEVEL, DEFAULT_EXPERIENCE_LEVEL)
     lang = hass.config.language
 
     for datapoint in coordinator.datapoints:
@@ -138,19 +148,23 @@ async def async_setup_entry(
 
         exp_min = datapoint.get("experience_minimum", DEFAULT_LON_EXPERIENCE_MINIMUM)
         i18n = datapoint.get("i18n", {})
+        metadata = parse_datapoint_metadata(datapoint)
         name = coordinator.get_entity_name(oid, lang, i18n, datapoint["key"])
         description = WindhagerLONNumberDescription(
             key=datapoint["key"],
             translation_key=datapoint["key"].replace(".", "_"),
             name=name,
-            native_unit_of_measurement=datapoint.get("unit"),
+            native_unit_of_measurement=metadata.unit,
             device_class=_DEVICE_CLASS_MAP.get(datapoint.get("device_class", "")),
             native_min_value=parse_catalog_float(datapoint.get("min_value")),
             native_max_value=parse_catalog_float(datapoint.get("max_value")),
             native_step=parse_catalog_float(datapoint.get("step")),
+            icon=metadata.icon,
             oid=oid,
             datapoint=datapoint,
-            entity_registry_enabled_default=_is_enabled_default(exp_min, selected_tier),
+            metadata=metadata,
+            entity_category=metadata.entity_category or EntityCategory.CONFIG,
+            entity_registry_enabled_default=enabled_default(metadata, exp_min),
         )
         entities.append(WindhagerLONNumber(coordinator, entry, description))
 
