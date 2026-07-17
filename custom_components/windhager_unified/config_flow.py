@@ -35,6 +35,9 @@ from .const import (
     CONF_DISCOVERED_DATAPOINTS,
     CONF_EXPERIENCE_LEVEL,
     CONF_GROUPS,
+    CONF_HISTORY_RETENTION_DAYS,
+    CONF_HISTORY_SAMPLE_INTERVAL,
+    CONF_HISTORY_STORAGE_MODE,
     CONF_HOST,
     CONF_PASSWORD,
     CONF_REFRESH_LABELS,
@@ -43,10 +46,19 @@ from .const import (
     CONF_VERIFY_SSL,
     CONFIG_ENTRY_VERSION,
     DEFAULT_EXPERIENCE_LEVEL,
+    DEFAULT_HISTORY_RETENTION_DAYS,
+    DEFAULT_HISTORY_SAMPLE_INTERVAL,
+    DEFAULT_HISTORY_STORAGE_MODE,
     DEFAULT_NAME,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
     EXPERIENCE_TIERS,
+    HISTORY_MODE_HOME_ASSISTANT,
+    HISTORY_STORAGE_MODES,
+    MAX_HISTORY_RETENTION_DAYS,
+    MAX_HISTORY_SAMPLE_INTERVAL,
+    MIN_HISTORY_RETENTION_DAYS,
+    MIN_HISTORY_SAMPLE_INTERVAL,
 )
 from .discovery import (
     DiscoveredGroup,
@@ -184,29 +196,8 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             selected = user_input.get(CONF_GROUPS, all_group_ids)
-            disc = self._discovery or DiscoveryResult(boiler_id=None, boiler_name=None)
-            options: dict[str, Any] = {
-                CONF_EXPERIENCE_LEVEL: tier,
-                CONF_GROUPS: selected,
-                CONF_SCAN_INTERVAL: self._user_data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL),
-                CONF_VERIFY_SSL: self._user_data.get(CONF_VERIFY_SSL, False),
-                CONF_REFRESH_LABELS: False,
-                CONF_DISCOVERED_DATAPOINTS: serialize_discovered_datapoints_for_config(disc),
-                CONF_ADHOC_OIDS: [],
-            }
-            return self.async_create_entry(
-                title=DEFAULT_NAME,
-                data={
-                    CONF_HOST: self._user_data[CONF_HOST],
-                    CONF_USERNAME: self._user_data[CONF_USERNAME],
-                    CONF_PASSWORD: self._user_data[CONF_PASSWORD],
-                },
-                options=options,
-            )
-
-        # Pre-select defaults based on tier; if no groups discovered, skip the form
-        if not all_group_ids:
-            return await self.async_step_groups(user_input={CONF_GROUPS: []})
+            self._user_data[CONF_GROUPS] = selected
+            return await self.async_step_history()
 
         default_selected = _default_groups_for_tier(tier, all_group_ids)
         # Use SelectSelector with translation_key so HA resolves group labels from
@@ -231,6 +222,109 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             },
         )
 
+    # ------------------------------------------------------------------
+    # Step 5 — history storage profile
+    # ------------------------------------------------------------------
+
+    async def async_step_history(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+        if user_input is not None:
+            mode = user_input[CONF_HISTORY_STORAGE_MODE]
+            self._user_data[CONF_HISTORY_STORAGE_MODE] = mode
+            if mode == HISTORY_MODE_HOME_ASSISTANT:
+                return await self._async_create_entry()
+            return await self.async_step_history_advanced()
+
+        mode_selector = SelectSelector(
+            SelectSelectorConfig(
+                options=[
+                    SelectOptionDict(value=m, label=m.replace("_", " ").title())
+                    for m in HISTORY_STORAGE_MODES
+                ],
+                mode=SelectSelectorMode.LIST,
+                translation_key=CONF_HISTORY_STORAGE_MODE,
+            )
+        )
+        return self.async_show_form(
+            step_id="history",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        CONF_HISTORY_STORAGE_MODE,
+                        default=DEFAULT_HISTORY_STORAGE_MODE,
+                    ): mode_selector,
+                }
+            ),
+        )
+
+    async def async_step_history_advanced(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        if user_input is not None:
+            self._user_data[CONF_HISTORY_SAMPLE_INTERVAL] = user_input[CONF_HISTORY_SAMPLE_INTERVAL]
+            self._user_data[CONF_HISTORY_RETENTION_DAYS] = user_input[CONF_HISTORY_RETENTION_DAYS]
+            return await self._async_create_entry()
+
+        return self.async_show_form(
+            step_id="history_advanced",
+            data_schema=vol.Schema(
+                {
+                    vol.Optional(
+                        CONF_HISTORY_SAMPLE_INTERVAL,
+                        default=DEFAULT_HISTORY_SAMPLE_INTERVAL,
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(
+                            min=MIN_HISTORY_SAMPLE_INTERVAL,
+                            max=MAX_HISTORY_SAMPLE_INTERVAL,
+                        ),
+                    ),
+                    vol.Optional(
+                        CONF_HISTORY_RETENTION_DAYS,
+                        default=DEFAULT_HISTORY_RETENTION_DAYS,
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(
+                            min=MIN_HISTORY_RETENTION_DAYS,
+                            max=MAX_HISTORY_RETENTION_DAYS,
+                        ),
+                    ),
+                }
+            ),
+        )
+
+    async def _async_create_entry(self) -> FlowResult:
+        """Create the config entry after all setup steps have collected data."""
+        disc = self._discovery or DiscoveryResult(boiler_id=None, boiler_name=None)
+        options: dict[str, Any] = {
+            CONF_EXPERIENCE_LEVEL: self._user_data.get(
+                CONF_EXPERIENCE_LEVEL, DEFAULT_EXPERIENCE_LEVEL
+            ),
+            CONF_GROUPS: self._user_data.get(CONF_GROUPS, []),
+            CONF_SCAN_INTERVAL: self._user_data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL),
+            CONF_VERIFY_SSL: self._user_data.get(CONF_VERIFY_SSL, False),
+            CONF_REFRESH_LABELS: False,
+            CONF_DISCOVERED_DATAPOINTS: serialize_discovered_datapoints_for_config(disc),
+            CONF_ADHOC_OIDS: [],
+            CONF_HISTORY_STORAGE_MODE: self._user_data.get(
+                CONF_HISTORY_STORAGE_MODE, DEFAULT_HISTORY_STORAGE_MODE
+            ),
+            CONF_HISTORY_SAMPLE_INTERVAL: self._user_data.get(
+                CONF_HISTORY_SAMPLE_INTERVAL, DEFAULT_HISTORY_SAMPLE_INTERVAL
+            ),
+            CONF_HISTORY_RETENTION_DAYS: self._user_data.get(
+                CONF_HISTORY_RETENTION_DAYS, DEFAULT_HISTORY_RETENTION_DAYS
+            ),
+        }
+        return self.async_create_entry(
+            title=DEFAULT_NAME,
+            data={
+                CONF_HOST: self._user_data[CONF_HOST],
+                CONF_USERNAME: self._user_data[CONF_USERNAME],
+                CONF_PASSWORD: self._user_data[CONF_PASSWORD],
+            },
+            options=options,
+        )
+
     async def async_step_import(self, import_data: dict[str, Any]) -> FlowResult:
         return await self.async_step_user(import_data)
 
@@ -241,17 +335,29 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 
 class OptionsFlowHandler(config_entries.OptionsFlow):
-    """Options flow — change tier, groups, scan_interval, SSL, label refresh."""
+    """Options flow — change tier, groups, scan_interval, SSL, label refresh, history."""
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         self.config_entry = config_entry
+        self._pending_options: dict[str, Any] = {}
 
     async def async_step_init(self, user_input: dict[str, Any] | None = None) -> FlowResult:
-        errors: dict[str, str] = {}
         current = dict(self.config_entry.options or {})
 
         if user_input is not None:
             merged = {**current, **user_input}
+            mode = merged.get(
+                CONF_HISTORY_STORAGE_MODE,
+                current.get(CONF_HISTORY_STORAGE_MODE, DEFAULT_HISTORY_STORAGE_MODE),
+            )
+            if mode != HISTORY_MODE_HOME_ASSISTANT and (
+                CONF_HISTORY_SAMPLE_INTERVAL not in user_input
+                or CONF_HISTORY_RETENTION_DAYS not in user_input
+            ):
+                # Archive mode selected; collect advanced settings before saving.
+                self._pending_options = merged
+                return await self.async_step_history_advanced()
+
             merged.setdefault(
                 CONF_DISCOVERED_DATAPOINTS, current.get(CONF_DISCOVERED_DATAPOINTS, [])
             )
@@ -260,6 +366,17 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
 
         # Build group selector from existing options; if empty, omit the field.
         existing_groups: list[str] = current.get(CONF_GROUPS) or []
+
+        mode_selector = SelectSelector(
+            SelectSelectorConfig(
+                options=[
+                    SelectOptionDict(value=m, label=m.replace("_", " ").title())
+                    for m in HISTORY_STORAGE_MODES
+                ],
+                mode=SelectSelectorMode.LIST,
+                translation_key=CONF_HISTORY_STORAGE_MODE,
+            )
+        )
 
         schema_dict: dict[Any, Any] = {
             vol.Optional(
@@ -278,6 +395,10 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 CONF_REFRESH_LABELS,
                 default=current.get(CONF_REFRESH_LABELS, False),
             ): cv.boolean,
+            vol.Optional(
+                CONF_HISTORY_STORAGE_MODE,
+                default=current.get(CONF_HISTORY_STORAGE_MODE, DEFAULT_HISTORY_STORAGE_MODE),
+            ): mode_selector,
         }
         if existing_groups:
             # Use SelectSelector so HA resolves group labels from translation files.
@@ -300,7 +421,51 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         return self.async_show_form(
             step_id="init",
             data_schema=vol.Schema(schema_dict),
-            errors=errors,
+        )
+
+    async def async_step_history_advanced(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        if user_input is not None:
+            merged = {**self._pending_options, **user_input}
+            current = dict(self.config_entry.options or {})
+            merged.setdefault(
+                CONF_DISCOVERED_DATAPOINTS, current.get(CONF_DISCOVERED_DATAPOINTS, [])
+            )
+            merged.setdefault(CONF_ADHOC_OIDS, current.get(CONF_ADHOC_OIDS, []))
+            return self.async_create_entry(title="", data=merged)
+
+        current = dict(self.config_entry.options or {})
+        return self.async_show_form(
+            step_id="history_advanced",
+            data_schema=vol.Schema(
+                {
+                    vol.Optional(
+                        CONF_HISTORY_SAMPLE_INTERVAL,
+                        default=current.get(
+                            CONF_HISTORY_SAMPLE_INTERVAL, DEFAULT_HISTORY_SAMPLE_INTERVAL
+                        ),
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(
+                            min=MIN_HISTORY_SAMPLE_INTERVAL,
+                            max=MAX_HISTORY_SAMPLE_INTERVAL,
+                        ),
+                    ),
+                    vol.Optional(
+                        CONF_HISTORY_RETENTION_DAYS,
+                        default=current.get(
+                            CONF_HISTORY_RETENTION_DAYS, DEFAULT_HISTORY_RETENTION_DAYS
+                        ),
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(
+                            min=MIN_HISTORY_RETENTION_DAYS,
+                            max=MAX_HISTORY_RETENTION_DAYS,
+                        ),
+                    ),
+                }
+            ),
         )
 
 

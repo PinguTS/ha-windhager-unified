@@ -10,6 +10,7 @@ from homeassistant import config_entries
 from custom_components.windhager_unified.const import (
     CONF_ADHOC_OIDS,
     CONF_DISCOVERED_DATAPOINTS,
+    CONF_HISTORY_STORAGE_MODE,
     CONF_HOST,
     CONF_PASSWORD,
     CONF_SCAN_INTERVAL,
@@ -17,6 +18,7 @@ from custom_components.windhager_unified.const import (
     CONF_VERIFY_SSL,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
+    HISTORY_MODE_HOME_ASSISTANT,
 )
 from custom_components.windhager_unified.exceptions import (
     WindhagerAuthError,
@@ -77,13 +79,20 @@ async def test_config_flow_success(hass, mock_client):
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"], user_input={CONF_EXPERIENCE_LEVEL: "essential"}
         )
-        # Navigate through discover/groups steps until entry is created
+        # Navigate through discover/groups/history steps until entry is created
         while result.get("type") == "form" and result.get("step_id") != "groups":
             result = await hass.config_entries.flow.async_configure(result["flow_id"])
 
         if result.get("step_id") == "groups":
             result = await hass.config_entries.flow.async_configure(
                 result["flow_id"], user_input={CONF_GROUPS: []}
+            )
+
+        # Complete the new history storage step (default = Home Assistant only).
+        if result.get("step_id") == "history":
+            result = await hass.config_entries.flow.async_configure(
+                result["flow_id"],
+                user_input={CONF_HISTORY_STORAGE_MODE: HISTORY_MODE_HOME_ASSISTANT},
             )
 
     assert result["type"] == "create_entry"
@@ -176,6 +185,11 @@ async def test_options_flow_changes_scan_interval(hass, mock_client):
             result = await hass.config_entries.flow.async_configure(
                 result["flow_id"], user_input={CONF_GROUPS: []}
             )
+        if result.get("step_id") == "history":
+            result = await hass.config_entries.flow.async_configure(
+                result["flow_id"],
+                user_input={CONF_HISTORY_STORAGE_MODE: HISTORY_MODE_HOME_ASSISTANT},
+            )
 
     entries = hass.config_entries.async_entries(DOMAIN)
     assert entries
@@ -192,6 +206,7 @@ async def test_options_flow_changes_scan_interval(hass, mock_client):
             CONF_VERIFY_SSL: True,
             CONF_EXPERIENCE_LEVEL: "essential",
             "refresh_labels_from_device": False,
+            CONF_HISTORY_STORAGE_MODE: HISTORY_MODE_HOME_ASSISTANT,
         },
     )
     assert result2["type"] == "create_entry"
@@ -224,8 +239,13 @@ async def test_config_flow_discover_passes_experience_tier(hass, mock_client):
         while result.get("type") == "form" and result.get("step_id") != "groups":
             result = await hass.config_entries.flow.async_configure(result["flow_id"])
         if result.get("step_id") == "groups":
-            await hass.config_entries.flow.async_configure(
+            result = await hass.config_entries.flow.async_configure(
                 result["flow_id"], user_input={CONF_GROUPS: []}
+            )
+        if result.get("step_id") == "history":
+            await hass.config_entries.flow.async_configure(
+                result["flow_id"],
+                user_input={CONF_HISTORY_STORAGE_MODE: HISTORY_MODE_HOME_ASSISTANT},
             )
 
     disc.assert_awaited()

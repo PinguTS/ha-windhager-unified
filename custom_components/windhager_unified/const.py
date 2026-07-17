@@ -21,6 +21,30 @@ CONF_DISCOVERED_DATAPOINTS = "discovered_datapoints"
 # (list of ``{"oid": "...", "group": "boiler"}`` or legacy list of OID strings).
 CONF_ADHOC_OIDS = "adhoc_oids"
 
+# History storage profile options
+CONF_HISTORY_STORAGE_MODE = "history_storage_mode"
+CONF_HISTORY_SAMPLE_INTERVAL = "history_sample_interval"
+CONF_HISTORY_RETENTION_DAYS = "history_retention_days"
+
+HISTORY_MODE_HOME_ASSISTANT = "home_assistant"
+HISTORY_MODE_CRITICAL = "critical"
+HISTORY_MODE_ALL_MARKED = "all_marked"
+
+HISTORY_STORAGE_MODES: tuple[str, ...] = (
+    HISTORY_MODE_HOME_ASSISTANT,
+    HISTORY_MODE_CRITICAL,
+    HISTORY_MODE_ALL_MARKED,
+)
+
+DEFAULT_HISTORY_STORAGE_MODE = HISTORY_MODE_HOME_ASSISTANT
+DEFAULT_HISTORY_SAMPLE_INTERVAL = 300  # seconds
+DEFAULT_HISTORY_RETENTION_DAYS = 730
+
+MIN_HISTORY_SAMPLE_INTERVAL = 30
+MAX_HISTORY_SAMPLE_INTERVAL = 3600
+MIN_HISTORY_RETENTION_DAYS = 30
+MAX_HISTORY_RETENTION_DAYS = 3650
+
 # Experience tier slugs — ordered from least to most detail.
 # The ordering is used for ordinal comparisons:
 #   experience_minimum <= selected_tier  →  include the datapoint.

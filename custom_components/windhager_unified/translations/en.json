@@ -38,6 +38,25 @@
         "data": {
           "groups": "Groups"
         }
+      },
+      "history": {
+        "title": "History storage",
+        "description": "Choose how datapoint history is stored. The Home Assistant Recorder is always used; the dedicated archive is additional long-term storage for model development.",
+        "data": {
+          "history_storage_mode": "History storage mode"
+        }
+      },
+      "history_advanced": {
+        "title": "Archive settings",
+        "description": "Configure the dedicated Windhager archive. These settings do not affect the Home Assistant Recorder.",
+        "data": {
+          "history_sample_interval": "Sample interval (seconds)",
+          "history_retention_days": "Archive retention (days)"
+        },
+        "data_description": {
+          "history_sample_interval": "Minimum interval between archived samples for continuously changing measurements. State transitions and configuration changes are stored immediately.",
+          "history_retention_days": "Number of days retained in the dedicated Windhager archive. This does not change the Home Assistant Recorder retention period."
+        }
       }
     },
     "error": {
@@ -60,10 +79,24 @@
           "groups": "Active groups",
           "scan_interval": "Scan Interval (seconds)",
           "verify_ssl": "Verify SSL Certificate",
-          "refresh_labels_from_device": "Refresh label texts from device (optional)"
+          "refresh_labels_from_device": "Refresh label texts from device (optional)",
+          "history_storage_mode": "History storage mode"
         },
         "data_description": {
-          "refresh_labels_from_device": "Fetches the latest label XML files from the device's /res/xml/ endpoint. Disabled by default. Falls back to bundled labels on any error."
+          "refresh_labels_from_device": "Fetches the latest label XML files from the device's /res/xml/ endpoint. Disabled by default. Falls back to bundled labels on any error.",
+          "history_storage_mode": "Home Assistant Recorder is always used. The dedicated archive stores additional data for model development."
+        }
+      },
+      "history_advanced": {
+        "title": "Archive settings",
+        "description": "Configure the dedicated Windhager archive. These settings do not affect the Home Assistant Recorder.",
+        "data": {
+          "history_sample_interval": "Sample interval (seconds)",
+          "history_retention_days": "Archive retention (days)"
+        },
+        "data_description": {
+          "history_sample_interval": "Minimum interval between archived samples for continuously changing measurements. State transitions and configuration changes are stored immediately.",
+          "history_retention_days": "Number of days retained in the dedicated Windhager archive. This does not change the Home Assistant Recorder retention period."
         }
       }
     }
@@ -89,6 +122,13 @@
         "solar": "Solar",
         "io5500": "IO5500 expansion module",
         "central": "Central controller"
+      }
+    },
+    "history_storage_mode": {
+      "options": {
+        "home_assistant": "Home Assistant recorder only",
+        "critical": "Archive model critical datapoints",
+        "all_marked": "Archive all marked datapoints"
       }
     }
   },

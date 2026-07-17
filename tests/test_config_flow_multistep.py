@@ -10,6 +10,7 @@ from homeassistant import config_entries
 from custom_components.windhager_unified.const import (
     CONF_EXPERIENCE_LEVEL,
     CONF_GROUPS,
+    CONF_HISTORY_STORAGE_MODE,
     CONF_HOST,
     CONF_PASSWORD,
     CONF_SCAN_INTERVAL,
@@ -17,6 +18,7 @@ from custom_components.windhager_unified.const import (
     CONF_VERIFY_SSL,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
+    HISTORY_MODE_HOME_ASSISTANT,
 )
 from custom_components.windhager_unified.discovery import DiscoveredGroup, DiscoveryResult
 
@@ -98,6 +100,12 @@ async def test_full_flow_essential(hass, mock_client, mock_discover):
         result["flow_id"],
         user_input={CONF_GROUPS: ["boiler", "heating_circuit"]},
     )
+    # Step 5: history storage profile
+    assert result["step_id"] == "history"
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input={CONF_HISTORY_STORAGE_MODE: HISTORY_MODE_HOME_ASSISTANT},
+    )
     assert result["type"] == "create_entry"
     options = result["options"]
     assert options[CONF_EXPERIENCE_LEVEL] == "essential"
@@ -146,6 +154,11 @@ async def test_full_flow_service_selects_all_groups(hass, mock_client, mock_disc
             result["flow_id"],
             user_input={CONF_GROUPS: [g.id for g in _DISCOVERED_GROUPS]},
         )
+    if result.get("step_id") == "history":
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input={CONF_HISTORY_STORAGE_MODE: HISTORY_MODE_HOME_ASSISTANT},
+        )
     assert result["type"] == "create_entry"
     assert result["options"][CONF_EXPERIENCE_LEVEL] == "service"
 
@@ -173,6 +186,11 @@ async def test_experience_level_in_options_not_data(hass, mock_client, mock_disc
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
             user_input={CONF_GROUPS: ["boiler"]},
+        )
+    if result.get("step_id") == "history":
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input={CONF_HISTORY_STORAGE_MODE: HISTORY_MODE_HOME_ASSISTANT},
         )
 
     assert result["type"] == "create_entry"
@@ -206,6 +224,11 @@ async def test_options_flow_changes_tier(hass, mock_client, mock_discover):
             result["flow_id"],
             user_input={CONF_GROUPS: ["boiler"]},
         )
+    if result.get("step_id") == "history":
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input={CONF_HISTORY_STORAGE_MODE: HISTORY_MODE_HOME_ASSISTANT},
+        )
 
     assert result["type"] == "create_entry"
     entry = hass.config_entries.async_entries(DOMAIN)[0]
@@ -223,6 +246,7 @@ async def test_options_flow_changes_tier(hass, mock_client, mock_discover):
             CONF_SCAN_INTERVAL: 30,
             CONF_VERIFY_SSL: False,
             "refresh_labels_from_device": False,
+            CONF_HISTORY_STORAGE_MODE: HISTORY_MODE_HOME_ASSISTANT,
         },
     )
     assert result3["type"] == "create_entry"

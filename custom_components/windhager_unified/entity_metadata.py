@@ -105,6 +105,11 @@ class DatapointMetadata:
     temporal_semantics: TemporalSemantics = TemporalSemantics.NONE
     model_role: ModelRole = ModelRole.UNKNOWN
     history_importance: HistoryImportance = HistoryImportance.STANDARD
+    # ponytail: explicit flag needed because the archive must only collect
+    # catalogue entries that were deliberately classified. A missing YAML key
+    # must not make a datapoint eligible even though the parser defaults to
+    # STANDARD.
+    history_importance_explicit: bool = False
 
     # Warning flags produced while parsing. Used for tests; never blocks setup.
     warnings: list[str] = field(default_factory=list, repr=False, compare=False)
@@ -261,12 +266,14 @@ def parse_datapoint_metadata(dp: Mapping[str, Any]) -> DatapointMetadata:
         model_role = ModelRole.UNKNOWN
         warn("model_role", dp.get("model_role"), "falling back to unknown")
 
+    history_importance_raw = dp.get("history_importance")
+    history_importance_explicit = history_importance_raw is not None
     history_importance = _parse_enum(
-        HistoryImportance, dp.get("history_importance"), default=HistoryImportance.STANDARD
+        HistoryImportance, history_importance_raw, default=HistoryImportance.STANDARD
     )
-    if dp.get("history_importance") is not None and history_importance is None:
+    if history_importance_explicit and history_importance is None:
         history_importance = HistoryImportance.STANDARD
-        warn("history_importance", dp.get("history_importance"), "falling back to standard")
+        warn("history_importance", history_importance_raw, "falling back to standard")
 
     # Cross-validation: drop or warn on Home Assistant metadata combinations
     if device_class is SensorDeviceClass.ENUM:
@@ -337,6 +344,7 @@ def parse_datapoint_metadata(dp: Mapping[str, Any]) -> DatapointMetadata:
         temporal_semantics=temporal_semantics or TemporalSemantics.NONE,
         model_role=model_role or ModelRole.UNKNOWN,
         history_importance=history_importance or HistoryImportance.STANDARD,
+        history_importance_explicit=history_importance_explicit,
         warnings=warnings,
     )
 

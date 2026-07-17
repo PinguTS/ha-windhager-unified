@@ -134,6 +134,25 @@ def test_parse_missing_fields_use_defaults():
     assert meta.temporal_semantics is TemporalSemantics.NONE
     assert meta.model_role is ModelRole.UNKNOWN
     assert meta.history_importance is HistoryImportance.STANDARD
+    # Missing YAML key must not be treated as explicit archive intent.
+    assert meta.history_importance_explicit is False
+
+
+def test_parse_explicit_history_importance_tracked():
+    dp = {"oid": "1/2/3/4/5/6", "key": "lon_test", "history_importance": "low"}
+    meta = parse_datapoint_metadata(dp)
+    assert meta.history_importance is HistoryImportance.LOW
+    assert meta.history_importance_explicit is True
+
+
+def test_parse_invalid_history_importance_resets_explicit_flag():
+    dp = {"oid": "1/2/3/4/5/6", "key": "lon_test", "history_importance": "nonsense"}
+    meta = parse_datapoint_metadata(dp)
+    assert meta.history_importance is HistoryImportance.STANDARD
+    # The YAML key was present, so the explicit flag remains true even though
+    # the value was invalid. This prevents silently treating a malformed
+    # classification as "not configured".
+    assert meta.history_importance_explicit is True
 
 
 def test_enabled_default_explicit_yaml_wins():

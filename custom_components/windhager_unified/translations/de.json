@@ -38,6 +38,25 @@
         "data": {
           "groups": "Gruppen"
         }
+      },
+      "history": {
+        "title": "Verlaufsspeicher",
+        "description": "Wählen Sie, wie Datenpunktverläufe gespeichert werden. Der Home Assistant Recorder wird immer verwendet; das dedizierte Archiv ist zusätzlicher Langzeitspeicher für die Modellentwicklung.",
+        "data": {
+          "history_storage_mode": "Verlaufsspeicher-Modus"
+        }
+      },
+      "history_advanced": {
+        "title": "Archiv-Einstellungen",
+        "description": "Konfigurieren Sie das dedizierte Windhager-Archiv. Diese Einstellungen wirken sich nicht auf den Home Assistant Recorder aus.",
+        "data": {
+          "history_sample_interval": "Abtastintervall (Sekunden)",
+          "history_retention_days": "Archiv-Aufbewahrung (Tage)"
+        },
+        "data_description": {
+          "history_sample_interval": "Mindestabstand zwischen archivierten Abtastwerten für sich kontinuierlich ändernde Messungen. Zustandsübergänge und Konfigurationsänderungen werden sofort gespeichert.",
+          "history_retention_days": "Anzahl der Tage, die das dedizierte Windhager-Archiv vorhält. Dies ändert nicht die Aufbewahrungszeit des Home Assistant Recorders."
+        }
       }
     },
     "error": {
@@ -60,10 +79,24 @@
           "groups": "Aktive Gruppen",
           "scan_interval": "Abfrageintervall (Sekunden)",
           "verify_ssl": "SSL-Zertifikat überprüfen",
-          "refresh_labels_from_device": "Bezeichnungstexte vom Gerät aktualisieren (optional)"
+          "refresh_labels_from_device": "Bezeichnungstexte vom Gerät aktualisieren (optional)",
+          "history_storage_mode": "Verlaufsspeicher-Modus"
         },
         "data_description": {
-          "refresh_labels_from_device": "Lädt die aktuellen XML-Bezeichnungsdateien vom Gerät (/res/xml/). Standardmäßig deaktiviert. Bei Fehler werden die gebündelten Texte verwendet."
+          "refresh_labels_from_device": "Lädt die aktuellen XML-Bezeichnungsdateien vom Gerät (/res/xml/). Standardmäßig deaktiviert. Bei Fehler werden die gebündelten Texte verwendet.",
+          "history_storage_mode": "Der Home Assistant Recorder wird immer verwendet. Das dedizierte Archiv speichert zusätzliche Daten für die Modellentwicklung."
+        }
+      },
+      "history_advanced": {
+        "title": "Archiv-Einstellungen",
+        "description": "Konfigurieren Sie das dedizierte Windhager-Archiv. Diese Einstellungen wirken sich nicht auf den Home Assistant Recorder aus.",
+        "data": {
+          "history_sample_interval": "Abtastintervall (Sekunden)",
+          "history_retention_days": "Archiv-Aufbewahrung (Tage)"
+        },
+        "data_description": {
+          "history_sample_interval": "Mindestabstand zwischen archivierten Abtastwerten für sich kontinuierlich ändernde Messungen. Zustandsübergänge und Konfigurationsänderungen werden sofort gespeichert.",
+          "history_retention_days": "Anzahl der Tage, die das dedizierte Windhager-Archiv vorhält. Dies ändert nicht die Aufbewahrungszeit des Home Assistant Recorders."
         }
       }
     }
@@ -89,6 +122,13 @@
         "solar": "Solar",
         "io5500": "IO5500 Erweiterungsmodul",
         "central": "Zentralregler"
+      }
+    },
+    "history_storage_mode": {
+      "options": {
+        "home_assistant": "Nur Home Assistant Recorder",
+        "critical": "Modellkritische Datenpunkte archivieren",
+        "all_marked": "Alle markierten Datenpunkte archivieren"
       }
     }
   },

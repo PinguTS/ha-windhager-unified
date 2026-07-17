@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import logging
+from datetime import datetime, timedelta
+from pathlib import Path
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError
 from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.helpers.typing import ConfigType
 
 from .const import (
@@ -13,18 +16,27 @@ from .const import (
     CONF_DISCOVERED_DATAPOINTS,
     CONF_EXPERIENCE_LEVEL,
     CONF_GROUPS,
+    CONF_HISTORY_RETENTION_DAYS,
+    CONF_HISTORY_SAMPLE_INTERVAL,
+    CONF_HISTORY_STORAGE_MODE,
     CONF_HOST,
     CONF_PASSWORD,
     CONF_SCAN_INTERVAL,
     CONF_USERNAME,
     CONF_VERIFY_SSL,
     DEFAULT_EXPERIENCE_LEVEL,
+    DEFAULT_HISTORY_RETENTION_DAYS,
+    DEFAULT_HISTORY_SAMPLE_INTERVAL,
+    DEFAULT_HISTORY_STORAGE_MODE,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
+    HISTORY_MODE_HOME_ASSISTANT,
     PLATFORMS,
 )
 from .coordinator import WindhagerCoordinator
 from .exceptions import WindhagerAuthError, WindhagerConnectionError, WindhagerTimeoutError
+from .history_repository import WindhagerHistoryRepository
+from .history_writer import HistoryArchiveWriter
 from .migrate import async_migrate_entry  # noqa: F401 — HA migration hook
 
 _LOGGER = logging.getLogger(__name__)
@@ -52,6 +64,11 @@ def _resolve_config_entry(hass: HomeAssistant, call: ServiceCall) -> ConfigEntry
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     return True
+
+
+def _history_archive_path(hass: HomeAssistant, entry_id: str) -> Path:
+    """Return the integration-owned SQLite archive path for a config entry."""
+    return Path(hass.config.path(".storage")) / f"windhager_unified_history_{entry_id}.sqlite"
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -85,6 +102,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         raise ConfigEntryNotReady(str(err)) from err
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
+
+    await _async_setup_history_archive(hass, entry, coordinator)
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
@@ -159,6 +178,75 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     return True
 
 
+async def _async_setup_history_archive(
+    hass: HomeAssistant,
+    entry: ConfigEntry,
+    coordinator: WindhagerCoordinator,
+) -> None:
+    """Create and start the dedicated history archive if the user enabled it.
+
+    In ``home_assistant`` mode no archive is opened. Archive failures are
+    isolated so the rest of the integration still loads.
+    """
+    options = entry.options or {}
+    storage_mode = options.get(CONF_HISTORY_STORAGE_MODE, DEFAULT_HISTORY_STORAGE_MODE)
+    if storage_mode == HISTORY_MODE_HOME_ASSISTANT:
+        return
+
+    sample_interval = options.get(CONF_HISTORY_SAMPLE_INTERVAL, DEFAULT_HISTORY_SAMPLE_INTERVAL)
+    retention_days = options.get(CONF_HISTORY_RETENTION_DAYS, DEFAULT_HISTORY_RETENTION_DAYS)
+
+    repository = WindhagerHistoryRepository(
+        hass=hass,
+        database_path=_history_archive_path(hass, entry.entry_id),
+        config_entry_id=entry.entry_id,
+    )
+    writer = HistoryArchiveWriter(
+        hass=hass,
+        repository=repository,
+        config_entry_id=entry.entry_id,
+        storage_mode=storage_mode,
+        sample_interval=sample_interval,
+    )
+
+    try:
+        await repository.async_initialize()
+        await writer.async_start(coordinator.datapoints)
+    except Exception as err:
+        _LOGGER.error(
+            "Failed to initialize history archive for %s: %s. Normal polling continues.",
+            entry.entry_id,
+            err,
+        )
+        await repository.async_close()
+        return
+
+    async def _process_update() -> None:
+        await writer.async_process_update(coordinator.data, coordinator.datapoints)
+
+    cancel_listener = coordinator.async_add_listener(_process_update)
+
+    async def _cleanup(_now: datetime | None = None) -> None:
+        try:
+            await repository.async_cleanup(retention_days)
+        except Exception as err:
+            _LOGGER.error("History archive cleanup failed: %s", err)
+
+    # Schedule cleanup once per day. The first run happens after the interval.
+    cancel_cleanup = async_track_time_interval(
+        hass, _cleanup, timedelta(days=1), name=f"windhager_history_cleanup_{entry.entry_id}"
+    )
+
+    # Store archive lifecycle objects under a separate key so services that
+    # expect the coordinator directly continue to work.
+    hass.data[DOMAIN][f"{entry.entry_id}_archive"] = {
+        "repository": repository,
+        "writer": writer,
+        "cancel_listener": cancel_listener,
+        "cancel_cleanup": cancel_cleanup,
+    }
+
+
 async def _async_update_options(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Handle options updates by reloading the entry."""
     await hass.config_entries.async_reload(entry.entry_id)
@@ -171,6 +259,22 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     if unload_ok:
         coordinator: WindhagerCoordinator = hass.data[DOMAIN].pop(entry.entry_id)
         await coordinator.api_client.async_close()
+
+        archive_key = f"{entry.entry_id}_archive"
+        archive_data = hass.data[DOMAIN].pop(archive_key, None)
+        if archive_data is not None:
+            writer: HistoryArchiveWriter | None = archive_data.get("writer")
+            repository: WindhagerHistoryRepository | None = archive_data.get("repository")
+            cancel_listener = archive_data.get("cancel_listener")
+            cancel_cleanup = archive_data.get("cancel_cleanup")
+            if writer is not None:
+                await writer.async_stop()
+            if cancel_listener is not None:
+                cancel_listener()
+            if cancel_cleanup is not None:
+                cancel_cleanup()
+            if repository is not None:
+                await repository.async_close()
 
         if not hass.data[DOMAIN]:
             hass.services.async_remove(DOMAIN, "set_datapoint")
