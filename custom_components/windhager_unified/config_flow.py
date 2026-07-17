@@ -33,6 +33,7 @@ from .api_client import WindhagerApiClient
 from .const import (
     CONF_ADHOC_OIDS,
     CONF_DISCOVERED_DATAPOINTS,
+    CONF_EXCLUDED_OIDS,
     CONF_EXPERIENCE_LEVEL,
     CONF_GROUPS,
     CONF_HISTORY_RETENTION_DAYS,
@@ -42,6 +43,7 @@ from .const import (
     CONF_NODE_NAMES,
     CONF_PASSWORD,
     CONF_REFRESH_LABELS,
+    CONF_RESCAN,
     CONF_SCAN_INTERVAL,
     CONF_USERNAME,
     CONF_VERIFY_SSL,
@@ -349,6 +351,15 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
 
         if user_input is not None:
             merged = {**current, **user_input}
+            # Rescan is a transient flag: pop it from merged options before saving.
+            do_rescan = merged.pop(CONF_RESCAN, False)
+            if do_rescan:
+                # Store all pending changes (tier, groups, etc.) so the rescan uses the
+                # user's new choices, and any non-discovery options are preserved when
+                # we finally save.
+                self._pending_options = merged
+                return await self.async_step_rescan()
+
             mode = merged.get(
                 CONF_HISTORY_STORAGE_MODE,
                 current.get(CONF_HISTORY_STORAGE_MODE, DEFAULT_HISTORY_STORAGE_MODE),
@@ -365,6 +376,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 CONF_DISCOVERED_DATAPOINTS, current.get(CONF_DISCOVERED_DATAPOINTS, [])
             )
             merged.setdefault(CONF_ADHOC_OIDS, current.get(CONF_ADHOC_OIDS, []))
+            merged.setdefault(CONF_EXCLUDED_OIDS, current.get(CONF_EXCLUDED_OIDS, []))
             return self.async_create_entry(title="", data=merged)
 
         # Build group selector from existing options; if empty, omit the field.
@@ -399,6 +411,10 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 default=current.get(CONF_REFRESH_LABELS, False),
             ): cv.boolean,
             vol.Optional(
+                CONF_RESCAN,
+                default=False,
+            ): cv.boolean,
+            vol.Optional(
                 CONF_HISTORY_STORAGE_MODE,
                 default=current.get(CONF_HISTORY_STORAGE_MODE, DEFAULT_HISTORY_STORAGE_MODE),
             ): mode_selector,
@@ -426,6 +442,178 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             data_schema=vol.Schema(schema_dict),
         )
 
+    async def async_step_rescan(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+        """Re-run LON discovery with the pending options and show a review step."""
+        # The first call has no user_input; we run the discovery here.
+        if user_input is None and not getattr(self, "_rescan_discovery", None):
+            pending = self._pending_options
+            client = WindhagerApiClient(
+                host=self.config_entry.data[CONF_HOST],
+                username=self.config_entry.data[CONF_USERNAME],
+                password=self.config_entry.data[CONF_PASSWORD],
+                verify_ssl=pending.get(
+                    CONF_VERIFY_SSL, self.config_entry.options.get(CONF_VERIFY_SSL, False)
+                ),
+            )
+            try:
+                async with client:
+                    tier = pending.get(
+                        CONF_EXPERIENCE_LEVEL,
+                        self.config_entry.options.get(
+                            CONF_EXPERIENCE_LEVEL, DEFAULT_EXPERIENCE_LEVEL
+                        ),
+                    )
+                    self._rescan_discovery = await discover(client, experience_tier=tier)
+            except WindhagerAuthError:
+                return self.async_show_form(
+                    step_id="init",
+                    errors={"base": "invalid_auth"},
+                )
+            except (WindhagerConnectionError, WindhagerTimeoutError) as err:
+                _LOGGER.debug("Options rescan: connection failed: %s", err)
+                return self.async_show_form(
+                    step_id="init",
+                    errors={"base": "cannot_connect"},
+                )
+            except Exception as err:
+                _LOGGER.exception("Options rescan: unexpected error: %s", err)
+                return self.async_show_form(
+                    step_id="init",
+                    errors={"base": "unknown"},
+                )
+
+        discovery = getattr(self, "_rescan_discovery", None)
+        if discovery is None:
+            # Should not happen, but recover gracefully without touching options.
+            return self.async_show_form(
+                step_id="init",
+                errors={"base": "unknown"},
+            )
+
+        current = dict(self.config_entry.options or {})
+        old_discovered = list(current.get(CONF_DISCOVERED_DATAPOINTS, []))
+        excluded = set(current.get(CONF_EXCLUDED_OIDS, []))
+
+        new_discovered = serialize_discovered_datapoints_for_config(discovery)
+        old_by_oid = {row["oid"]: row for row in old_discovered if row.get("oid")}
+        new_by_oid = {row["oid"]: row for row in new_discovered if row.get("oid")}
+        old_oids = set(old_by_oid)
+        new_oids = set(new_by_oid)
+
+        self._rescan_added = sorted(
+            new_oids - old_oids - excluded,
+            key=lambda oid: new_by_oid[oid].get("api_name", "") or oid,
+        )
+        self._rescan_vanished = sorted(
+            old_oids - new_oids,
+            key=lambda oid: old_by_oid[oid].get("api_name", "") or oid,
+        )
+
+        if not self._rescan_added and not self._rescan_vanished:
+            # Nothing changed; refresh node names and drop any excluded OIDs that
+            # a previous scan might have re-introduced.
+            merged = dict(self._pending_options)
+            merged[CONF_DISCOVERED_DATAPOINTS] = [
+                row for row in new_discovered if row.get("oid") not in excluded
+            ]
+            merged[CONF_NODE_NAMES] = serialize_discovered_node_names(discovery)
+            merged[CONF_EXCLUDED_OIDS] = sorted(excluded)
+            merged.setdefault(CONF_ADHOC_OIDS, current.get(CONF_ADHOC_OIDS, []))
+            merged.pop(CONF_RESCAN, None)
+            return self.async_create_entry(title="", data=merged)
+
+        return await self.async_step_rescan_review()
+
+    async def async_step_rescan_review(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Let the user pick which new datapoints to add and which vanished ones to keep."""
+        added = getattr(self, "_rescan_added", [])
+        vanished = getattr(self, "_rescan_vanished", [])
+        discovery = getattr(self, "_rescan_discovery", None)
+        if discovery is None or (not added and not vanished):
+            return await self.async_step_rescan()
+
+        new_by_oid = {
+            row["oid"]: row for row in serialize_discovered_datapoints_for_config(discovery)
+        }
+        old_by_oid = {
+            row["oid"]: row
+            for row in self.config_entry.options.get(CONF_DISCOVERED_DATAPOINTS, [])
+            if row.get("oid")
+        }
+
+        if user_input is not None:
+            keep_new = set(user_input.get("keep_new", []))
+            keep_vanished = set(user_input.get("keep_vanished", []))
+            dropped_new = set(added) - keep_new
+
+            current = dict(self.config_entry.options or {})
+            excluded = set(current.get(CONF_EXCLUDED_OIDS, [])) | dropped_new
+
+            unchanged = set(old_by_oid) & set(new_by_oid)
+            final_oids = (unchanged | keep_new | keep_vanished) - excluded
+            final_rows = []
+            for oid in final_oids:
+                if oid in new_by_oid:
+                    final_rows.append(new_by_oid[oid])
+                elif oid in old_by_oid:
+                    final_rows.append(old_by_oid[oid])
+
+            # Ensure any newly discovered group is also enabled, otherwise the
+            # coordinator's group filter would silently drop the new datapoints.
+            new_groups = {row.get("group") for row in final_rows if row.get("group")}
+            existing_groups = set(
+                self._pending_options.get(CONF_GROUPS, current.get(CONF_GROUPS, []))
+            )
+            merged_groups = sorted(existing_groups | new_groups)
+
+            merged = dict(self._pending_options)
+            merged[CONF_GROUPS] = merged_groups
+            merged[CONF_DISCOVERED_DATAPOINTS] = final_rows
+            merged[CONF_NODE_NAMES] = serialize_discovered_node_names(discovery)
+            merged[CONF_EXCLUDED_OIDS] = sorted(excluded)
+            merged.setdefault(CONF_ADHOC_OIDS, current.get(CONF_ADHOC_OIDS, []))
+            merged.pop(CONF_RESCAN, None)
+            return self.async_create_entry(title="", data=merged)
+
+        def _option_rows(oids, source):
+            out = []
+            for oid in oids:
+                row = source[oid]
+                label_parts = [p for p in (row.get("function_name"), row.get("api_name"), oid) if p]
+                label = " · ".join(label_parts)
+                out.append(SelectOptionDict(value=oid, label=label))
+            return out
+
+        schema: dict[Any, Any] = {}
+        if added:
+            schema[vol.Optional("keep_new", default=list(added))] = SelectSelector(
+                SelectSelectorConfig(
+                    options=_option_rows(added, new_by_oid),
+                    multiple=True,
+                    mode=SelectSelectorMode.LIST,
+                )
+            )
+        if vanished:
+            schema[vol.Optional("keep_vanished", default=list(vanished))] = SelectSelector(
+                SelectSelectorConfig(
+                    options=_option_rows(vanished, old_by_oid),
+                    multiple=True,
+                    mode=SelectSelectorMode.LIST,
+                )
+            )
+
+        description_placeholders = {
+            "added_count": str(len(added)),
+            "vanished_count": str(len(vanished)),
+        }
+        return self.async_show_form(
+            step_id="rescan_review",
+            data_schema=vol.Schema(schema),
+            description_placeholders=description_placeholders,
+        )
+
     async def async_step_history_advanced(
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
@@ -436,6 +624,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 CONF_DISCOVERED_DATAPOINTS, current.get(CONF_DISCOVERED_DATAPOINTS, [])
             )
             merged.setdefault(CONF_ADHOC_OIDS, current.get(CONF_ADHOC_OIDS, []))
+            merged.setdefault(CONF_EXCLUDED_OIDS, current.get(CONF_EXCLUDED_OIDS, []))
             return self.async_create_entry(title="", data=merged)
 
         current = dict(self.config_entry.options or {})

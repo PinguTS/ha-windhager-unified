@@ -22,6 +22,10 @@ CONF_DISCOVERED_DATAPOINTS = "discovered_datapoints"
 CONF_ADHOC_OIDS = "adhoc_oids"
 # Configured node names from discovery (display-only, never part of identifiers).
 CONF_NODE_NAMES = "node_names"
+# OIDs the user explicitly deselected during a re-scan; never offered again as new.
+CONF_EXCLUDED_OIDS = "excluded_oids"
+# Transient checkbox in the options flow that triggers a full re-scan.
+CONF_RESCAN = "rescan_network"
 
 # History storage profile options
 CONF_HISTORY_STORAGE_MODE = "history_storage_mode"

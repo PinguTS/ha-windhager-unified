@@ -80,11 +80,20 @@
           "scan_interval": "Scan Interval (seconds)",
           "verify_ssl": "Verify SSL Certificate",
           "refresh_labels_from_device": "Refresh label texts from device (optional)",
+          "rescan_network": "Rescan LON network",
           "history_storage_mode": "History storage mode"
         },
         "data_description": {
           "refresh_labels_from_device": "Fetches the latest label XML files from the device's /res/xml/ endpoint. Disabled by default. Falls back to bundled labels on any error.",
           "history_storage_mode": "Home Assistant Recorder is always used. The dedicated archive stores additional data for model development."
+        }
+      },
+      "rescan_review": {
+        "title": "Rescan results",
+        "description": "Discovery found {added_count} new datapoint(s) and {vanished_count} vanished datapoint(s). Select the ones you want to keep.",
+        "data": {
+          "keep_new": "New datapoints to add (all selected by default)",
+          "keep_vanished": "Vanished datapoints to keep (all selected by default)"
         }
       },
       "history_advanced": {

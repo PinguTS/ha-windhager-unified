@@ -80,11 +80,20 @@
           "scan_interval": "Abfrageintervall (Sekunden)",
           "verify_ssl": "SSL-Zertifikat überprüfen",
           "refresh_labels_from_device": "Bezeichnungstexte vom Gerät aktualisieren (optional)",
+          "rescan_network": "LON-Netzwerk neu scannen",
           "history_storage_mode": "Verlaufsspeicher-Modus"
         },
         "data_description": {
           "refresh_labels_from_device": "Lädt die aktuellen XML-Bezeichnungsdateien vom Gerät (/res/xml/). Standardmäßig deaktiviert. Bei Fehler werden die gebündelten Texte verwendet.",
           "history_storage_mode": "Der Home Assistant Recorder wird immer verwendet. Das dedizierte Archiv speichert zusätzliche Daten für die Modellentwicklung."
+        }
+      },
+      "rescan_review": {
+        "title": "Scan-Ergebnisse",
+        "description": "Die Erkundung fand {added_count} neue Datenpunkt(e) und {vanished_count} verschwundene Datenpunkt(e). Wählen Sie die aus, die Sie behalten möchten.",
+        "data": {
+          "keep_new": "Neue Datenpunkte hinzufügen (standardmäßig alle ausgewählt)",
+          "keep_vanished": "Verschwundene Datenpunkte behalten (standardmäßig alle ausgewählt)"
         }
       },
       "history_advanced": {

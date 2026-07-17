@@ -60,10 +60,19 @@
           "groups": "Groupes actifs",
           "scan_interval": "Intervalle d’interrogation (secondes)",
           "verify_ssl": "Vérifier le certificat SSL",
-          "refresh_labels_from_device": "Actualiser les libellés depuis l’appareil (optionnel)"
+          "refresh_labels_from_device": "Actualiser les libellés depuis l’appareil (optionnel)",
+          "rescan_network": "Rescanner le réseau LON"
         },
         "data_description": {
           "refresh_labels_from_device": "Récupère les derniers fichiers XML de libellés sur le point d’accès /res/xml/ de l’appareil. Désactivé par défaut. En cas d’erreur, les libellés fournis avec l’intégration sont utilisés."
+        }
+      },
+      "rescan_review": {
+        "title": "Résultats du rescan",
+        "description": "La découverte a trouvé {added_count} nouveau(x) point(s) de données et {vanished_count} point(s) disparu(s). Sélectionnez ceux que vous souhaitez conserver.",
+        "data": {
+          "keep_new": "Nouveaux points de données à ajouter (tous sélectionnés par défaut)",
+          "keep_vanished": "Points de données disparus à conserver (tous sélectionnés par défaut)"
         }
       }
     }

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import logging
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -8,6 +9,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError
 from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.helpers.typing import ConfigType
 
@@ -38,6 +40,7 @@ from .coordinator import WindhagerCoordinator
 from .exceptions import WindhagerAuthError, WindhagerConnectionError, WindhagerTimeoutError
 from .history_repository import WindhagerHistoryRepository
 from .history_writer import HistoryArchiveWriter
+from .lon_entity_helpers import lon_unique_id
 from .migrate import async_migrate_entry  # noqa: F401 — HA migration hook
 
 _LOGGER = logging.getLogger(__name__)
@@ -72,6 +75,62 @@ def _history_archive_path(hass: HomeAssistant, entry_id: str) -> Path:
     return Path(hass.config.path(".storage")) / f"windhager_unified_history_{entry_id}.sqlite"
 
 
+def _expected_unique_ids(entry: ConfigEntry, coordinator: WindhagerCoordinator) -> set[str]:
+    """Return the set of unique_ids that should exist for this config entry.
+
+    Covers LON datapoints and RestAPI endpoints. Entities whose unique_ids are
+    not in this set are removed from the entity registry on setup/reload, so
+    rescans or tier/group changes do not leave stale entities behind.
+    """
+    host = entry.data.get(CONF_HOST, "unknown")
+    expected: set[str] = set()
+
+    # LON-backed entities.
+    for dp in coordinator.datapoints:
+        oid = str(dp.get("oid", ""))
+        key = str(dp.get("key", ""))
+        if oid and key:
+            expected.add(lon_unique_id(entry, oid, key))
+
+    # RestAPI-backed entities.
+    for _group_name, endpoints in coordinator.restapi_endpoints.items():
+        for ep in endpoints:
+            endpoint = ep.get("endpoint", "")
+            key = ep.get("key", "")
+            if not endpoint or not key:
+                continue
+            entity_type = ep.get("entity_type", "sensor")
+            if entity_type == "button":
+                http_method = ep.get("http_method", "POST")
+                expected.add(
+                    hashlib.md5(f"{host}_{http_method}_{endpoint}_{key}".encode()).hexdigest()
+                )
+            else:
+                expected.add(hashlib.md5(f"{host}_{endpoint}_{key}".encode()).hexdigest())
+
+    # Static export button.
+    expected.add(f"{entry.entry_id}_export_system_info")
+    return expected
+
+
+async def _async_cleanup_stale_entities(
+    hass: HomeAssistant, entry: ConfigEntry, coordinator: WindhagerCoordinator
+) -> None:
+    """Remove entity registry entries that no longer match active datapoints."""
+    expected = _expected_unique_ids(entry, coordinator)
+    registry = er.async_get(hass)
+    removed = 0
+    for entity in er.async_entries_for_config_entry(registry, entry.entry_id):
+        if entity.unique_id not in expected:
+            registry.async_remove(entity.entity_id)
+            removed += 1
+    if removed:
+        _LOGGER.info(
+            "Removed %d stale Windhager entities after rescan/tier/group change",
+            removed,
+        )
+
+
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Windhager from a config entry."""
     options = entry.options or {}
@@ -96,6 +155,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     # Open session once; persists for the life of this config entry.
     await coordinator.api_client.async_init()
     await coordinator.async_initialize_catalog()
+    await _async_cleanup_stale_entities(hass, entry, coordinator)
 
     # Use a cheap endpoint as a connectivity / auth probe instead of blocking on
     # the full first refresh. The full refresh can take minutes in expert mode and

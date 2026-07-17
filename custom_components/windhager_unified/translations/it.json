@@ -60,10 +60,19 @@
           "groups": "Gruppi attivi",
           "scan_interval": "Intervallo di scansione (secondi)",
           "verify_ssl": "Verifica certificato SSL",
-          "refresh_labels_from_device": "Aggiorna etichette dal dispositivo (opzionale)"
+          "refresh_labels_from_device": "Aggiorna etichette dal dispositivo (opzionale)",
+          "rescan_network": "Rileggi la rete LON"
         },
         "data_description": {
           "refresh_labels_from_device": "Scarica gli ultimi file XML delle etichette dall’endpoint /res/xml/ del dispositivo. Disattivato per impostazione predefinita. In caso di errore si usano le etichette incluse nell’integrazione."
+        }
+      },
+      "rescan_review": {
+        "title": "Risultati della rilettura",
+        "description": "Il rilevamento ha trovato {added_count} nuovo(i) datapoint e {vanished_count} datapoint scomparsa. Seleziona quelli che vuoi mantenere.",
+        "data": {
+          "keep_new": "Nuovi datapoint da aggiungere (tutti selezionati per impostazione predefinita)",
+          "keep_vanished": "Datapoint scomparsi da mantenere (tutti selezionati per impostazione predefinita)"
         }
       }
     }
