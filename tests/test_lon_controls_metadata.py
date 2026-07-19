@@ -91,7 +91,6 @@ def test_number_metadata_wired(mock_coordinator, mock_entry):
             "model_role": "control",
             "history_importance": "critical",
             "icon": "mdi:thermostat",
-            "entity_category": "config",
             "i18n": {"en": "Setpoint"},
             "experience_minimum": "essential",
             "write_protected": False,
@@ -106,9 +105,59 @@ def test_number_metadata_wired(mock_coordinator, mock_entry):
     number = added[0]
     desc = number.entity_description
     assert desc.icon == "mdi:thermostat"
-    assert desc.entity_category is EntityCategory.CONFIG
+    assert desc.entity_category is None
     assert number.extra_state_attributes["windhager_data_role"] == "setpoint"
     assert number.extra_state_attributes["windhager_model_role"] == "control"
+
+
+def test_number_config_scope_is_config_category(mock_coordinator, mock_entry):
+    mock_coordinator.datapoints = [
+        {
+            "oid": "1/15/0/7/2/0",
+            "key": "number_dp",
+            "unit": "°C",
+            "device_class": "temperature",
+            "min_value": "10",
+            "max_value": "30",
+            "step": "0.5",
+            "data_role": "configuration",
+            "i18n": {"en": "Min flow"},
+            "experience_minimum": "comfort",
+            "write_protected": False,
+        }
+    ]
+    hass = MagicMock()
+    hass.config.language = "en"
+    hass.data = {DOMAIN: {mock_entry.entry_id: mock_coordinator}}
+
+    added = _run_setup(hass, mock_entry, mock_coordinator, number_setup_entry)
+    assert len(added) == 1
+    assert added[0].entity_description.entity_category is EntityCategory.CONFIG
+
+
+def test_number_installer_scope_is_disabled_at_comfort(mock_coordinator, mock_entry):
+    mock_coordinator.datapoints = [
+        {
+            "oid": "1/16/0/7/12/0",
+            "key": "number_dp",
+            "min_value": "0",
+            "max_value": "2",
+            "step": "1",
+            "parameter_scope": "installer",
+            "i18n": {"en": "Speed regulation"},
+            "experience_minimum": "comfort",
+            "write_protected": False,
+        }
+    ]
+    hass = MagicMock()
+    hass.config.language = "en"
+    hass.data = {DOMAIN: {mock_entry.entry_id: mock_coordinator}}
+
+    added = _run_setup(hass, mock_entry, mock_coordinator, number_setup_entry)
+    assert len(added) == 1
+    desc = added[0].entity_description
+    assert desc.entity_category is EntityCategory.CONFIG
+    assert desc.entity_registry_enabled_default is False
 
 
 async def test_number_write_refreshes_and_updates_state(mock_coordinator, mock_entry):
@@ -150,7 +199,7 @@ def test_switch_metadata_wired(mock_coordinator, mock_entry):
             "key": "switch_dp",
             "min_value": "0",
             "max_value": "1",
-            "data_role": "actuator_state",
+            "data_role": "command",
             "temporal_semantics": "event",
             "model_role": "event",
             "history_importance": "critical",
@@ -168,7 +217,8 @@ def test_switch_metadata_wired(mock_coordinator, mock_entry):
     assert len(added) == 1
     switch = added[0]
     assert switch.entity_description.icon == "mdi:pump"
-    assert switch.extra_state_attributes["windhager_data_role"] == "actuator_state"
+    assert switch.entity_description.entity_category is None
+    assert switch.extra_state_attributes["windhager_data_role"] == "command"
     assert switch.is_on is True
 
 
@@ -220,6 +270,7 @@ def test_select_metadata_wired(mock_coordinator, mock_entry):
     assert len(added) == 1
     select = added[0]
     assert select.entity_description.icon == "mdi:state-machine"
+    assert select.entity_description.entity_category is None
     assert select.extra_state_attributes["windhager_data_role"] == "operating_state"
     assert select.current_option == "On"
 

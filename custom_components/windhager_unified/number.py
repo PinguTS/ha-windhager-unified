@@ -15,15 +15,17 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
-    DEFAULT_LON_EXPERIENCE_MINIMUM,
     DOMAIN,
     ROLE_CONFIG,
 )
 from .coordinator import WindhagerCoordinator
 from .entity_metadata import (
     DatapointMetadata,
+    effective_experience_minimum,
     enabled_default,
+    parameter_scope,
     parse_datapoint_metadata,
+    scope_entity_category,
     semantic_state_attributes,
 )
 from .entity_roles import (
@@ -146,7 +148,8 @@ async def async_setup_entry(
         ):
             continue
 
-        exp_min = datapoint.get("experience_minimum", DEFAULT_LON_EXPERIENCE_MINIMUM)
+        scope = parameter_scope(datapoint)
+        exp_min = effective_experience_minimum(datapoint, scope)
         i18n = datapoint.get("i18n", {})
         metadata = parse_datapoint_metadata(datapoint)
         name = coordinator.get_entity_name(oid, lang, i18n, datapoint["key"])
@@ -163,7 +166,7 @@ async def async_setup_entry(
             oid=oid,
             datapoint=datapoint,
             metadata=metadata,
-            entity_category=metadata.entity_category or EntityCategory.CONFIG,
+            entity_category=scope_entity_category(metadata, scope),
             entity_registry_enabled_default=enabled_default(metadata, exp_min),
         )
         entities.append(WindhagerLONNumber(coordinator, entry, description))

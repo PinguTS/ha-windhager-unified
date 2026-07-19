@@ -522,6 +522,113 @@ def test_passes_tier_false():
 
 
 # ---------------------------------------------------------------------------
+# Parameter scope tier filtering
+# ---------------------------------------------------------------------------
+
+
+def test_build_lon_datapoints_config_scope_floors_to_expert(mock_hass):
+    """A config-scope datapoint with comfort experience_minimum is only visible at expert+."""
+    all_oids = [
+        {
+            "oid": "1/65/0/0/1/0",
+            "key": "k1",
+            "group": "boiler",
+            "experience_minimum": "comfort",
+            "write_protected": False,
+            "data_role": "configuration",
+            "i18n": {"en": "A"},
+        }
+    ]
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="comfort",
+    )
+    coord._apply_static_config(all_oids, {})
+    assert coord.datapoints == []
+
+    coord_expert = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="expert",
+    )
+    coord_expert._apply_static_config(all_oids, {})
+    assert len(coord_expert.datapoints) == 1
+
+
+def test_build_lon_datapoints_installer_scope_floors_to_service(mock_hass):
+    """An installer-scope datapoint is only visible at service tier."""
+    all_oids = [
+        {
+            "oid": "1/65/0/0/1/0",
+            "key": "k1",
+            "group": "boiler",
+            "experience_minimum": "comfort",
+            "write_protected": False,
+            "parameter_scope": "installer",
+            "i18n": {"en": "A"},
+        }
+    ]
+    coord_expert = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="expert",
+    )
+    coord_expert._apply_static_config(all_oids, {})
+    assert coord_expert.datapoints == []
+
+    coord_service = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="service",
+    )
+    coord_service._apply_static_config(all_oids, {})
+    assert len(coord_service.datapoints) == 1
+
+
+def test_build_lon_datapoints_user_scope_keeps_declared_tier(mock_hass):
+    """A user-scope datapoint keeps its declared experience_minimum."""
+    all_oids = [
+        {
+            "oid": "1/65/0/0/1/0",
+            "key": "k1",
+            "group": "boiler",
+            "experience_minimum": "comfort",
+            "write_protected": False,
+            "data_role": "setpoint",
+            "i18n": {"en": "A"},
+        }
+    ]
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="comfort",
+    )
+    coord._apply_static_config(all_oids, {})
+    assert len(coord.datapoints) == 1
+
+
+# ---------------------------------------------------------------------------
 # Experience tier filtering on init
 # ---------------------------------------------------------------------------
 

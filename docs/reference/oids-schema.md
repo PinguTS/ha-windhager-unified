@@ -38,14 +38,15 @@ datapoints:
 | `unit` | string | no | Physical unit (e.g. `°C`, `%`, `kW`, `h`). |
 | `suggested_display_precision` | int | no | Number of decimal places shown in the UI. |
 | `icon` | string | no | Material Design Icon slug, e.g. `mdi:thermometer`. |
-| `entity_category` | string | no | `diagnostic` or `config`. |
+| `entity_category` | string | no | `diagnostic` or `config`. Overrides the scope-derived category when present. |
+| `parameter_scope` | string | no | Explicit parameter classification: `user` (day-to-day controls), `config` (true configuration parameters), or `installer` (system-type/installer settings). Overrides the derivation from `data_role`. |
 | `enabled_by_default` | bool | no | Explicitly enable or disable the entity at registration. Overrides the experience-tier fallback. |
 | `enum_values` | map | no | Parsed enum labels per language `{de: {0: "off", 1: "on"}, en: {...}}` (currently unused by code; enum labels come from XML). |
 | `group` | string | no | Functional group id (e.g. `boiler`, `heating_circuit`, `dhw`) assigned during enrichment |
 | `fct_type` | int | no | LON function type that owns this datapoint |
 | `experience_minimum` | string | no | Minimum experience level to include this entity: `essential` \| `comfort` \| `advanced` \| `expert` \| `service`. Defaults to `expert` when absent. |
 | `unverified` | bool | no | `true` if the OID was imported from an external reference and has not been confirmed against a live device. Unverified entries are not classified automatically; they default to `unknown`. |
-| `data_role` | string | no | Domain semantic role: `measurement`, `setpoint`, `configuration`, `operating_state`, `actuator_state`, `command`, `counter`, `forecast`, `derived`, `diagnostic`, `unknown`. Default: `unknown`. |
+| `data_role` | string | no | Domain semantic role: `measurement`, `setpoint`, `configuration`, `operating_state`, `actuator_state`, `command`, `counter`, `forecast`, `derived`, `diagnostic`, `unknown`. Default: `unknown`. For writable datapoints this drives the default `parameter_scope` when `parameter_scope` is not set: `setpoint`/`operating_state`/`command` → `user`, `configuration` → `config`. |
 | `temporal_semantics` | string | no | Temporal behaviour: `sampled`, `step`, `event`, `counter`, `snapshot`, `none`. Default: `none`. |
 | `model_role` | string | no | Model relevance: `feature`, `target`, `context`, `event`, `control`, `ignore`, `unknown`. Default: `unknown`. |
 | `history_importance` | string | no | History recommendation: `critical`, `standard`, `low`, `none`. Default: `standard`. |

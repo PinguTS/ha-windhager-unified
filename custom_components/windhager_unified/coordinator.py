@@ -19,6 +19,7 @@ from .const import (
     DEFAULT_REST_SENSOR_EXPERIENCE_MINIMUM,
     EXPERIENCE_TIERS,
 )
+from .entity_metadata import effective_experience_minimum, parameter_scope
 from .entity_roles import identity_device_info_field, numeric_format_confirmed
 from .exceptions import (
     WindhagerAuthError,
@@ -509,7 +510,8 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 if dp_group and dp_group not in self.selected_groups:
                     continue
 
-            exp_min = dp.get("experience_minimum", DEFAULT_LON_EXPERIENCE_MINIMUM)
+            scope = parameter_scope(dp)
+            exp_min = effective_experience_minimum(dp, scope)
             if not _passes_tier(exp_min, self.experience_level, DEFAULT_LON_EXPERIENCE_MINIMUM):
                 continue
             oid = str(dp.get("oid", ""))
@@ -552,7 +554,8 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 oid = str(row.get("oid", ""))
                 if not oid or oid in result_oids:
                     continue
-                exp_min = row.get("experience_minimum", DEFAULT_LON_EXPERIENCE_MINIMUM)
+                scope = parameter_scope(row)
+                exp_min = effective_experience_minimum(row, scope)
                 if not _passes_tier(exp_min, self.experience_level, DEFAULT_LON_EXPERIENCE_MINIMUM):
                     continue
                 if self.selected_groups:

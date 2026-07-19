@@ -490,6 +490,10 @@ datapoints:
   fct_type: 15
   experience_minimum: comfort
   entity_role: config
+  data_role: configuration
+  temporal_semantics: step
+  model_role: context
+  history_importance: standard
 - oid: 1/15/0/3/4/0
   key: lon_1_15_0_3_4_0
   i18n:
@@ -513,6 +517,10 @@ datapoints:
   fct_type: 15
   experience_minimum: comfort
   entity_role: config
+  data_role: setpoint
+  temporal_semantics: step
+  model_role: control
+  history_importance: critical
 - oid: 1/15/0/3/6/0
   key: lon_1_15_0_3_6_0
   i18n:
@@ -556,6 +564,10 @@ datapoints:
   fct_type: 15
   experience_minimum: comfort
   entity_role: config
+  data_role: configuration
+  temporal_semantics: step
+  model_role: context
+  history_importance: standard
 - oid: 1/15/0/3/12/0
   key: lon_1_15_0_3_12_0
   i18n:
@@ -637,6 +649,37 @@ datapoints:
   fct_type: 15
   experience_minimum: comfort
   entity_role: config
+  data_role: configuration
+  temporal_semantics: step
+  model_role: context
+  history_importance: standard
+- oid: 1/15/0/3/23/0
+  key: lon_1_15_0_3_21_0
+  i18n:
+    de: TA Heizbetrieb
+    en: Temp. out heat mode
+    fr: T° ext. mode chauf.
+    it: Comm. est/inv
+  api_name: 03-021
+  hint_node: UMUMLZ
+  type_id: 13
+  subtype_id: -1
+  unit_id: 1
+  write_protected: false
+  unit: °C
+  min_value: '0.0'
+  max_value: '30.0'
+  step: '0.5'
+  device_class: temperature
+  state_class: measurement
+  group: central
+  fct_type: 15
+  experience_minimum: comfort
+  entity_role: config
+  data_role: setpoint
+  temporal_semantics: step
+  model_role: control
+  history_importance: critical
 - oid: 1/15/0/3/23/0
   key: lon_1_15_0_3_23_0
   api_name: 03-023
@@ -777,6 +820,10 @@ datapoints:
   fct_type: 15
   experience_minimum: comfort
   entity_role: config
+  data_role: setpoint
+  temporal_semantics: step
+  model_role: control
+  history_importance: critical
 - oid: 1/15/0/3/53/0
   key: lon_1_15_0_3_53_0
   i18n:
@@ -800,6 +847,10 @@ datapoints:
   fct_type: 15
   experience_minimum: comfort
   entity_role: config
+  data_role: setpoint
+  temporal_semantics: step
+  model_role: control
+  history_importance: critical
 - oid: 1/15/0/3/58/0
   key: lon_1_15_0_3_58_0
   i18n:
@@ -822,6 +873,10 @@ datapoints:
   fct_type: 15
   experience_minimum: comfort
   entity_role: config
+  data_role: setpoint
+  temporal_semantics: step
+  model_role: control
+  history_importance: critical
 - oid: 1/15/0/3/78/0
   key: lon_1_15_0_3_78_0
   i18n:
@@ -2937,11 +2992,12 @@ datapoints:
   min_value: '0'
   max_value: '2'
   step: '1'
-  state_class: measurement
+  state_class: null
   group: buffer
   fct_type: 16
   experience_minimum: comfort
   entity_role: config
+  parameter_scope: installer
 - oid: 1/16/0/7/20/0
   key: lon_1_16_0_7_20_0
   i18n:

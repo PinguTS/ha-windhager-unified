@@ -11,9 +11,13 @@ from custom_components.windhager_unified.entity_metadata import (
     DataRole,
     HistoryImportance,
     ModelRole,
+    ParameterScope,
     TemporalSemantics,
+    effective_experience_minimum,
     enabled_default,
+    parameter_scope,
     parse_datapoint_metadata,
+    scope_entity_category,
     semantic_state_attributes,
 )
 
@@ -322,3 +326,89 @@ def test_parse_restapi_endpoint_metadata():
     assert meta.data_role is DataRole.DIAGNOSTIC
     assert meta.temporal_semantics is TemporalSemantics.SNAPSHOT
     assert semantic_state_attributes(meta, ep)["windhager_oid"] == "/api/1.0/heartbeat"
+
+
+# ---------------------------------------------------------------------------
+# Parameter scope
+# ---------------------------------------------------------------------------
+
+
+def test_parameter_scope_read_only_is_none():
+    assert parameter_scope({"write_protected": True, "data_role": "setpoint"}) is None
+
+
+def test_parameter_scope_derived_from_data_role():
+    assert (
+        parameter_scope({"write_protected": False, "data_role": "setpoint"}) is ParameterScope.USER
+    )
+    assert (
+        parameter_scope({"write_protected": False, "data_role": "operating_state"})
+        is ParameterScope.USER
+    )
+    assert (
+        parameter_scope({"write_protected": False, "data_role": "command"}) is ParameterScope.USER
+    )
+    assert (
+        parameter_scope({"write_protected": False, "data_role": "configuration"})
+        is ParameterScope.CONFIG
+    )
+
+
+def test_parameter_scope_explicit_overrides_data_role():
+    dp = {
+        "write_protected": False,
+        "data_role": "setpoint",
+        "parameter_scope": "installer",
+    }
+    assert parameter_scope(dp) is ParameterScope.INSTALLER
+
+
+def test_parameter_scope_unknown_default_is_config():
+    assert parameter_scope({"write_protected": False}) is ParameterScope.CONFIG
+    assert (
+        parameter_scope({"write_protected": False, "data_role": "unknown"}) is ParameterScope.CONFIG
+    )
+
+
+def test_parameter_scope_invalid_explicit_logs_and_defaults(caplog):
+    dp = {"write_protected": False, "data_role": "setpoint", "parameter_scope": "nonsense"}
+    with caplog.at_level(logging.DEBUG):
+        assert parameter_scope(dp) is ParameterScope.USER
+    assert any("parameter_scope" in m for m in caplog.messages)
+
+
+def test_effective_experience_minimum_uses_declared_value():
+    dp = {"experience_minimum": "comfort"}
+    assert effective_experience_minimum(dp, ParameterScope.USER) == "comfort"
+
+
+def test_effective_experience_minimum_applies_scope_floors():
+    dp = {"experience_minimum": "comfort"}
+    assert effective_experience_minimum(dp, ParameterScope.CONFIG) == "expert"
+    assert effective_experience_minimum(dp, ParameterScope.INSTALLER) == "service"
+
+
+def test_effective_experience_minimum_keeps_higher_declared_value():
+    dp = {"experience_minimum": "service"}
+    assert effective_experience_minimum(dp, ParameterScope.CONFIG) == "service"
+
+
+def test_effective_experience_minimum_defaults_for_unknown_declared():
+    dp = {"experience_minimum": "nonsense"}
+    assert effective_experience_minimum(dp, ParameterScope.USER) == "expert"
+
+
+def test_scope_entity_category_explicit_yaml_wins():
+    meta = parse_datapoint_metadata({"entity_category": "diagnostic"})
+    assert scope_entity_category(meta, ParameterScope.CONFIG) is EntityCategory.DIAGNOSTIC
+
+
+def test_scope_entity_category_user_is_none():
+    meta = parse_datapoint_metadata({})
+    assert scope_entity_category(meta, ParameterScope.USER) is None
+
+
+def test_scope_entity_category_config_and_installer_are_config():
+    meta = parse_datapoint_metadata({})
+    assert scope_entity_category(meta, ParameterScope.CONFIG) is EntityCategory.CONFIG
+    assert scope_entity_category(meta, ParameterScope.INSTALLER) is EntityCategory.CONFIG

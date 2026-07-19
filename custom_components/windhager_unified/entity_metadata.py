@@ -63,6 +63,14 @@ class ModelRole(StrEnum):
     UNKNOWN = "unknown"
 
 
+class ParameterScope(StrEnum):
+    """Classification of a writable datapoint by who should change it."""
+
+    USER = "user"  # Day-to-day operational controls (setpoints, modes)
+    CONFIG = "config"  # True configuration parameters (min/max limits)
+    INSTALLER = "installer"  # System-type/installer parameters (pump control, PWM)
+
+
 class HistoryImportance(StrEnum):
     """Recommendation for history collection and export."""
 
@@ -362,6 +370,105 @@ def _looks_numeric(dp: Mapping[str, Any], unit: str | None) -> bool:
         "Wh",
         "kWh",
     )
+
+
+# ponytail: the scope-tier mapping is intentionally minimal and tied to the
+# existing tier system. If more granularity is needed later, move the floors
+# into a mapping and make the YAML key authoritative.
+_SCOPE_TIER_FLOOR: dict[ParameterScope, str] = {
+    ParameterScope.USER: "essential",
+    ParameterScope.CONFIG: "expert",
+    ParameterScope.INSTALLER: "service",
+}
+
+
+def _tier_floor(scope: ParameterScope | None) -> str | None:
+    """Return the minimum experience tier for a parameter scope, or None."""
+    if scope is None:
+        return None
+    return _SCOPE_TIER_FLOOR.get(scope)
+
+
+def _max_tier(a: str | None, b: str | None) -> str:
+    """Return the more restrictive of two tier slugs."""
+    a_idx = EXPERIENCE_TIERS.index(a) if a in EXPERIENCE_TIERS else -1
+    b_idx = EXPERIENCE_TIERS.index(b) if b in EXPERIENCE_TIERS else -1
+    return EXPERIENCE_TIERS[max(a_idx, b_idx)]
+
+
+def parameter_scope(dp: Mapping[str, Any]) -> ParameterScope | None:
+    """Return the parameter scope for a datapoint, or None if not writable.
+
+    Non-writable datapoints have no scope because they are not controls.
+    Explicit YAML ``parameter_scope`` always wins. Otherwise derive from
+    ``data_role``:
+
+      setpoint / operating_state / command  -> USER
+      configuration                          -> CONFIG
+      missing / unknown / other            -> CONFIG (safe default, debug log)
+    """
+    write_protected = dp.get("write_protected", True)
+    if write_protected:
+        return None
+
+    explicit = _as_string(dp.get("parameter_scope"))
+    if explicit:
+        try:
+            return ParameterScope(explicit.lower())
+        except ValueError:
+            _LOGGER.debug(
+                "Ignoring unknown parameter_scope %r for %s; falling back to data_role",
+                explicit,
+                _oid_label(dp),
+            )
+
+    data_role = _parse_enum(DataRole, dp.get("data_role"), default=DataRole.UNKNOWN)
+    if data_role in (DataRole.SETPOINT, DataRole.OPERATING_STATE, DataRole.COMMAND):
+        return ParameterScope.USER
+    if data_role is DataRole.CONFIGURATION:
+        return ParameterScope.CONFIG
+
+    _LOGGER.debug(
+        "No parameter scope for writable datapoint %s; defaulting to config",
+        _oid_label(dp),
+    )
+    return ParameterScope.CONFIG
+
+
+def effective_experience_minimum(
+    dp: Mapping[str, Any],
+    scope: ParameterScope | None,
+) -> str:
+    """Return the effective experience minimum, applying scope tier floors.
+
+    Declared ``experience_minimum`` and the scope floor are combined by picking
+    the more restrictive tier. Unknown declared values fall back to the
+    default LON experience minimum.
+    """
+    declared = _as_string(dp.get("experience_minimum")) or DEFAULT_LON_EXPERIENCE_MINIMUM
+    if declared not in EXPERIENCE_TIERS:
+        declared = DEFAULT_LON_EXPERIENCE_MINIMUM
+    floor = _tier_floor(scope)
+    if floor is None:
+        return declared
+    return _max_tier(declared, floor)
+
+
+def scope_entity_category(
+    metadata: DatapointMetadata,
+    scope: ParameterScope | None,
+) -> EntityCategory | None:
+    """Return the entity category implied by the parameter scope.
+
+    Explicit YAML ``entity_category`` always wins. USER-scope controls appear
+    in the main device panel (no category); CONFIG and INSTALLER parameters go
+    into the Configuration section.
+    """
+    if metadata.entity_category is not None:
+        return metadata.entity_category
+    if scope is ParameterScope.USER:
+        return None
+    return EntityCategory.CONFIG
 
 
 def enabled_default(metadata: DatapointMetadata, experience_minimum: str | None) -> bool:
