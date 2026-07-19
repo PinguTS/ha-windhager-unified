@@ -52,20 +52,20 @@ _ENTRY_DATA = {
 def _make_coordinator(hass):
     from custom_components.windhager_unified.coordinator import WindhagerCoordinator
 
-    with patch.object(WindhagerCoordinator, "_load_yaml", return_value=[]):
-        coord = WindhagerCoordinator(
-            hass=hass,
-            host="http://test-host",
-            username="user",
-            password="pass",
-            verify_ssl=False,
-            scan_interval=30,
-        )
+    coord = WindhagerCoordinator(
+        hass=hass,
+        host="http://test-host",
+        username="user",
+        password="pass",
+        verify_ssl=False,
+        scan_interval=30,
+    )
     coord.api_client.async_init = AsyncMock()
     coord.api_client.async_close = AsyncMock()
     coord.api_client.async_request = AsyncMock(return_value={"text": ""})
+    coord.api_client.async_get_subnets = AsyncMock(return_value={"subnets": []})
     coord.async_initialize_catalog = AsyncMock()
-    coord.async_config_entry_first_refresh = AsyncMock()
+    coord.async_refresh = AsyncMock()
     coord.last_update_success = True
     coord.data = {}
     coord.export_task = None
@@ -365,6 +365,7 @@ async def test_export_service_registered(hass):
     entry.entry_id = "se1"
     entry.data = _ENTRY_DATA
     entry.options = {}
+    entry.async_create_background_task = lambda _hass, coro, _name: asyncio.create_task(coro)
 
     coord = _make_coordinator(hass)
 
@@ -394,6 +395,7 @@ async def test_export_service_handler_wraps_error_as_ha_error(hass):
     entry.entry_id = "se2"
     entry.data = _ENTRY_DATA
     entry.options = {}
+    entry.async_create_background_task = lambda _hass, coro, _name: asyncio.create_task(coro)
 
     coord = _make_coordinator(hass)
 

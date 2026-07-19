@@ -218,6 +218,21 @@ def serialize_discovered_datapoints_for_config(result: DiscoveryResult) -> list[
     return out
 
 
+def serialize_discovered_node_names(result: DiscoveryResult) -> dict[str, str]:
+    """Return a display-only map of ``{subnet}/{node}`` → configured node name.
+
+    Node names are not part of any entity identifier. They are used only for the
+    human-readable device name in Home Assistant.
+    """
+    out: dict[str, str] = {}
+    for node in result.nodes:
+        name = (node.name or "").strip()
+        if not name or name.lower().startswith("node_"):
+            continue
+        out[f"{node.subnet}/{node.node_id}"] = name
+    return out
+
+
 def _normalize_subnet_lookup_nodes(resp: Any) -> list[dict[str, Any]]:
     """Normalize GET /lookup/{subnetId} JSON (array or wrapper) to a list of nodes."""
     if isinstance(resp, list):

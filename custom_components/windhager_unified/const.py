@@ -20,6 +20,36 @@ CONF_DISCOVERED_DATAPOINTS = "discovered_datapoints"
 # Ad-hoc OID entries added via ``windhager_unified.add_datapoint`` service
 # (list of ``{"oid": "...", "group": "boiler"}`` or legacy list of OID strings).
 CONF_ADHOC_OIDS = "adhoc_oids"
+# Configured node names from discovery (display-only, never part of identifiers).
+CONF_NODE_NAMES = "node_names"
+# OIDs the user explicitly deselected during a re-scan; never offered again as new.
+CONF_EXCLUDED_OIDS = "excluded_oids"
+# Transient checkbox in the options flow that triggers a full re-scan.
+CONF_RESCAN = "rescan_network"
+
+# History storage profile options
+CONF_HISTORY_STORAGE_MODE = "history_storage_mode"
+CONF_HISTORY_SAMPLE_INTERVAL = "history_sample_interval"
+CONF_HISTORY_RETENTION_DAYS = "history_retention_days"
+
+HISTORY_MODE_HOME_ASSISTANT = "home_assistant"
+HISTORY_MODE_CRITICAL = "critical"
+HISTORY_MODE_ALL_MARKED = "all_marked"
+
+HISTORY_STORAGE_MODES: tuple[str, ...] = (
+    HISTORY_MODE_HOME_ASSISTANT,
+    HISTORY_MODE_CRITICAL,
+    HISTORY_MODE_ALL_MARKED,
+)
+
+DEFAULT_HISTORY_STORAGE_MODE = HISTORY_MODE_HOME_ASSISTANT
+DEFAULT_HISTORY_SAMPLE_INTERVAL = 300  # seconds
+DEFAULT_HISTORY_RETENTION_DAYS = 730
+
+MIN_HISTORY_SAMPLE_INTERVAL = 30
+MAX_HISTORY_SAMPLE_INTERVAL = 3600
+MIN_HISTORY_RETENTION_DAYS = 30
+MAX_HISTORY_RETENTION_DAYS = 3650
 
 # Experience tier slugs — ordered from least to most detail.
 # The ordering is used for ordinal comparisons:
@@ -40,9 +70,21 @@ DEFAULT_LON_EXPERIENCE_MINIMUM = "expert"
 DEFAULT_REST_SENSOR_EXPERIENCE_MINIMUM = "advanced"
 DEFAULT_REST_ACTUATOR_EXPERIENCE_MINIMUM = "service"
 
+# LON datapoint entity roles (explicit in oids.yaml or derived).
+ROLE_MEASUREMENT = "measurement"
+ROLE_DIAGNOSTIC = "diagnostic"
+ROLE_CONFIG = "config"
+ROLE_COMMAND = "command"
+
+DEFAULT_COMMAND_VALUE = "1"
+
+CONFIG_ENTRY_VERSION = 3
+
 PLATFORMS: list[Platform] = [
     Platform.SENSOR,
+    Platform.NUMBER,
     Platform.SWITCH,
     Platform.BUTTON,
     Platform.SELECT,
+    Platform.TIME,
 ]

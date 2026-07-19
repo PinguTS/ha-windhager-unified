@@ -159,6 +159,18 @@ class LabelCatalog:
                 result.append(label)
         return result
 
+    def enum_id(self, gn: int, mn: int, label: str, lang: str = "en") -> int | None:
+        """Reverse lookup: return enum id for a human-readable label.
+
+        ASSUMPTION A: enum writes use the integer enum id as a string.
+        """
+        for try_lang in (lang, _FALLBACK_LANG):
+            mapping = self._aufzaehlung.get(try_lang, {})
+            for (g, m, eid), text in mapping.items():
+                if g == gn and m == mn and text == label:
+                    return eid
+        return None
+
     def level_name(self, fct_type: int, level_id: int, lang: str = "en") -> str | None:
         """Return the level/group name for (fct_type, level_id)."""
         key = (fct_type, level_id)

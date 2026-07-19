@@ -33,6 +33,7 @@ from homeassistant.components.persistent_notification import (
 from homeassistant.core import HomeAssistant
 
 from .discovery import DiscoveryResult, discover, serialize_discovered_datapoints_for_config
+from .entity_metadata import parse_datapoint_metadata
 from .labels import parse_res_xml_index
 
 if TYPE_CHECKING:
@@ -201,7 +202,7 @@ def _build_discovery_yaml(result: DiscoveryResult) -> bytes:
     """Serialize discovery result to YAML bytes."""
     rows = serialize_discovered_datapoints_for_config(result)
 
-    # Enrich each row with node/function metadata
+    # Enrich each row with node/function metadata and semantic metadata
     oid_to_extra: dict[str, dict[str, Any]] = {}
     for node in result.nodes:
         for func in node.functions:
@@ -222,7 +223,14 @@ def _build_discovery_yaml(result: DiscoveryResult) -> bytes:
     for row in rows:
         oid = row.get("oid", "")
         extra = oid_to_extra.get(oid, {})
-        enriched.append({**row, **extra})
+        meta = parse_datapoint_metadata(row)
+        semantic = {
+            "windhager_data_role": meta.data_role.value,
+            "windhager_temporal_semantics": meta.temporal_semantics.value,
+            "windhager_model_role": meta.model_role.value,
+            "windhager_history_importance": meta.history_importance.value,
+        }
+        enriched.append({**row, **extra, **semantic})
 
     doc: dict[str, Any] = {
         "meta": {

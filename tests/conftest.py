@@ -3,10 +3,19 @@
 from __future__ import annotations
 
 from typing import Any
+from unittest.mock import MagicMock
 
 import pytest
 
 _orig_set_time_zone: Any = None
+
+
+@pytest.fixture
+def mock_hass():
+    """Minimal mock Home Assistant for coordinator tests."""
+    hass = MagicMock()
+    hass.loop = MagicMock()
+    return hass
 
 
 def pytest_configure(config: pytest.Config) -> None:

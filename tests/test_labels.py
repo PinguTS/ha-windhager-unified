@@ -268,3 +268,9 @@ async def test_refresh_from_device_404_falls_back_silently(tmp_path: Path):
 
     # Bundled labels still intact
     assert cat.var_ident(0, 0, "de") == original_result
+
+
+def test_enum_id_reverse_lookup(catalog: LabelCatalog):
+    label = catalog.enum_label(2, 1, 8, lang="en")
+    assert label is not None
+    assert catalog.enum_id(2, 1, label, lang="en") == 8

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -28,24 +29,25 @@ _ENTRY_DATA = {
 
 
 def _mock_coordinator(hass):
-    """Return a coordinator mock that passes first refresh."""
+    """Return a coordinator mock that passes the connectivity probe."""
     from custom_components.windhager_unified.coordinator import WindhagerCoordinator
 
-    with patch.object(WindhagerCoordinator, "_load_yaml", return_value=[]) as _:
-        coord = WindhagerCoordinator(
-            hass=hass,
-            host="http://test-host",
-            username="user",
-            password="pass",
-            verify_ssl=False,
-            scan_interval=30,
-        )
-        coord.api_client.async_init = AsyncMock()
-        coord.api_client.async_close = AsyncMock()
-        coord.async_config_entry_first_refresh = AsyncMock()
-        coord.last_update_success = True
-        coord.data = {}
-        return coord
+    coord = WindhagerCoordinator(
+        hass=hass,
+        host="http://test-host",
+        username="user",
+        password="pass",
+        verify_ssl=False,
+        scan_interval=30,
+    )
+    coord.api_client.async_init = AsyncMock()
+    coord.api_client.async_close = AsyncMock()
+    coord.api_client.async_get_subnets = AsyncMock(return_value={"subnets": []})
+    coord.async_initialize_catalog = AsyncMock()
+    coord.async_refresh = AsyncMock()
+    coord.last_update_success = True
+    coord.data = {}
+    return coord
 
 
 async def test_setup_entry_stores_coordinator(hass):
@@ -53,6 +55,9 @@ async def test_setup_entry_stores_coordinator(hass):
     entry.entry_id = "test"
     entry.data = _ENTRY_DATA
     entry.options = {}
+    # Actually schedule the background refresh coroutine so the AsyncMock
+    # coroutine is awaited and no RuntimeWarning is leaked.
+    entry.async_create_background_task = lambda _hass, coro, _name: asyncio.create_task(coro)
 
     with (
         patch(
