@@ -120,13 +120,11 @@ class WindhagerHistoryRepository:
         conn.execute("PRAGMA journal_mode = WAL")
 
         # Schema version table
-        conn.execute(
-            """
+        conn.execute("""
             CREATE TABLE IF NOT EXISTS schema_version (
                 version INTEGER PRIMARY KEY
             )
-            """
-        )
+            """)
         current_version = conn.execute("SELECT version FROM schema_version LIMIT 1").fetchone()
         version = current_version[0] if current_version else None
 
@@ -142,8 +140,7 @@ class WindhagerHistoryRepository:
                 f"(expected {_SCHEMA_VERSION}). Remove or migrate the archive."
             )
 
-        conn.execute(
-            """
+        conn.execute("""
             CREATE TABLE IF NOT EXISTS datapoints (
                 id INTEGER PRIMARY KEY,
                 config_entry_id TEXT NOT NULL,
@@ -159,10 +156,8 @@ class WindhagerHistoryRepository:
                 history_importance TEXT,
                 UNIQUE(config_entry_id, oid)
             )
-            """
-        )
-        conn.execute(
-            """
+            """)
+        conn.execute("""
             CREATE TABLE IF NOT EXISTS history (
                 id INTEGER PRIMARY KEY,
                 datapoint_id INTEGER NOT NULL,
@@ -174,14 +169,11 @@ class WindhagerHistoryRepository:
                 available INTEGER NOT NULL DEFAULT 1,
                 FOREIGN KEY(datapoint_id) REFERENCES datapoints(id)
             )
-            """
-        )
-        conn.execute(
-            """
+            """)
+        conn.execute("""
             CREATE INDEX IF NOT EXISTS idx_history_datapoint_time
             ON history(datapoint_id, observed_at_utc)
-            """
-        )
+            """)
         conn.commit()
         return conn
 
