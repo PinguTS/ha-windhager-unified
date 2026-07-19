@@ -181,7 +181,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     async def handle_set_datapoint(call: ServiceCall) -> None:
         oid: str = call.data["oid"]
         value: str = call.data["value"]
-        oid_parts = oid.replace(".", "/").split("/")
+        oid_parts = [p for p in str(oid).strip().replace(".", "/").split("/") if p]
         if len(oid_parts) != 6:
             raise HomeAssistantError(
                 f"Invalid OID '{oid}': expected 6 parts separated by '/' or '.'"
@@ -197,8 +197,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         """Register an extra OID (GET datapoint); persists to options and reloads."""
         entry = _resolve_config_entry(hass, call)
         coord: WindhagerCoordinator = hass.data[DOMAIN][entry.entry_id]
-        oid = str(call.data["oid"]).strip().replace(".", "/")
-        parts = oid.split("/")
+        parts = [p for p in str(call.data["oid"]).strip().replace(".", "/").split("/") if p]
+        oid = "/".join(parts)
         if len(parts) != 6:
             raise HomeAssistantError(
                 f"Invalid OID '{oid}': expected 6 parts separated by '/' or '.'"
