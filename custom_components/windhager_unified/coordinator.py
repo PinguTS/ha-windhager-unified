@@ -554,16 +554,29 @@ class WindhagerCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 oid = str(row.get("oid", ""))
                 if not oid or oid in result_oids:
                     continue
-                scope = parameter_scope(row)
-                exp_min = effective_experience_minimum(row, scope)
+                yaml_entry = yaml_by_oid.get(oid)
+                if yaml_entry:
+                    # The discovery row may reclassify the experience_minimum (e.g. a
+                    # generic "central" yaml entry discovered in a "buffer" group).
+                    # Use the discovery row's declared minimum for the base tier, but
+                    # apply the scope floor from the yaml entry (explicit
+                    # parameter_scope / data_role must not be bypassed).
+                    scope = parameter_scope(yaml_entry)
+                    declared_min = row.get("experience_minimum") or yaml_entry.get(
+                        "experience_minimum", DEFAULT_LON_EXPERIENCE_MINIMUM
+                    )
+                    exp_min = effective_experience_minimum(
+                        {"experience_minimum": declared_min}, scope
+                    )
+                else:
+                    scope = parameter_scope(row)
+                    exp_min = effective_experience_minimum(row, scope)
                 if not _passes_tier(exp_min, self.experience_level, DEFAULT_LON_EXPERIENCE_MINIMUM):
                     continue
                 if self.selected_groups:
                     grp = row.get("group", "")
                     if grp and grp not in self.selected_groups:
                         continue
-                # Prefer yaml metadata (unit, device_class, i18n …) when available
-                yaml_entry = yaml_by_oid.get(oid)
                 if yaml_entry:
                     merged = dict(yaml_entry)
                     merged["group"] = row.get("group") or yaml_entry.get("group") or "boiler"

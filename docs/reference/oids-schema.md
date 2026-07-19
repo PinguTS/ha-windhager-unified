@@ -57,9 +57,17 @@ datapoints:
 essential < comfort < advanced < expert < service
 ```
 
-An entity is included when `experience_minimum <= user_tier` (ordinal
-comparison). If the field is absent the datapoint is treated as `expert`
-(visible only at Expert or Service level).
+An entity is included when `effective_experience_minimum <= user_tier` (ordinal
+comparison). The effective minimum is the more restrictive of the declared
+`experience_minimum` (or `expert` when absent) and the `parameter_scope` tier
+floor:
+
+- `user` scope: no floor (keeps declared `experience_minimum`).
+- `config` scope: floor at `expert`.
+- `installer` scope: floor at `service`.
+
+If neither `parameter_scope` nor `data_role` is set on a writable datapoint, the
+scope is unset and the declared `experience_minimum` is used unchanged.
 
 ## Example entry
 

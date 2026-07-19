@@ -628,6 +628,69 @@ def test_build_lon_datapoints_user_scope_keeps_declared_tier(mock_hass):
     assert len(coord.datapoints) == 1
 
 
+def test_build_lon_datapoints_unclassified_writable_keeps_declared_tier(mock_hass):
+    """A writable datapoint without data_role/parameter_scope keeps its declared minimum."""
+    all_oids = [
+        {
+            "oid": "1/65/0/0/1/0",
+            "key": "k1",
+            "group": "boiler",
+            "experience_minimum": "comfort",
+            "write_protected": False,
+            "i18n": {"en": "A"},
+        }
+    ]
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="comfort",
+    )
+    coord._apply_static_config(all_oids, {})
+    assert len(coord.datapoints) == 1
+
+
+def test_build_lon_datapoints_installer_scope_rejected_at_expert_via_discovery(mock_hass):
+    """Discovery merge must not bypass an explicit installer scope in the yaml entry."""
+    all_oids = [
+        {
+            "oid": "1/65/0/0/1/0",
+            "key": "k1",
+            "group": "boiler",
+            "experience_minimum": "comfort",
+            "write_protected": False,
+            "parameter_scope": "installer",
+            "i18n": {"en": "A"},
+        }
+    ]
+    discovered = [
+        {
+            "oid": "1/65/0/0/1/0",
+            "api_name": "d1",
+            "group": "boiler",
+            "level_id": 1,
+            "type_id": 1,
+            "unit_id": -1,
+            "write_prot": False,
+        }
+    ]
+    coord = WindhagerCoordinator(
+        hass=mock_hass,
+        host="http://test",
+        username="u",
+        password="p",
+        verify_ssl=False,
+        scan_interval=30,
+        experience_level="expert",
+        discovered_datapoints=discovered,
+    )
+    coord._apply_static_config(all_oids, {})
+    assert coord.datapoints == []
+
+
 # ---------------------------------------------------------------------------
 # Experience tier filtering on init
 # ---------------------------------------------------------------------------

@@ -363,11 +363,11 @@ def test_parameter_scope_explicit_overrides_data_role():
     assert parameter_scope(dp) is ParameterScope.INSTALLER
 
 
-def test_parameter_scope_unknown_default_is_config():
-    assert parameter_scope({"write_protected": False}) is ParameterScope.CONFIG
-    assert (
-        parameter_scope({"write_protected": False, "data_role": "unknown"}) is ParameterScope.CONFIG
-    )
+def test_parameter_scope_unknown_default_is_none():
+    # Unclassified writable datapoints have no scope floor; declared
+    # experience_minimum wins.  Entity category still falls back to CONFIG.
+    assert parameter_scope({"write_protected": False}) is None
+    assert parameter_scope({"write_protected": False, "data_role": "unknown"}) is None
 
 
 def test_parameter_scope_invalid_explicit_logs_and_defaults(caplog):
@@ -396,6 +396,11 @@ def test_effective_experience_minimum_keeps_higher_declared_value():
 def test_effective_experience_minimum_defaults_for_unknown_declared():
     dp = {"experience_minimum": "nonsense"}
     assert effective_experience_minimum(dp, ParameterScope.USER) == "expert"
+
+
+def test_effective_experience_minimum_unclassified_writable_uses_declared():
+    dp = {"write_protected": False, "experience_minimum": "comfort"}
+    assert effective_experience_minimum(dp, parameter_scope(dp)) == "comfort"
 
 
 def test_scope_entity_category_explicit_yaml_wins():

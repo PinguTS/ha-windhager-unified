@@ -405,7 +405,7 @@ def parameter_scope(dp: Mapping[str, Any]) -> ParameterScope | None:
 
       setpoint / operating_state / command  -> USER
       configuration                          -> CONFIG
-      missing / unknown / other            -> CONFIG (safe default, debug log)
+      missing / unknown / other            -> None (no scope floor)
     """
     write_protected = dp.get("write_protected", True)
     if write_protected:
@@ -429,10 +429,11 @@ def parameter_scope(dp: Mapping[str, Any]) -> ParameterScope | None:
         return ParameterScope.CONFIG
 
     _LOGGER.debug(
-        "No parameter scope for writable datapoint %s; defaulting to config",
+        "No parameter scope for writable datapoint %s; leaving scope unset so "
+        "declared experience_minimum remains in effect",
         _oid_label(dp),
     )
-    return ParameterScope.CONFIG
+    return None
 
 
 def effective_experience_minimum(
