@@ -6,6 +6,7 @@ import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+from homeassistant.exceptions import HomeAssistantError
 
 from custom_components.windhager_unified.const import (
     CONF_HOST,
@@ -97,3 +98,82 @@ async def test_unload_entry_closes_session(hass):
     assert result is True
     assert "test_entry" not in hass.data[DOMAIN]
     coord.api_client.async_close.assert_awaited_once()
+
+
+async def _setup_service(hass):
+    """Set up the integration and return the mock coordinator plus entry."""
+    entry = MagicMock()
+    entry.entry_id = "test"
+    entry.data = _ENTRY_DATA
+    entry.options = {}
+    entry.async_create_background_task = lambda _hass, coro, _name: asyncio.create_task(coro)
+
+    coord = _mock_coordinator(hass)
+    coord.api_client.async_put_datapoint = AsyncMock(return_value=None)
+    coord.api_client.async_get_datapoint = AsyncMock(return_value={"value": "1"})
+
+    with (
+        patch(
+            "custom_components.windhager_unified.WindhagerCoordinator",
+            return_value=coord,
+        ),
+        patch(
+            "homeassistant.config_entries.ConfigEntries.async_forward_entry_setups",
+            new_callable=AsyncMock,
+        ),
+    ):
+        from custom_components.windhager_unified import async_setup_entry
+
+        await async_setup_entry(hass, entry)
+
+    return coord, entry
+
+
+async def test_set_datapoint_accepts_leading_slash(hass):
+    coord, _entry = await _setup_service(hass)
+    await hass.services.async_call(
+        DOMAIN,
+        "set_datapoint",
+        {"oid": "/1/60/2/50/5/0", "value": "4"},
+        blocking=True,
+    )
+    coord.api_client.async_put_datapoint.assert_awaited_once()
+    assert coord.api_client.async_put_datapoint.await_args[0][0] == [
+        "1",
+        "60",
+        "2",
+        "50",
+        "5",
+        "0",
+    ]
+    assert coord.api_client.async_put_datapoint.await_args[0][1] == "4"
+
+
+async def test_set_datapoint_accepts_dotted_oid(hass):
+    coord, _entry = await _setup_service(hass)
+    await hass.services.async_call(
+        DOMAIN,
+        "set_datapoint",
+        {"oid": "1.60.2.50.5.0", "value": "4"},
+        blocking=True,
+    )
+    coord.api_client.async_put_datapoint.assert_awaited_once()
+    assert coord.api_client.async_put_datapoint.await_args[0][0] == [
+        "1",
+        "60",
+        "2",
+        "50",
+        "5",
+        "0",
+    ]
+
+
+async def test_set_datapoint_invalid_oid_raises(hass):
+    await _setup_service(hass)
+    with pytest.raises(HomeAssistantError):
+        await hass.services.async_call(
+            DOMAIN,
+            "set_datapoint",
+            {"oid": "/1/60/2/50", "value": "4"},
+            blocking=True,
+        )
