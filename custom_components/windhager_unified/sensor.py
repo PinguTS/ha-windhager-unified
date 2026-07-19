@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import logging
 from dataclasses import dataclass
+from datetime import time
 from typing import Any
 
 from homeassistant.components.sensor import (
@@ -36,7 +37,13 @@ from .entity_metadata import (
 )
 from .entity_roles import resolve_config_platform, resolve_role
 from .lon_entity_helpers import lon_device_info, lon_unique_id
-from .lon_values import is_datetime_datapoint
+from .lon_values import (
+    format_lon_time,
+    is_date_datapoint,
+    is_datetime_datapoint,
+    is_time_datapoint,
+    is_writable_time_datapoint,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -120,6 +127,11 @@ class WindhagerLONSensor(CoordinatorEntity[WindhagerCoordinator], SensorEntity):
             # Return the label when found; None for unrecognised enum values so
             # HA shows "Unknown" rather than an out-of-options string.
             return label
+        # Write-protected time datapoints are kept as plain string sensors so
+        # the UI shows "16:00" instead of an ISO time or a relative timestamp.
+        dp = self.entity_description.datapoint or {}
+        if is_writable_time_datapoint(dp) is False and is_time_datapoint(dp):
+            return format_lon_time(raw) if isinstance(raw, time) else raw
         return raw
 
 
@@ -240,23 +252,44 @@ async def async_setup_entry(
                 )
             if metadata.unit is not None:
                 _LOGGER.debug("Ignoring unit %r on enum datapoint %s", metadata.unit, oid)
-        elif is_datetime_datapoint(datapoint):
-            # Date (unit_id 20) and time (unit_id 21) datapoints return string values
-            # like "18.05.2026" or "16:53" from the API.  The coordinator parses them
-            # to timezone-aware datetime objects before storing.  HA requires
-            # TIMESTAMP device class and no unit/state_class for datetime sensors.
-            dc = SensorDeviceClass.TIMESTAMP
+        elif is_writable_time_datapoint(datapoint):
+            # Writable wall-clock times are handled by the dedicated time platform,
+            # not by the sensor platform.  Skip them here.
+            continue
+        elif is_date_datapoint(datapoint):
+            # Calendar dates are parsed to datetime.date objects by the coordinator.
+            # Use the DATE device class so the UI renders absolute dates like
+            # "5 October 2025" instead of relative timestamps.
+            dc = SensorDeviceClass.DATE
             sc = None
             unit = None
             options = None
             if metadata.state_class is not None:
                 _LOGGER.debug(
-                    "Ignoring state_class %r on datetime datapoint %s",
+                    "Ignoring state_class %r on date datapoint %s",
                     metadata.state_class.value,
                     oid,
                 )
             if metadata.unit is not None:
-                _LOGGER.debug("Ignoring unit %r on datetime datapoint %s", metadata.unit, oid)
+                _LOGGER.debug("Ignoring unit %r on date datapoint %s", metadata.unit, oid)
+        elif is_datetime_datapoint(datapoint):
+            # Write-protected or unverified time datapoints stay as plain string
+            # sensors.  They carry no device class, so the UI displays the raw
+            # "HH:MM" value without relative-time formatting.
+            dc = None
+            sc = None
+            unit = None
+            options = None
+            if metadata.state_class is not None:
+                _LOGGER.debug(
+                    "Ignoring state_class %r on write-protected time datapoint %s",
+                    metadata.state_class.value,
+                    oid,
+                )
+            if metadata.unit is not None:
+                _LOGGER.debug(
+                    "Ignoring unit %r on write-protected time datapoint %s", metadata.unit, oid
+                )
         else:
             dc = metadata.device_class
             sc = metadata.state_class

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import date, time
 from unittest.mock import MagicMock
 
 import pytest
@@ -229,78 +229,76 @@ def test_restapi_sensor_service_tier_entity_disabled(mock_coordinator, mock_entr
 
 
 # ---------------------------------------------------------------------------
-# Date/time sensor (unit_id 20/21) — TIMESTAMP device class
+# Date sensor (unit_id 20) — DATE device class
 # ---------------------------------------------------------------------------
 
 
-def test_lon_date_sensor_gets_timestamp_device_class(mock_coordinator, mock_entry):
-    """Sensor for a date datapoint (unit_id 20) must use TIMESTAMP, no unit."""
+def test_lon_date_sensor_gets_date_device_class(mock_coordinator, mock_entry):
+    """Sensor for a date datapoint (unit_id 20) must use DATE, no unit."""
     desc = WindhagerLONSensorDescription(
         key="lon_date",
         name="Date",
         oid="1/65/0/2/70/0",
-        device_class=SensorDeviceClass.TIMESTAMP,
+        device_class=SensorDeviceClass.DATE,
         native_unit_of_measurement=None,
         state_class=None,
     )
     sensor = WindhagerLONSensor(mock_coordinator, mock_entry, desc)
-    assert sensor.entity_description.device_class == SensorDeviceClass.TIMESTAMP
+    assert sensor.entity_description.device_class == SensorDeviceClass.DATE
     assert sensor.entity_description.native_unit_of_measurement is None
     assert sensor.entity_description.state_class is None
 
 
-def test_lon_date_sensor_returns_datetime_from_coordinator(mock_coordinator, mock_entry):
-    """native_value passes through a datetime object stored by the coordinator."""
-    expected = datetime(2026, 5, 18, tzinfo=UTC)
+def test_lon_date_sensor_returns_date_from_coordinator(mock_coordinator, mock_entry):
+    """native_value passes through a date object stored by the coordinator."""
+    expected = date(2026, 5, 18)
     mock_coordinator.data["lon_date"] = expected
     desc = WindhagerLONSensorDescription(
         key="lon_date",
         name="Date",
         oid="1/65/0/2/70/0",
-        device_class=SensorDeviceClass.TIMESTAMP,
+        device_class=SensorDeviceClass.DATE,
     )
     sensor = WindhagerLONSensor(mock_coordinator, mock_entry, desc)
     assert sensor.native_value == expected
 
 
-def test_lon_time_sensor_returns_datetime_from_coordinator(mock_coordinator, mock_entry):
-    """native_value passes through a datetime object for a time datapoint."""
-    expected = datetime(2026, 5, 18, 16, 53, tzinfo=UTC)
-    mock_coordinator.data["lon_time"] = expected
+# ---------------------------------------------------------------------------
+# Write-protected time sensor (unit_id 21) — plain string
+# ---------------------------------------------------------------------------
+
+
+def test_lon_write_protected_time_sensor_returns_plain_string(mock_coordinator, mock_entry):
+    """Write-protected time datapoints stay as plain string sensors showing HH:MM."""
+    mock_coordinator.data["lon_time"] = time(16, 53)
     desc = WindhagerLONSensorDescription(
         key="lon_time",
         name="Time",
         oid="1/65/0/2/72/0",
-        device_class=SensorDeviceClass.TIMESTAMP,
+        datapoint={
+            "oid": "1/65/0/2/72/0",
+            "key": "lon_time",
+            "unit_id": 21,
+            "write_protected": True,
+        },
     )
     sensor = WindhagerLONSensor(mock_coordinator, mock_entry, desc)
-    assert sensor.native_value == expected
+    assert sensor.native_value == "16:53"
 
 
-def test_async_setup_entry_date_datapoint_gets_timestamp_class(mock_coordinator, mock_entry):
-    """async_setup_entry must assign TIMESTAMP class and no unit to date datapoints."""
-    mock_coordinator.datapoints = [
-        {
-            "oid": "1/65/0/2/70/0",
-            "key": "lon_date",
-            "unit_id": 20,
-            "unit": None,
-            "device_class": None,
-            "state_class": None,
-            "i18n": {"en": "Date"},
-            "hint_node": "LogWIN",
-            "experience_minimum": "comfort",
-        }
-    ]
+# ---------------------------------------------------------------------------
+# Platform setup
+# ---------------------------------------------------------------------------
+
+
+def _run_async_setup_entry(mock_coordinator, mock_entry):
     mock_coordinator.restapi_endpoints = {}
     mock_coordinator.has_enum_labels.return_value = False
-    mock_coordinator.get_entity_name = MagicMock(return_value="Date")
+    mock_coordinator.get_entity_name = MagicMock(return_value="Entity")
     mock_coordinator.get_enum_options.return_value = []
 
     hass = MagicMock()
     hass.config.language = "en"
-    hass.data = {mock_entry.data.get("domain", "windhager_unified"): {}}
-    # Wire up hass.data[DOMAIN][entry_id] -> coordinator
     from custom_components.windhager_unified.const import DOMAIN as _DOMAIN
 
     hass.data = {_DOMAIN: {mock_entry.entry_id: mock_coordinator}}
@@ -314,10 +312,75 @@ def test_async_setup_entry_date_datapoint_gets_timestamp_class(mock_coordinator,
     import asyncio
 
     asyncio.get_event_loop().run_until_complete(async_setup_entry(hass, mock_entry, _add))
+    return added_entities
+
+
+def test_async_setup_entry_date_datapoint_gets_date_class(mock_coordinator, mock_entry):
+    """async_setup_entry must assign DATE class and no unit to date datapoints."""
+    mock_coordinator.datapoints = [
+        {
+            "oid": "1/65/0/2/70/0",
+            "key": "lon_date",
+            "unit_id": 20,
+            "unit": None,
+            "device_class": None,
+            "state_class": None,
+            "i18n": {"en": "Date"},
+            "hint_node": "LogWIN",
+            "experience_minimum": "comfort",
+            "write_protected": True,
+        }
+    ]
+    added_entities = _run_async_setup_entry(mock_coordinator, mock_entry)
 
     assert len(added_entities) == 1
     sensor = added_entities[0]
     desc = sensor.entity_description
-    assert desc.device_class == SensorDeviceClass.TIMESTAMP
+    assert desc.device_class == SensorDeviceClass.DATE
+    assert desc.native_unit_of_measurement is None
+    assert desc.state_class is None
+
+
+def test_async_setup_entry_writable_time_skipped_by_sensor(mock_coordinator, mock_entry):
+    """Writable time datapoints are handled by the time platform, not sensor."""
+    mock_coordinator.datapoints = [
+        {
+            "oid": "1/65/0/2/72/0",
+            "key": "lon_time",
+            "unit_id": 21,
+            "unit": None,
+            "device_class": None,
+            "state_class": None,
+            "i18n": {"en": "Time"},
+            "hint_node": "LogWIN",
+            "experience_minimum": "comfort",
+            "write_protected": False,
+        }
+    ]
+    added_entities = _run_async_setup_entry(mock_coordinator, mock_entry)
+    assert len(added_entities) == 0
+
+
+def test_async_setup_entry_write_protected_time_gets_plain_sensor(mock_coordinator, mock_entry):
+    """Write-protected time datapoints stay as plain string sensors."""
+    mock_coordinator.datapoints = [
+        {
+            "oid": "1/65/0/2/72/0",
+            "key": "lon_time",
+            "unit_id": 21,
+            "unit": None,
+            "device_class": None,
+            "state_class": None,
+            "i18n": {"en": "Time"},
+            "hint_node": "LogWIN",
+            "experience_minimum": "comfort",
+            "write_protected": True,
+        }
+    ]
+    added_entities = _run_async_setup_entry(mock_coordinator, mock_entry)
+    assert len(added_entities) == 1
+    sensor = added_entities[0]
+    desc = sensor.entity_description
+    assert desc.device_class is None
     assert desc.native_unit_of_measurement is None
     assert desc.state_class is None

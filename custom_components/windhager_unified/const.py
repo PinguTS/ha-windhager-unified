@@ -78,7 +78,7 @@ ROLE_COMMAND = "command"
 
 DEFAULT_COMMAND_VALUE = "1"
 
-CONFIG_ENTRY_VERSION = 2
+CONFIG_ENTRY_VERSION = 3
 
 PLATFORMS: list[Platform] = [
     Platform.SENSOR,
@@ -86,4 +86,5 @@ PLATFORMS: list[Platform] = [
     Platform.SWITCH,
     Platform.BUTTON,
     Platform.SELECT,
+    Platform.TIME,
 ]
