@@ -205,13 +205,19 @@ class WindhagerApiClient:
         return await self.async_request("GET", f"/api/1.0/datapoint/{'/'.join(oid_parts)}")
 
     async def async_put_datapoint(self, oid_parts: list[str], value: str) -> dict[str, Any] | None:
-        """PUT /api/1.0/datapoint/.../{varInst} with query param value (RestApiRC7030)."""
+        """PUT /api/1.0/datapoint with JSON body (RestApiRC7030 putDatapoint).
+
+        ASSUMPTION: Swagger's Datapoint model lists typeId/unitId as required,
+        but live RC7030 firmware accepts ``{OID, value}`` only (verified by
+        working curl against real devices). Path+query PUT returns HTTP 400.
+        ``value`` must be a string — numeric JSON values can hang the boiler.
+        """
         if len(oid_parts) != 6:
             raise ValueError("OID must have exactly 6 parts")
         return await self.async_request(
             "PUT",
-            f"/api/1.0/datapoint/{'/'.join(oid_parts)}",
-            params={"value": value},
+            "/api/1.0/datapoint",
+            json={"OID": "/" + "/".join(oid_parts), "value": str(value)},
         )
 
     async def async_get_nv_datapoint(

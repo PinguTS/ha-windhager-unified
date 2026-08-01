@@ -78,7 +78,21 @@ async def test_put_datapoint_correct_path(client):
         mock.return_value = {"status": "ok"}
         await client.async_put_datapoint(["1", "65", "0", "0", "0", "0"], "80.0")
         mock.assert_called_once_with(
-            "PUT", "/api/1.0/datapoint/1/65/0/0/0/0", params={"value": "80.0"}
+            "PUT",
+            "/api/1.0/datapoint",
+            json={"OID": "/1/65/0/0/0/0", "value": "80.0"},
+        )
+
+
+@pytest.mark.asyncio
+async def test_put_datapoint_coerces_value_to_string(client):
+    with patch.object(client, "async_request", new_callable=AsyncMock) as mock:
+        mock.return_value = {"status": "ok"}
+        await client.async_put_datapoint(["1", "65", "0", "0", "0", "0"], 4)
+        mock.assert_called_once_with(
+            "PUT",
+            "/api/1.0/datapoint",
+            json={"OID": "/1/65/0/0/0/0", "value": "4"},
         )
 
 

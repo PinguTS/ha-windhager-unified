@@ -13,6 +13,7 @@ Options flow (reconfigure):
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import logging
 from typing import Any
@@ -343,8 +344,11 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
     """Options flow — change tier, groups, scan_interval, SSL, label refresh, history."""
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
-        self.config_entry = config_entry
         self._pending_options: dict[str, Any] = {}
+        # Older HA requires assignment here. Newer HA exposes config_entry as a
+        # read-only property set by Core after create_flow — assignment raises.
+        with contextlib.suppress(AttributeError):
+            self.config_entry = config_entry
 
     async def async_step_init(self, user_input: dict[str, Any] | None = None) -> FlowResult:
         current = dict(self.config_entry.options or {})
